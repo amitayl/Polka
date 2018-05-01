@@ -1,23 +1,19 @@
 {
-  "name": "proj1",
+  "name": "websocket-sample",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dirAndPing": "npm-run-all --parallel dir ping",
-    "dir": "dir",
-    "ping": "ping localhost",
-    "lint": "eslint index.js",
-    "start": "nodemon --experimental-modules index.mjs",
-    "debug": "node --experimental-modules index.mjs"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "express-cors": "0.0.3",
-    "mongodb": "2.2.5",
-    "npm-run-all": "^4.1.2",
-    "shortid": "^2.2.8"
+    "client-sessions": "^0.8.0",
+    "cors": "^2.8.4",
+    "express": "^4.10.2",
+    "mongodb": "^2.2.33",
+    "socket.io": "^1.7.2"
   }
 }
