@@ -1,41 +1,21 @@
 <template>
   <div class="home">
     <div class="home-img">
-      
-
-    <!-- <img class="home-picture" src="../imgs/manyStuff.jpg"> -->
     
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-  </div>
-  <pre><h1 class=" main-title title ">My Barter.
-  </h1></pre>
+    </div>
+    <pre><h1 class=" main-title title ">My Barter.
+    </h1></pre>
    <div class="search-bar">
-                    <form id="form"  onsubmit="return false">
-                        <input type="text"  class="textbox " placeholder="search" autofocus>
-                        <button class="button" title="search" type="submit" >
-                        <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>  
-
-
-  <!-- <div class="search-bar  field has-addons">
-  <div class="control is-large">
-    <input class="input" type="text" placeholder="search">
+            <form id="form"  onsubmit="return false">
+                <input type="text"  class="textbox " placeholder="search" autofocus>
+                <button class="button" title="search" type="submit" >
+                <i class="fas fa-search"></i>
+                </button>
+            </form>
+    </div>  
   </div>
-  <div class="control">
-    <button class="button" title="search" type="submit" >
-                        <i class="fas fa-search"></i>
-                        </button>
-    
-     
-  </div> -->
-</div>
-  <!-- <h1 class=" main-title title "> -->
   
-  <!-- <h1 class=" main-title title ">barter.
-  </h1> -->
-  </div>
+    
 </template>
 
 <script>
@@ -63,7 +43,7 @@ background-repeat: no-repeat;
 .main-title{
   color:rgb(140, 199, 140);
   position: absolute;
-  top: 55%;
+  top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
   font-size: 6rem;
@@ -72,7 +52,7 @@ background-repeat: no-repeat;
   width:400px;
   height:180px;
   position: absolute;
-  top: 70%;
+  top: 85%;
     left: 50%;
     transform: translate(-50%, -50%);
 
