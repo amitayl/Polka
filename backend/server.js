@@ -1,3 +1,4 @@
+
 var express = require('express');
 var cors = require('cors');
 var app = express();
@@ -45,8 +46,7 @@ SocketService.init(http);
 
 const addUserRoutes = require('./routes/UserRoutes.js')
 addUserRoutes(app)
-const addDogRoutes = require('./routes/DogRoutes.js')
-addDogRoutes(app)
+
 
 http.listen(3000, () => {
   console.log('listening on *:3000');
