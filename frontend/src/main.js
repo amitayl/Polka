@@ -1,9 +1,10 @@
 
 import Vue from 'vue'
-// import VueMaterial from 'vue-material'
-// import 'vue-material/dist/vue-material.min.css'
+import VueMaterial from 'vue-material'
 
-// Vue.use(VueMaterial)
+import 'vue-material/dist/vue-material.min.css'
+
+Vue.use(VueMaterial)
 
 
 import App from './App.vue'
