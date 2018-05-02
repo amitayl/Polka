@@ -3,10 +3,12 @@
     <md-toolbar class="md-medium">
       <div class="flex">
         <h2 class="md-display-1 logo">Polka</h2>
-        <input type="search" 
+        <input @input="searchProducts()" 
+               v-model="searchStr"
+               ref="search"
+               type="search" 
                class="search" 
-               placeholder="Find some stuff"
-               ref="search"/>
+               placeholder="Find some stuff"/>
       </div>
       <ul>
         <router-link v-for="str in ['messages', 'upload', 'profile']" 
@@ -19,9 +21,22 @@
 </template>
 
 <script>
+import { MUTATIONS } from './store.js'
+
 export default {
   mounted() {
     this.$refs.search.focus()
+  },
+  methods: {
+    searchProducts() {
+      const queryObj = {$contains:{"location":this.searchStr}};
+      this.$store.commit({type: MUTATIONS.SET_PRODUCT_FILTER, queryObj})
+    }
+  },
+  data() {
+    return {
+      searchStr: null
+    }
   }
 }
 </script>

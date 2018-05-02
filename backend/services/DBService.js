@@ -9,7 +9,7 @@ const COLLECTIONS = {
 Object.freeze(COLLECTIONS);
 
 function dbConnect() {
-  var prmConnect = new Promise((resolve, reject) => {
+  let prmConnect = new Promise((resolve, reject) => {
     MongoClient.connect(DB_URL, (err, db) => {
       if (err) reject(err);
       else resolve(db);
