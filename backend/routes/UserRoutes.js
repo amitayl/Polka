@@ -1,43 +1,41 @@
-var UserService = require('../services/UserService')
+const UserService = require('../services/UserService');
+
+const USER_ROUTES = {
+  LOGIN: '/login',
+  REGISTER: '/register',
+  LOGOUT: '/logout'
+};
+Object.freeze(USER_ROUTES);
 
 module.exports = app => {
-  app.post('/login', (req, res) => {
-
-    const user = req.body;
-    UserService.checkLogin(user).then(userFromDB => {
-      console.log('userFromDB', userFromDB)
+  app.post(USER_ROUTES.LOGIN, (req, res) => {
+    const userCredentials = req.body;
+    UserService.checkLogin(userCredentials).then(userFromDB => {
       if (userFromDB) {
-        console.log('Login!', req.session);
         delete userFromDB.password;
-        req.session.user = userFromDB;
 
-        res.json({ token: 'Beareloginr: puk115th@b@5t', user: userFromDB });
+        // send back a cookie with userData
+        req.session.user = userFromDB;
+        res.json({ user: userFromDB });
       } else {
-        console.log('Login NOT Successful');
+        // send back empty cookie
         req.session.user = null;
         res.status(403).send({ error: 'Login failed!' });
       }
     });
   });
 
-  app.post('/register', function (req, res) {
-    var user = req.body;
-    UserService.addUser(user)
+  app.post(USER_ROUTES.REGISTER, (req, res) => {
+    const userData = req.body;
+    UserService.addUser(userData)
       .then(addedUser => res.json(addedUser))
-      .catch(err => res.status(403).send({ error: `Register failed, ERROR:${err}` }));
+      .catch(err =>
+        res.status(403).send({ error: `Register failed, ${err}` })
+      );
   });
 
-  app.post('/logout', function (req, res) {
+  app.post(USER_ROUTES.LOGOUT, (req, res) => {
     req.session.reset();
     res.end('Loggedout');
   });
-
-  app.get('/profile', isLoggedIn, (req, res) => {
-    res.end(`Profile of ${req.session.user.name}`);
-  });
-
-
-
 };
-
-

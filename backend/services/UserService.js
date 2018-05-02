@@ -1,56 +1,41 @@
-const mongo = require('mongodb');
-var DBService = require('./DBService');
+const DBService = require('./DBService');
 
-DBService.dbConnect().then(db => {
-    db.collection('polka').findOne({}, (err, polka) => {
-        console.log(polka);
-        db.close();
-    });
-});
-
-module.exports.checkLogin = user => {
-    return new Promise((resolve, reject) => {
-        DBService.dbConnect().then(db => {
+function addUser(user) {
+  return new Promise((resolve, reject) => {
+    let isValidate = validateDetails(user);
+    if (!isValidate) reject('Validate failed!');
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.USER)
+        .findOne({ name: user.name }, (err, userFromDB) => {
+          // If name is already used!
+          if (userFromDB) {
+            reject('Name is already used!');
+            db.close();
+          } else {
             db
-                .collection('user')
-                .findOne({ name: user.name, password: user.password }, function(
-                    err,
-                    userFromDB
-                ) {
-                    if (err) reject(err);
-                    else resolve(userFromDB);
-                    db.close();
-                });
+              .collection(DBService.COLLECTIONS.USER)
+              .insert(user, (err, res) => {
+                if (err) reject(err);
+                else resolve(res.ops);
+                db.close();
+              });
+          }
         });
     });
-};
+  });
 
-function validateDetails(user) {
-    console.log(user);
-    return user.name !== 'puki';
+  function validateDetails(user) {
+    return true;
+    //   return user.name !== 'puki';
+  }
 }
 
-module.exports.addUser = user => {
-    return new Promise((resolve, reject) => {
-        let isValidate = validateDetails(user);
-        if (!isValidate) reject('Validate failed!');
-        DBService.dbConnect().then(db => {
-            db
-                .collection('user')
-                .findOne({ name: user.name }, function(err, userFromDB) {
-                    // If name is already used!
-                    if (userFromDB) {
-                        console.log('Name is already used!');
-                        reject('Name is already used!');
-                        db.close();
-                    } else {
-                        db.collection('user').insert(user, (err, res) => {
-                            if (err) reject(err);
-                            else resolve(res.ops);
-                            db.close();
-                        });
-                    }
-                });
-        });
-    });
+// function checkLogin(user) {
+//     const userCredentials = { name: user.name, password: user.password };
+//   }
+
+module.exports = {
+  addUser,
+//   checkLogin
 };

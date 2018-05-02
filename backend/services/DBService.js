@@ -1,23 +1,25 @@
-// var DB_URL = "mongodb://Admin:Admin@ds261929.mlab.com:61929/chat_app";
-var DB_URL = 'mongodb://polka:polka@ds263109.mlab.com:63109/polka_db';
+const DB_URL = 'mongodb://polka:polka@ds263109.mlab.com:63109/polka_db';
+const { MongoClient } = require('mongodb');
 
-const mongo = require("mongodb");
-
-var MongoClient = mongo.MongoClient;
+const COLLECTIONS = {
+  POLKA: 'polka',
+  USER: 'user',
+  PRODUCT: 'product'
+};
+Object.freeze(COLLECTIONS);
 
 function dbConnect() {
   var prmConnect = new Promise((resolve, reject) => {
-    MongoClient.connect(DB_URL, function(err, db) {
+    MongoClient.connect(DB_URL, (err, db) => {
       if (err) reject(err);
-      else {
-        resolve(db);
-      }
+      else resolve(db);
     });
   });
-  prmConnect.catch(err => console.error("Cannot Connect!", err));
+  prmConnect.catch(err => console.error(err));
   return prmConnect;
 }
 
 module.exports = {
-  dbConnect
+  COLLECTIONS,
+  dbConnect,
 };
