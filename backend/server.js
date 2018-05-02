@@ -10,8 +10,6 @@ var corsOptions = {
 
 app.use(cors(corsOptions))
 
-
-
 var http = require('http').Server(app);
 var bodyParser = require('body-parser')
 const clientSessions = require('client-sessions');
@@ -21,8 +19,6 @@ var SocketService = require('./services/SocketService')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-// app.use(express.static('front'));
-
 
 app.use(clientSessions({
   cookieName: 'session',
