@@ -12,8 +12,18 @@ import ProductUpload from './views/ProductUpload.vue'
 // import Bid from './views/Bid.vue'
 import BrowseProducts from './views/BrowseProducts.vue'
 import Transaction from './views/Transaction.vue'
-// import Admin from './views/Admin.vue'
+import Admin from './views/Admin.vue'
+const PATHS = {
+  home: '/',
+  login: 'login',
+  register: 'register'
+  
 
+
+
+}
+Object.freeze
+export { PATHS }
 Vue.use(Router)
 
 export default new Router({
@@ -65,12 +75,12 @@ export default new Router({
       path: '/transaction',
       component: Transaction,
   },
-//   {
-//       path: '/admin',
-//       component: AdminPage,
-//       beforeEnter: adminOnlyRoute
+  {
+      path: '/admin',
+      component: Admin,
+      // beforeEnter: adminOnlyRoute
       
-//   },
+  },
   ]
 })
 
