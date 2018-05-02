@@ -1,8 +1,32 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <!-- <div class="nav">
+        <md-nav>
+        <md-nav-logo href="#!/navbar">Logo</md-nav-logo>
+        <md-nav-links>
+            <a href="#!/navbar">About</a>
+            <a href="https://github.com/ElvisKang/vue-material">Github</a>
+        </md-nav-links>
+      </md-nav>
+
+      <md-nav>
+          <md-nav-logo href="#!/navbar" pos="center">Logo</md-nav-logo>
+          <md-nav-links>
+              <a href="#!/navbar">About</a>
+              <a href="https://github.com/ElvisKang/vue-material">Github</a>
+          </md-nav-links>
+      </md-nav>
+
+      <md-nav>
+          <md-nav-logo href="#!/navbar" pos="right">Logo</md-nav-logo>
+          <md-nav-links pos="left">
+              <a href="#!/navbar">About</a>
+              <a href="https://github.com/ElvisKang/vue-material">Github</a>
+          </md-nav-links>
+      </md-nav>      -->
+      <!-- <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> -->
     </div>
     <router-view/>
   </div>
