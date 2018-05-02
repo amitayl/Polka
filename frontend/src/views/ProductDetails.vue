@@ -1,10 +1,12 @@
-<template>
 
-  <div class="container flex product-details">
+
+
+<template>
+  <div class="container flex space-between product-details">
      <div class="details ">details</div>
-      <div  class="imgs "> 
+      <div  class="imgs"> 
         <div class="flex"> 
-        <img src="../imgs/car_example.jpg"> 
+        <img class="primary-img" src="../imgs/car_example2.jpg"> 
 
          <div class="small-pictures"> details</div>
          </div>
@@ -17,9 +19,16 @@
 
 <style scoped>
 
+  .primary-img{
+    width:500px;
+    height:300px;
+    border: 3px solid rgb(162, 167, 177)
+  }
   .product-details{
     color: red
   }
+
+  
 
 </style>
 <script>

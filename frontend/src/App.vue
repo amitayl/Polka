@@ -1,29 +1,33 @@
 <template>
   <div id="app">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
-    </a>
-
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-</nav>
-      
-    <!-- navbar items, navbar burger... -->
-    
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> -->
-    
+    <md-toolbar class="md-medium">
+      <div class="flex">
+        <h2 class="md-display-1 logo">Polka</h2>
+        <input type="search" 
+               class="search" 
+               placeholder="Find some stuff"
+               ref="search"/>
+      </div>
+      <ul>
+        <router-link v-for="str in ['messages', 'upload', 'profile']" 
+                    :key="str" to="/browseProducts" 
+                    class="md-headline">{{str}}</router-link>
+      </ul>
+    </md-toolbar>
     <router-view/>
   </div>
 </template>
 
-<style>
+<script>
+export default {
+  mounted() {
+    this.$refs.search.focus()
+  }
+}
+</script>
+
+
+<style scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -31,16 +35,29 @@
   text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
+.md-toolbar {
+  padding: 0 30px;
+  justify-content: space-between;
+  margin-bottom:20px;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.flex {
+  display: flex;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.md-display-1.logo {
+  margin-right: 30px;
+}
+.search {
+  border: 1px solid gray;
+  padding: 10px 15px;
+  font-size: 1.5rem;
+}
+.search::first-letter {
+  text-transform: uppercase;
+}
+.router-link, .router-link-active {
+  color: initial;
+  margin-right: 20px;
+} .router-link:last-of-type, .router-link-active:last-of-type {
+  margin-right: 0;
 }
 </style>
