@@ -1,4 +1,5 @@
 <template>
+<section>
   <div class="home">
     <div class="home-img">
       
@@ -16,26 +17,50 @@
                         <i class="fas fa-search"></i>
                         </button>
                     </form>
+
+                    
                 </div>  
-
-
-  <!-- <div class="search-bar  field has-addons">
-  <div class="control is-large">
-    <input class="input" type="text" placeholder="search">
+                </div>  
+                
+<hr>
+                <div class="columns is-mobile">
+  <div class="column">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Vintage artisian toy</p>
+          <p class="subtitle">rare, in mint condition</p>
+          <figure class="image is-4by3">
+            <img src="https://i.pinimg.com/736x/31/91/31/319131518bd0368601556584660403c4--antique-toys-vintage-toys.jpg">
+          </figure>
+        </article>
+      </div>
   </div>
-  <div class="control">
-    <button class="button" title="search" type="submit" >
-                        <i class="fas fa-search"></i>
-                        </button>
-    
-     
-  </div> -->
+  <div class="column is-mobile">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Ford focus</p>
+          <p class="subtitle">in great condition</p>
+          <figure class="image is-4by3">
+            <img src="http://media.liveauctiongroup.net/i/33811/29498993_2.jpg?v=8D58B9FA7F47530">
+          </figure>
+        </article>
+      </div>
+  </div>
+  <div class="column">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Alladin lamp</p>
+          <p class="subtitle">just rub it</p>
+          <figure class="image is-4by3">
+            <img src="https://ae01.alicdn.com/kf/HTB1QLCZIVXXXXcNXpXXq6xXFXXX2/Antique-Arts-Craft-Aladdin-Lamp-Home-Decoration-SMALL-Size-from-Arabian-Nights-Story-Vintage-Home-Decoration.jpg">
+          </figure>
+        </article>
+      </div>
+  </div>
 </div>
-  <!-- <h1 class=" main-title title "> -->
-  
-  <!-- <h1 class=" main-title title ">barter.
-  </h1> -->
-  </div>
+</section>
+
+
 </template>
 
 <script>
