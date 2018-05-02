@@ -1,10 +1,13 @@
 <template>
 
-  <div class="container product-details">
-     <div class="details"></div>
-      <div  class="imgs"> 
+  <div class="container flex product-details">
+     <div class="details ">details</div>
+      <div  class="imgs "> 
+        <div class="flex"> 
         <img src="../imgs/car_example.jpg"> 
-         <div class="small-pictures"></div>
+
+         <div class="small-pictures"> details</div>
+         </div>
       </div>
     </div> 
       
@@ -20,6 +23,7 @@
 
 </style>
 <script>
+  import '../css/helpers.css'
 // @ is an alias to /src
 
 

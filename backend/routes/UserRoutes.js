@@ -7,7 +7,7 @@ const USER_ROUTES = {
 };
 Object.freeze(USER_ROUTES);
 
-module.exports = app => {
+module.exports = (app) => {
   app.post(USER_ROUTES.LOGIN, (req, res) => {
     const userCredentials = req.body;
     UserService.checkLogin(userCredentials).then(userFromDB => {
