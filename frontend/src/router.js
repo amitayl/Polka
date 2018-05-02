@@ -9,6 +9,7 @@ import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import UserProfile from './views/UserProfile.vue'
 import ProductUpload from './views/ProductUpload.vue'
+import ProductDetails from './views/ProductDetails.vue'
 // import Bid from './views/Bid.vue'
 import BrowseProducts from './views/BrowseProducts.vue'
 import Transaction from './views/Transaction.vue'
@@ -57,6 +58,10 @@ export default new Router({
       name: 'profile',
       component: UserProfile,
   },
+  {
+    path: '/product',
+    component: ProductDetails,
+},
   
   {
       path: '/product/upload',

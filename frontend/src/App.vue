@@ -1,40 +1,31 @@
 <template>
   <div id="app">
-    <div id="nav">
-    <!-- <div class="nav">
-        <md-nav>
-        <md-nav-logo href="#!/navbar">Logo</md-nav-logo>
-        <md-nav-links>
-            <a href="#!/navbar">About</a>
-            <a href="https://github.com/ElvisKang/vue-material">Github</a>
-        </md-nav-links>
-      </md-nav>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://bulma.io">
+      <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+    </a>
 
-      <md-nav>
-          <md-nav-logo href="#!/navbar" pos="center">Logo</md-nav-logo>
-          <md-nav-links>
-              <a href="#!/navbar">About</a>
-              <a href="https://github.com/ElvisKang/vue-material">Github</a>
-          </md-nav-links>
-      </md-nav>
-
-      <md-nav>
-          <md-nav-logo href="#!/navbar" pos="right">Logo</md-nav-logo>
-          <md-nav-links pos="left">
-              <a href="#!/navbar">About</a>
-              <a href="https://github.com/ElvisKang/vue-material">Github</a>
-          </md-nav-links>
-      </md-nav>      -->
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+      
+    <!-- navbar items, navbar burger... -->
+    
       <!-- <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> -->
-    </div>
+    
     <router-view/>
   </div>
 </template>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
