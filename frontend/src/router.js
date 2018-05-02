@@ -5,15 +5,25 @@ import About from './views/About.vue'
 // import MyStore from './store/index.js'
 
 // import Landing from './views/Landing.vue'
-// import Login from './views/Login.vue'
-// import Register from './views/Register.vue'
-// import UserProfile from './views/Profile.vue'
-// import ProductUpload from './views/ProductUpload.vue'
+import Login from './views/Login.vue'
+import Register from './views/Register.vue'
+import UserProfile from './views/UserProfile.vue'
+import ProductUpload from './views/ProductUpload.vue'
 // import Bid from './views/Bid.vue'
-// import browseProducts from './views/Upload.vue'
-// import Transaction from './views/Transaction.vue'
-// import Admin from './views/Admin.vue'
+import BrowseProducts from './views/BrowseProducts.vue'
+import Transaction from './views/Transaction.vue'
+import Admin from './views/Admin.vue'
+const PATHS = {
+  home: '/',
+  login: 'login',
+  register: 'register'
+  
 
+
+
+}
+Object.freeze
+export { PATHS }
 Vue.use(Router)
 
 export default new Router({
@@ -32,45 +42,45 @@ export default new Router({
 //       path: '/',
 //       component: Landing
 //   },
-//   {
-//       path: '/login',
-//       name: 'login',
-//       component: LoginPage
-//   },
-//   {
-//       path: '/register',
-//       name: 'register',
-//       component: RegisterPage
-//   },
-//   {
-//       path: '/profile',
-//       name: 'profile',
-//       component: UserProfile,
-//   },
+  {
+      path: '/login',
+      name: 'login',
+      component: Login
+  },
+  {
+      path: '/register',
+      name: 'register',
+      component: Register
+  },
+  {
+      path: '/profile/:userId',
+      name: 'profile',
+      component: UserProfile,
+  },
   
-//   {
-//       path: '/product/upload',
-//       component: ProductUpload,
-//   },
+  {
+      path: '/product/upload',
+      component: ProductUpload,
+  },
   
-//   {
-//       path: '/bid/upload',
-//       component: Bid,
-//   },
-//   {
-//       path: '/browseProducts',
-//       component: BrowseProducts,
-//   },
-//   {
-//       path: '/transaction',
-//       component: Transaction,
-//   },
-//   {
-//       path: '/admin',
-//       component: AdminPage,
-//       beforeEnter: adminOnlyRoute
+  // {
+  //     path: '/bid/upload',
+  //     component: Bid,
+  // },
+  {
+      path: '/browseProducts',
+      component: BrowseProducts,
+  },
+  {
+      path: '/transaction',
+      component: Transaction,
+  },
+  {
+      path: '/admin',
+      component: Admin,
+      // beforeEnter: adminOnlyRoute
       
-//   },
+  },
   ]
 })
 
