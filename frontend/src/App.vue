@@ -1,38 +1,33 @@
 <template>
   <div id="app">
-    <div id="nav">
-    <!-- <div class="nav">
-        <md-nav>
-        <md-nav-logo href="#!/navbar">Logo</md-nav-logo>
-        <md-nav-links>
-            <a href="#!/navbar">About</a>
-            <a href="https://github.com/ElvisKang/vue-material">Github</a>
-        </md-nav-links>
-      </md-nav>
-
-      <md-nav>
-          <md-nav-logo href="#!/navbar" pos="center">Logo</md-nav-logo>
-          <md-nav-links>
-              <a href="#!/navbar">About</a>
-              <a href="https://github.com/ElvisKang/vue-material">Github</a>
-          </md-nav-links>
-      </md-nav>
-
-      <md-nav>
-          <md-nav-logo href="#!/navbar" pos="right">Logo</md-nav-logo>
-          <md-nav-links pos="left">
-              <a href="#!/navbar">About</a>
-              <a href="https://github.com/ElvisKang/vue-material">Github</a>
-          </md-nav-links>
-      </md-nav>      -->
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> -->
-    </div>
+    <md-toolbar class="md-medium">
+      <div class="flex">
+        <h2 class="md-display-1 logo">Polka</h2>
+        <input type="search" 
+               class="search" 
+               placeholder="Find some stuff"
+               ref="search"/>
+      </div>
+      <ul>
+        <router-link v-for="str in ['messages', 'upload', 'profile']" 
+                    :key="str" to="/browseProducts" 
+                    class="md-headline">{{str}}</router-link>
+      </ul>
+    </md-toolbar>
     <router-view/>
   </div>
 </template>
 
-<style>
+<script>
+export default {
+  mounted() {
+    this.$refs.search.focus()
+  }
+}
+</script>
+
+
+<style scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -40,16 +35,28 @@
   text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
+.md-toolbar {
+  padding: 0 30px;
+  justify-content: space-between;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.flex {
+  display: flex;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.md-display-1.logo {
+  margin-right: 30px;
+}
+.search {
+  border: 1px solid gray;
+  padding: 10px 15px;
+  font-size: 1.5rem;
+}
+.search::first-letter {
+  text-transform: uppercase;
+}
+.router-link, .router-link-active {
+  color: initial;
+  margin-right: 20px;
+} .router-link:last-of-type, .router-link-active:last-of-type {
+  margin-right: 0;
 }
 </style>

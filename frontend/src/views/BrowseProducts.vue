@@ -1,12 +1,13 @@
 <template>
   <div class="browse-products">
     <h1>BrowseProducts</h1>
-    {{products}}
+    <product-list :products="products"></product-list>
   </div>
 </template>
 
 <script>
 import ProductService from '../services/ProductService.js';
+import ProductList from '../components/ProductList.vue'
 import { MUTATIONS } from '../store.js';
 
 export default {
@@ -20,6 +21,9 @@ export default {
     return {
       products: null
     }
+  },
+  components: {
+    ProductList
   }
 }
 </script>
