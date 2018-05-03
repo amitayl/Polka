@@ -20,6 +20,8 @@ export { MUTATIONS, ACTIONS };
 export default {
   state: {
     products: [],
+    selectedProduct:null,
+    uploadedProduct:null
   },
   mutations: {
     [MUTATIONS.SET_PRODUCTS](state, { products }) {
@@ -27,6 +29,9 @@ export default {
     },
     [MUTATIONS.ADD_PRODUCT](state, { product }) {
       state.products = [product, ...state.products];
+    },
+    [MUTATIONS.UPDATE_SELECTED_PRODUCT](state, { product }) {
+      state.selectedProduct = product;
     },
   },
   actions: {
@@ -53,9 +58,9 @@ export default {
     },
 
     [ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
-      console.log('tatat');
       return ProductService.getProductById(productId)
         .then(product => {
+          // store.commit({type: MUTATIONS.UPDATE_SELECTED_PRODUCT , product});
           return product;
         })
     }

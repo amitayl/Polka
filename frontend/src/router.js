@@ -7,7 +7,7 @@ import Register from './views/Register.vue';
 import UserProfile from './views/UserProfile.vue';
 import ProductUpload from './views/ProductUpload.vue';
 import ProductDetails from './views/ProductDetails.vue';
-// import Bid from './views/Bid.vue'
+import Bid from './views/Bid.vue'
 import BrowseProducts from './views/BrowseProducts.vue';
 import Transaction from './views/Transaction.vue';
 import Admin from './views/Admin.vue';
@@ -65,10 +65,10 @@ export default new Router({
       path: '/upload',
       component: ProductUpload
     },
-    // {
-    //     path: '/bid/upload',
-    //     component: Bid,
-    // },
+    {
+        path: '/bid',
+        component: Bid,
+    },
     {
       path: '/browseProducts',
       component: BrowseProducts
