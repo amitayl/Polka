@@ -24,8 +24,7 @@ export default {
   },
   actions: {
     [ACTIONS.SET_PRODUCTS](store, { queryObj }) {
-      // const colsToGet = {"_id": 1, "title": 1, "desc": 1, "owner_id":1};
-      const colsToGet = {};
+      const colsToGet = {"_id": 1, "ownerId":1, "title": 1, "desc": 1, "location": 1, "imgs": 1};
       return ProductService.query(queryObj, colsToGet).then(products => {
         store.commit({ type: MUTATIONS.SET_PRODUCTS, products });
       });

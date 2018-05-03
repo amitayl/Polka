@@ -52,7 +52,7 @@ export default new Router({
       component: UserProfile
     },
     {
-      path: '/product',
+      path: '/product/:id',
       component: ProductDetails
     },
 
@@ -65,7 +65,6 @@ export default new Router({
       path: '/product/upload',
       component: ProductUpload
     },
-
     // {
     //     path: '/bid/upload',
     //     component: Bid,
