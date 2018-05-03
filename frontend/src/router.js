@@ -52,7 +52,7 @@ export default new Router({
       component: UserProfile
     },
     {
-      path: '/product/:id',
+      path: '/product/:_id',
       component: ProductDetails
     },
 

@@ -31,7 +31,7 @@
   
   <!-- <h1 class=" main-title title ">barter.
   </h1> -->
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>

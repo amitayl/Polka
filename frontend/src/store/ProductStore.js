@@ -6,7 +6,9 @@ const MUTATIONS = {
 };
 const ACTIONS = {
   SET_PRODUCTS: 'setProducts',
-  SET_PRODUCTS_TO_SHOW: 'getProductsToShow'
+  SET_PRODUCTS_TO_SHOW: 'getProductsToShow',
+  GET_PRODUCT_BY_ID: 'getProductById'
+
 }
 Object.freeze(MUTATIONS);
 Object.freeze(ACTIONS);
@@ -28,6 +30,15 @@ export default {
       return ProductService.query(queryObj, colsToGet).then(products => {
         store.commit({ type: MUTATIONS.SET_PRODUCTS, products });
       });
-    }
-  }
+    },
+    [ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
+      console.log ('tatat');
+        return ProductService.getProductById(productId)
+          .then(product => {
+            return product;
+          })
+      }
+    
+  },
+  
 };

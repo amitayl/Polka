@@ -59,7 +59,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .md-toolbar {
   padding: 0 30px;
   justify-content: space-between;

@@ -12,6 +12,19 @@ function query(queryObj, colsToGet) {
     .then(res => res.data);
 }
 
+function getProductById(productId) {
+    console.log ('productId');
+    return axios
+    .get(_getProductUrl(productId))
+    .then(res => res.data)
+}
+
+function _getProductUrl(productId){
+    return `${BASE_URL}/product/${productId}`
+}
+
+
 export default {
-  query
+  query,
+  getProductById
 };
