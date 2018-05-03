@@ -13,9 +13,25 @@
                 </button>
             </form>
     </div>  
+
+
+  <!-- <div class="search-bar  field has-addons">
+  <div class="control is-large">
+    <input class="input" type="text" placeholder="search">
   </div>
-  
+  <div class="control">
+    <button class="button" title="search" type="submit" >
+                        <i class="fas fa-search"></i>
+                        </button>
     
+     
+  </div> -->
+</div>
+  <!-- <h1 class=" main-title title "> -->
+  
+  <!-- <h1 class=" main-title title ">barter.
+  </h1> -->
+  </div>
 </template>
 
 <script>

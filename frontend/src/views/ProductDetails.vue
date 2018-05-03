@@ -15,8 +15,8 @@
          </div>
          </div>
          <div class="non-part-imgs  ">
-           <h2 class="product-title title is-2">1940's 2 Toy car</h2>
-           <h4 class="product-desc title is-4" >his toy car was made in 1940's by the Nazi's factories (have certificate to show)</h4> 
+           <h2 class="product-title title is-2">1940's Toy car</h2>
+           <h4 class="product-desc title is-4" >This toy car was made in 1940's by the Nazi's factories (have certificate to show)</h4> 
          </div>
      
     </div>
@@ -54,15 +54,15 @@
   }
   .product-desc{
     color:rgb(99, 128, 99)
-  }
-   .product-imgs .small-img{
-     width:20%;
-     height:50px;
-   }
-   .contain {
-    max-width: 1050px;
-    margin: 0 auto;
-    width: 100%;
+    }
+    .product-imgs .small-img{
+      width:20%;
+      height:50px;
+    }
+    .contain {
+      max-width: 1050px;
+      margin: 0 auto;
+      width: 100%;
     padding-right: 20px;
     padding-left: 20px;
 }
