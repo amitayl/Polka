@@ -10,6 +10,19 @@
     <div class="field">
       <div class="control">
         <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title">
+          <div class="file">
+           <label class="file-label">
+          <!-- <input class="file-input" type="file" @change="onFileChanged"> -->
+          <span class="file-cta">
+        <span class="file-icon">
+           <i class="fas fa-upload"></i>
+        </span>
+           <span class="file-label">
+           Upload an image
+      </span>
+    </span>
+  </label>
+</div>
       </div>
     </div>
   </div>
@@ -22,11 +35,11 @@
   <div class="field-body">
     <div class="field is-narrow">
       <div class="control">
-          <input type="checkbox" id="toys" value="toys" v-model="product.categories">
+          <input type="checkbox"  value="toys" v-model="product.categories">
           <label for="toys"> Toys </label>
-          <input type="checkbox" id="car" value="car" v-model="product.categories">
+          <input type="checkbox"  value="car" v-model="product.categories">
           <label for="car"> Car related </label>
-          <input type="checkbox" id="vintage" value="vintage" v-model="product.categories">
+          <input type="checkbox"  value="vintage" v-model="product.categories">
           <label for="vintage"> Vintage items</label>
       </div>
       </div>
@@ -55,11 +68,11 @@
   <div class="field-body">
     <div class="field is-narrow">
       <div class="control">
-         <input type="checkbox" id="electronics" value="electronics" v-model="product.desiredSwapCategory">
+         <input type="checkbox" value="electronics" v-model="product.desiredSwapCategories">
           <label for="electronics"> Electronics </label>
-          <input type="checkbox" id="car" value="car" v-model="product.desiredSwapCategory">
+          <input type="checkbox" value="car" v-model="product.desiredSwapCategories">
           <label for="car"> Car related </label>
-          <input type="checkbox" id="vintage" value="vintage" v-model="product.desiredSwapCategory">
+          <input type="checkbox" value="vintage" v-model="product.desiredSwapCategories">
           <label for="vintage"> Vintage items</label>
       </div>
     </div>
@@ -116,12 +129,13 @@ export default {
         createdAt: null,
         imgs: [],
         categories: [],
-        desiredSwapCategory: [],
+        //TODO change to plural
+        desiredSwapCategories: [],
         desc: "",
         ownerId: "null",
         bidIds: [],
         location: "",
-        isLive: false
+        isLive: true
       }
     };
   },
@@ -130,6 +144,7 @@ export default {
       this.product.createdAt = Date.now();
       this.$store.dispatch({ type: "addProduct", product: this.product })
       .then( _ => this.$router.push("/"))
+      .catch(err => console.log({err}))
     }
   }
 };

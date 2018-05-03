@@ -12,6 +12,14 @@ function query(queryObj, colsToGet) {
     .then(res => res.data);
 }
 
+function add(product) {
+  console.log('in Product service',product);
+  return axios
+      .post(BASE_URL + '/product', product)
+      .then(res => res.data)
+      .catch(err => console.log('Error:', err));
+}
+
 function getProductById(productId) {
     console.log ('productId');
     return axios
@@ -26,5 +34,6 @@ function _getProductUrl(productId){
 
 export default {
   query,
-  getProductById
+  getProductById,
+  add
 };

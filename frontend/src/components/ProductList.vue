@@ -1,6 +1,6 @@
 <template>
-    <section class="product-list">
-        <ul>
+    <section class="product-list-section">
+        <ul class="clean-list product-list-list">
             <li v-for="product in products" 
                 :key="product._id">
                 <product-preview :product="product"></product-preview>
@@ -26,23 +26,11 @@ export default {
 </script>
 
 <style scoped>
-.flex {
-  display: flex;
-  align-items: center;
-}
-
-.space-between {
-  justify-content: space-between;
-}
-
-ul {
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-    margin-right: 50px;
+.product-list-list {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 250px);
+  grid-template-rows: auto;
+  grid-gap: 20px;
 }
 </style>

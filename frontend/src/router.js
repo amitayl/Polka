@@ -62,7 +62,7 @@ export default new Router({
     },
 
     {
-      path: '/product/upload',
+      path: '/upload',
       component: ProductUpload
     },
     // {
