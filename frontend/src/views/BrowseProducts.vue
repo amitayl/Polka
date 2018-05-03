@@ -14,25 +14,14 @@ export default {
   created() {
     if (!this.$store.state.products) {
       ProductService.query().then(products => {
-          this.$store.commit({ type: MUTATIONS.SET_PRODUCTS, products });
-      })
+        this.$store.commit({ type: MUTATIONS.SET_PRODUCTS, products });
+      });
     }
-
-    this.$store.dispatch(ACTIONS.GET_PRODUCTS_TO_SHOW).then(productsToShow => {
-      console.log({productsToShow});
-    })
-    // this.products = this.$store.getters.productsToShow; 
   },
-  // computed: {
-  //   queryObj() {
-  //     const filter = this.$store.state.filter;
-  //     return filter ? filter : {};
-  //   }
-  // },
-  data() {
-    return {
-      products: null
-    };
+  computed: {
+    products() {
+      return this.$store.state.products;
+    }
   },
   components: {
     ProductList

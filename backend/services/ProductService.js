@@ -6,13 +6,13 @@ function query(criteria = {}) {
       db
         .collection(DBService.COLLECTIONS.PRODUCT)
         .find(criteria)
-        .toArray((err, pets) => {
+        .toArray((err, products) => {
           if (err) reject(err)
-          else resolve(pets);
+          else resolve(products);
         });
     });
   });
-}
+} 
 
 function add(product) {
   return new Promise((resolve, reject) => {
