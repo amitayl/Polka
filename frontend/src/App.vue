@@ -44,7 +44,7 @@ export default {
 
 <style scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -53,6 +53,7 @@ export default {
 .md-toolbar {
   padding: 0 30px;
   justify-content: space-between;
+  margin-bottom:20px;
 }
 .flex {
   display: flex;
