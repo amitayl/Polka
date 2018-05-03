@@ -15,8 +15,10 @@
          </div>
          </div>
          <div class="non-part-imgs  ">
-           <h2 class="product-title title is-2">1940's Toy car</h2>
-           <h4 class="product-desc title is-4" >This toy car was made in 1940's by the Nazi's factories (have certificate to show)</h4> 
+           <h2 class="product-title title is-2">{{product.title}} 1940's Toy car</h2>
+           <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
+
+           <!-- This toy car was made in 1940's by the Nazi's factories (have certificate to show -->
          </div>
      
     </div>
@@ -73,11 +75,27 @@
 
 </style>
 <script>
-  import '../css/helpers.css'
+  // import '../css/.css'
+  import { ACTIONS } from '../store.js'
 // @ is an alias to /src
 
 
 export default {
- 
+    
+    data() {
+        return {
+            product : {title: 'title' , desc:'desc'}
+        }
+    },
+    created() {
+        var productId = this.$route.params.productId
+        var productId = "5ae9bc40c66def0488aff9ec";
+        this.$store.dispatch({ type: ACTIONS.GET_PRODUCT_BY_ID, productId})
+            .then(product => {
+              console.log ('dada');
+                // this.product = product
+            })
+    }
 }
+    
 </script>

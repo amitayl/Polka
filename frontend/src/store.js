@@ -9,7 +9,9 @@ const MUTATIONS = {
   SET_PRODUCT_FILTER: 'setProductFilter'
 };
 const ACTIONS = {
-  GET_PRODUCTS_TO_SHOW: 'getProductsToShow'
+  GET_PRODUCTS_TO_SHOW: 'getProductsToShow',
+  GET_BY_ID: 'getById',
+  GET_PRODUCT_BY_ID: 'getProductById'
 }
 Object.freeze(MUTATIONS);
 Object.freeze(ACTIONS);
@@ -18,6 +20,7 @@ export { MUTATIONS, ACTIONS };
 export default new Vuex.Store({
   state: {
     products: null,
+    selectedProduct: null
     // productFilter: null,
     // productsToShow: null
   },
@@ -47,6 +50,14 @@ export default new Vuex.Store({
       //   ProductService.query(queryObj).then(filteredProducts => {
       //     productsToShow = filteredProducts;
       // }
+    },
+  
+  [ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
+    console.log ('tatat');
+      return ProductService.getProductById(productId)
+        .then(product => {
+          return product;
+        })
     }
-  }
+  },
 });
