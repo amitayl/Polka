@@ -28,6 +28,8 @@ export default {
 .product-preview {
   border: 1px solid black;
   width: 250px;
+  height: 100%;
+  max-height: 100%;
   text-align: left;
   transition: box-shadow 0.3s;
 }

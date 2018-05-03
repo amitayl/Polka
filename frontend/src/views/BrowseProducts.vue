@@ -1,6 +1,5 @@
 <template>
   <div class="browse-products">
-    <h1>BrowseProducts</h1>
     <product-list v-if="products" :products="products"></product-list>
   </div>
 </template>

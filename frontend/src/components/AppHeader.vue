@@ -2,7 +2,7 @@
     <section>
         <md-toolbar class="md-medium">
             <div class="flex align-center">
-                <h2 class="md-display-1 logo">Polka</h2>
+                <router-link to="/"><h2 class="md-display-1 logo">Polka</h2></router-link>
                 <form @submit.prevent="searchProducts()">
                   <select v-model="category">
                     <option v-for="(category, idx) in possibleCategories" 
@@ -18,7 +18,7 @@
             </div>
             <ul>
                 <router-link v-for="str in ['messages', 'upload', 'profile']" 
-                            :key="str" to="/browseProducts" 
+                            :key="str" :to="`/${str}`" 
                             class="md-headline">{{str}}</router-link>
             </ul>
         </md-toolbar>
@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     searchProducts() {
+      this.$router.push('/browseProducts');
       const inDescOrTitle = (this.searchStr)? 
           {
             $or: [
@@ -87,13 +88,11 @@ button[type='submit'] {
   border: 1px solid lightgray;
   width: 50px;
 }
-.router-link,
-.router-link-active {
+a {
   color: initial;
   margin-right: 20px;
 }
-.router-link:last-of-type,
-.router-link-active:last-of-type {
+.a:last-of-type {
   margin-right: 0;
 }
 </style>
