@@ -2,7 +2,6 @@
     <section class="product-list">
         <ul>
             <li v-for="product in products" 
-                v-if="product.isLive"
                 :key="product._id">
                 <product-preview :product="product"></product-preview>
             </li>

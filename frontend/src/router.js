@@ -2,11 +2,11 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import About from './views/About.vue';
-import Login from './views/Login.vue'
-import Register from './views/Register.vue'
-import UserProfile from './views/UserProfile.vue'
-import ProductUpload from './views/ProductUpload.vue'
-import ProductDetails from './views/ProductDetails.vue'
+import Login from './views/Login.vue';
+import Register from './views/Register.vue';
+import UserProfile from './views/UserProfile.vue';
+import ProductUpload from './views/ProductUpload.vue';
+import ProductDetails from './views/ProductDetails.vue';
 // import Bid from './views/Bid.vue'
 import BrowseProducts from './views/BrowseProducts.vue';
 import Transaction from './views/Transaction.vue';
@@ -49,14 +49,14 @@ export default new Router({
     {
       path: '/profile/:userId',
       name: 'profile',
-      component: UserProfile,
-  },
-  {
-    path: '/product',
-    component: ProductDetails,
-},
-  
-  { 
+      component: UserProfile
+    },
+    {
+      path: '/product/:_id',
+      component: ProductDetails
+    },
+
+    {
       path: '/prodile',
       component: UserProfile
     },
@@ -65,7 +65,6 @@ export default new Router({
       path: '/product/upload',
       component: ProductUpload
     },
-
     // {
     //     path: '/bid/upload',
     //     component: Bid,

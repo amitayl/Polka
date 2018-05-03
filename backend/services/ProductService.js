@@ -1,4 +1,8 @@
 const DBService = require('./DBService');
+const mongo = require('mongodb');
+
+
+
 
 function query(criteria = {}) {
   return new Promise((resolve, reject) => {
@@ -12,7 +16,7 @@ function query(criteria = {}) {
         });
     });
   });
-} 
+}
 
 function add(product) {
   return new Promise((resolve, reject) => {
@@ -27,41 +31,46 @@ function add(product) {
 
 
 
-function query(criteria = {}) {
-  return new Promise((resolve, reject) => {
-    return DBService.dbConnect().then(db => {
-      db
-        .collection(DBService.COLLECTIONS.PRODUCT)
-        .find(criteria)
-        .toArray((err, products) => {
-          if (err) reject(err)
-          else resolve(products);
-        });
-    });
-  });
-} 
+
+
 function getById(productId) {
   productId = new mongo.ObjectID(productId);
-  return new Promise((resolve, reject)=>{
-      DBService.dbConnect()
-      .then(db=>{
-        console.log ('productId before db' , productId);
-          db.collection(DBService.COLLECTIONS.PRODUCT).findOne({_id: productId}, function (err, product) {
-              if (err)    reject(err)
-              else       {
-                console.log (product);
-                 resolve(product);
-              }
-              db.close();
-          });
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect()
+      .then(db => {
+        console.log('productId before db', productId);
+        db.collection(DBService.COLLECTIONS.PRODUCT).findOne({ _id: productId }, function (err, product) {
+          if (err) reject(err)
+          else {
+            console.log(product);
+            resolve(product);
+          }
+          db.close();
+        });
       })
   });
 }
 
+// function getProductWithOwnwe(){
+//   return new Promise((resolve, reject) => {
+//     getById.then(product => {
+//       userSerice.getById(product.id).then(user => {
+//         resolve({product ,owner : user})
+//       })
+//     })
+//   })
+// }
 
+// getProductWithOwnwe.then(x => console.log(x)) print {product ,owner : user}
 
+// function getTowThings (){
+//   var prm1 = 
+//   return Promise.all([prm1,prm2])
+// }
 
 module.exports = {
   query,
-  add
+  add,
+  getById
+
 };
