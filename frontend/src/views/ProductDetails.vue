@@ -5,7 +5,7 @@
   <div class="contain flex space-between product-details">
        
        <div  class="product-imgs flex flex-column"> 
-       
+        
          <img class="primary-img product-img" src="../imgs/car_example2.jpg"> 
          <div class="small-imgs flex space-between"> 
              <img class="product-img small-img" src="../imgs/car_example2.jpg">
@@ -15,6 +15,7 @@
          </div>
          </div>
          <div class="non-part-imgs  ">
+           <h2 class="product-title title is-2">{{product.userName}} </h2>
            <h2 class="product-title title is-2">{{product.title}} </h2>
            <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
 
@@ -88,9 +89,10 @@ export default {
         console.log(ACTIONS.GET_PRODUCT_BY_ID);
         // var productId = "5ae9bc40c66def0488aff9ec";
         this.$store.dispatch({ type: ACTIONS.GET_PRODUCT_BY_ID, productId})
-            .then(product => {
-              console.log (product);
-                this.product = product
+            .then(productDetails => {
+               console.log ('product' , productDetails);
+                this.product = productDetails
+
             })
     }
 }

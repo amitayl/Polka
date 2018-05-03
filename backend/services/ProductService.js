@@ -1,7 +1,6 @@
 const DBService = require('./DBService');
 const mongo = require('mongodb');
-
-
+const UserService = require ('./UserService.js')
 
 
 function query(criteria = {}) {
@@ -30,12 +29,11 @@ function add(product) {
 }
 
 
-
-
-
-function getById(productId) {
+function getProductById(productId) {
+  console.log ('noooo')
   productId = new mongo.ObjectID(productId);
   return new Promise((resolve, reject) => {
+    
     DBService.dbConnect()
       .then(db => {
         console.log('productId before db', productId);
@@ -51,14 +49,20 @@ function getById(productId) {
   });
 }
 
-// function getProductWithOwnwe(){
-//   return new Promise((resolve, reject) => {
-//     getById.then(product => {
-//       userSerice.getById(product.id).then(user => {
-//         resolve({product ,owner : user})
-//       })
-//     })
-//   })
+function getById(productId){
+  return new Promise((resolve, reject) => {
+    getProductById(productId)
+    .then(product => {
+
+      UserService.getUserById(product.ownerId).then(user => {
+        product.userImg = user.img;
+        product.userName = user.name 
+        resolve(product)
+
+      })
+    })
+  })
+}
 // }
 
 // getProductWithOwnwe.then(x => console.log(x)) print {product ,owner : user}
@@ -72,5 +76,4 @@ module.exports = {
   query,
   add,
   getById
-
 };
