@@ -27,6 +27,15 @@ export default {
       return ProductService.query(queryObj).then(products => {
         store.commit({ type: MUTATIONS.SET_PRODUCTS, products });
       });
-    }
-  }
+    },
+    [ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
+      console.log ('tatat');
+        // return ProductService.getProductById(productId)
+        //   .then(product => {
+        //     return product;
+        //   })
+      }
+    
+  },
+  
 };

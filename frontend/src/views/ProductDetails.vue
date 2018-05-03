@@ -76,7 +76,7 @@
 </style>
 <script>
   // import '../css/.css'
-  import { ACTIONS } from '../store.js'
+  import { ACTIONS } from '../store/ProductStore.js'
 // @ is an alias to /src
 
 
