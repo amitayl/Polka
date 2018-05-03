@@ -8,19 +8,15 @@
 <script>
 import ProductService from '../services/ProductService.js';
 import ProductList from '../components/ProductList.vue';
-import { MUTATIONS, ACTIONS } from '../store.js';
+import { MUTATIONS, ACTIONS } from '../store/ProductStore.js';
 
 export default {
   created() {
-    if (!this.$store.state.products) {
-      ProductService.query().then(products => {
-        this.$store.commit({ type: MUTATIONS.SET_PRODUCTS, products });
-      });
-    }
+    this.$store.dispatch({ type: MUTATIONS.SET_PRODUCTS, queryObj: {} })
   },
   computed: {
     products() {
-      return this.$store.state.products;
+      return this.$store.state.ProductStore.products;
     }
   },
   components: {

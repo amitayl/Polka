@@ -1,4 +1,4 @@
-.fixed{
+.fixed {
     position: fixed;
     width: 100%;
     top: 0;
@@ -23,6 +23,7 @@
 .flex {
     display: flex;
 }
+
 .inline-flex {
     display: inline-flex;
 }
