@@ -1,14 +1,19 @@
 <template>
     <section>
         <md-toolbar class="md-medium">
-            <div class="flex">
+            <div class="flex align-center">
                 <h2 class="md-display-1 logo">Polka</h2>
                 <form @submit.prevent="searchProducts()">
-                <input v-model="searchStr"
-                        ref="search"
-                        type="search" 
-                        class="search" 
-                        placeholder="Find some stuff"/>
+                  <select v-model="category">
+                    <option v-for="(category, idx) in possibleCategories" 
+                            :key="idx" :value="category">{{category}}</option>
+                  </select>
+                  <input v-model="searchStr"
+                          ref="search"
+                          type="search" 
+                          class="search" 
+                          placeholder="Find some stuff"/>
+                  <button type="submit">🔎</button> 
                 </form>
             </div>
             <ul>
@@ -29,27 +34,31 @@ export default {
   },
   methods: {
     searchProducts() {
-      const inDescOrTitle = {
-        $or: [
-          { title: { $regex: `.*${this.searchStr}.*` } },
-          { desc: { $regex: `.*${this.searchStr}.*` } }
-        ]
-      };
-      const ofCategory = { category: { $eq: 'clothes'} };
-
+      const inDescOrTitle = (this.searchStr)? 
+          {
+            $or: [
+              { title: { $regex: `.*${this.searchStr}.*` } },
+              { desc: { $regex: `.*${this.searchStr}.*` } }
+            ]
+          }: {};
+      const ofCategory = (this.category !== 'all')? {
+        categories: { $in: [this.category] }
+      } : {};
       const queryObj = { $and: [inDescOrTitle, ofCategory] };
-      this.$store.dispatch({ type: ACTIONS.SET_PRODUCTS, queryObj })
+      this.$store.dispatch({ type: ACTIONS.SET_PRODUCTS, queryObj });
     }
   },
   data() {
     return {
-      searchStr: null
+      searchStr: null,
+      category: 'all',
+      possibleCategories: ['all', 'clothes', 'fdsf']
     };
   }
 };
 </script>
 
-<style>
+<style scoped>
 .md-toolbar {
   padding: 0 30px;
   justify-content: space-between;
@@ -58,14 +67,25 @@ export default {
 .md-display-1.logo {
   margin-right: 30px;
 }
+form {
+  display: flex;
+  height: 50px;
+}
+select {
+  height: 100%;
+}
 .search {
   height: 100%;
   border: 1px solid gray;
   padding: 10px 15px;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 .search::first-letter {
   text-transform: uppercase;
+}
+button[type='submit'] {
+  border: 1px solid lightgray;
+  width: 50px;
 }
 .router-link,
 .router-link-active {
