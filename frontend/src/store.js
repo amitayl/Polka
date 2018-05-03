@@ -18,32 +18,35 @@ export { MUTATIONS, ACTIONS };
 export default new Vuex.Store({
   state: {
     products: null,
-    productFilter: null
+    // productFilter: null,
+    // productsToShow: null
   },
   getters: {
-    productsToShow() {
-      return ProductService.query(this.productFilter);
-    }
+    // productsToShow() {
+    //   return ProductService.query(this.productFilter);
+    // }
   },
   mutations: {
     [MUTATIONS.SET_PRODUCTS](state, { products }) {
       state.products = products;
     },
-    [MUTATIONS.SET_PRODUCT_FILTER](state, { queryObj }) {
-      console.log('setting queryObj', queryObj.$contains);
-      state.productFilter = queryObj;
-    }
+    // [MUTATIONS.SET_PRODUCT_FILTER](state, { queryObj }) {
+    //   state.productFilter = queryObj;
+    // }
   },
   actions: {
     [ACTIONS.GET_PRODUCTS_TO_SHOW](store) {
-      console.log('im in');
-      if (!store.state.productFilter) return store.state.products
-      else {
-        const productFilter = store.state.productFilter;
-        console.log(productFilter);
-        const queryObj = store.state.productFilter ? store.state.productFilter : {};
-        return ProductService.query(queryObj);
-      }
+      // const productsToShow = store.state.productsToShow;
+
+      // if (!store.state.productFilter) {
+      //   productsToShow = store.state.products
+      // } else {
+      //   const productFilter = store.state.productFilter;
+      //   const queryObj = productFilter ? productFilter : {};
+
+      //   ProductService.query(queryObj).then(filteredProducts => {
+      //     productsToShow = filteredProducts;
+      // }
     }
   }
 });
