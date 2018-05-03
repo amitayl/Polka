@@ -5,11 +5,12 @@ const BASE_URL = 'http://127.0.0.1:3000';
 // let products = query(criteria);
 // console.log(products);
 
-function query(criteria) {
+
+function query(queryObj) {
   return axios
     .get(BASE_URL + '/product', {
       params: {
-        criteria
+        queryObj
       }
     })
     .then(res => res.data);
