@@ -12,7 +12,7 @@
         <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title">
           <div class="file">
            <label class="file-label">
-          <input class="file-input" type="file" @change="onFileChanged">
+          <!-- <input class="file-input" type="file" @change="onFileChanged"> -->
           <span class="file-cta">
         <span class="file-icon">
            <i class="fas fa-upload"></i>

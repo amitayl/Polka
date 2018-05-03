@@ -1,6 +1,6 @@
 <template>
     <section class="product-preview">
-        <router-link to="/browseProducts">
+        <router-link :to="'/product/'+product._id">
             <img :src="product.imgs[0]" alt=""/>
             <div class="info-container">
                 <div class="flex space-between info-heading-container">
@@ -8,7 +8,6 @@
                     <span class="md-subheading">{{product.location}}</span>
                 </div>
                 {{product.desc}}
-                
             </div>
         </router-link> 
     </section>
@@ -29,6 +28,8 @@ export default {
 .product-preview {
   border: 1px solid black;
   width: 250px;
+  height: 100%;
+  max-height: 100%;
   text-align: left;
   transition: box-shadow 0.3s;
 }
