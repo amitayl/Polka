@@ -28,6 +28,7 @@ export default {
 <style scoped>
 .product-list-list {
   margin: 0 auto;
+  width: fit-content;
   display: grid;
   grid-template-columns: repeat(4, 250px);
   grid-template-rows: auto;

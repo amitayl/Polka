@@ -26,13 +26,14 @@ export default {
   },
   actions: {
     [ACTIONS.SET_PRODUCTS](store, { queryObj }) {
+      console.log('setting products', queryObj)
       const colsToGet = {"_id": 1, "ownerId":1, "title": 1, "desc": 1, "location": 1, "imgs": 1};
       return ProductService.query(queryObj, colsToGet).then(products => {
+        console.log({products})
         store.commit({ type: MUTATIONS.SET_PRODUCTS, products });
       });
     },
     [ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
-      console.log ('tatat');
         return ProductService.getProductById(productId)
           .then(product => {
             return product;

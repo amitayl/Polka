@@ -26,9 +26,8 @@ app.use(
   })
 );
 
-// const UserService = require('./services/UserService')
-// const addUserRoutes = require('./routes/UserRoutes.js')
-// addUserRoutes(app)
+const addUserRoutes = require('./routes/UserRoutes.js')
+addUserRoutes(app)
 
 const addProductRoutes = require('./routes/ProductRoutes')
 addProductRoutes(app);

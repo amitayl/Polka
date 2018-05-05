@@ -1,13 +1,18 @@
 <template>
   <div class="browse-products">
+    <categories-sub-nav></categories-sub-nav>
+    <product-sort></product-sort>
     <product-list v-if="products" :products="products"></product-list>
   </div>
 </template>
 
 <script>
 import ProductService from '../services/ProductService.js';
-import ProductList from '../components/ProductList.vue';
 import { MUTATIONS, ACTIONS } from '../store/ProductStore.js';
+
+import CategoriesSubNav from '../components/CategoriesSubNav.vue'
+import ProductSort from '../components/ProductSort.vue';
+import ProductList from '../components/ProductList.vue';
 
 export default {
   created() {
@@ -19,7 +24,9 @@ export default {
     }
   },
   components: {
-    ProductList
+    CategoriesSubNav,
+    ProductSort,
+    ProductList,
   }
 };
 </script>

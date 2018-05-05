@@ -13,7 +13,6 @@ function query(queryObj, colsToGet) {
 }
 
 function getProductById(productId) {
-    console.log ('productId');
     return axios
     .get(_getProductUrl(productId))
     .then(res => res.data)

@@ -85,11 +85,9 @@ export default {
     },
     created() {
         const productId = this.$route.params._id
-        console.log(ACTIONS.GET_PRODUCT_BY_ID);
         // var productId = "5ae9bc40c66def0488aff9ec";
         this.$store.dispatch({ type: ACTIONS.GET_PRODUCT_BY_ID, productId})
             .then(product => {
-              console.log (product);
                 this.product = product
             })
     }

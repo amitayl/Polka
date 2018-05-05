@@ -1,23 +1,25 @@
 const DBService = require('./DBService');
 
-function addUser(user) {
+function addUser(userData) {
   return new Promise((resolve, reject) => {
-    let isValidate = validateDetails(user);
-    if (!isValidate) reject('Validate failed!');
+    // let isValidate = _validateDetails(user);
+    // if (!isValidate) reject('Validate failed!');
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.USER)
-        .findOne({ name: user.name }, (err, userFromDB) => {
+        .findOne({ email: userData.email }, (err, userFromDB) => {
           // If name is already used!
           if (userFromDB) {
             reject('Name is already used!');
             db.close();
           } else {
+            const newUser = new User(userData);
+
             db
               .collection(DBService.COLLECTIONS.USER)
-              .insert(user, (err, res) => {
+              .insertOne(newUser, (err, res) => {
                 if (err) reject(err);
-                else resolve(res.ops);
+                else resolve(res.ops[0]);
                 db.close();
               });
           }
@@ -25,9 +27,23 @@ function addUser(user) {
     });
   });
 
-  function validateDetails(user) {
+  function _validateDetails(user) {
     return true;
     //   return user.name !== 'puki';
+  }
+}
+
+class User {
+  constructor({email, password, img, desc, location, nickName}) {
+    this.createdAt = Date.now();
+    this.productIds = [];
+
+    this.email = email;
+    this.password = password;
+    this.img = img;
+    this.desc = desc;
+    this.location = location;
+    this.nickName = nickName;
   }
 }
 
@@ -36,6 +52,6 @@ function addUser(user) {
 //   }
 
 module.exports = {
-  addUser,
-//   checkLogin
+  addUser
+  //   checkLogin
 };

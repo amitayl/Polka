@@ -1,12 +1,15 @@
 <template>
     <section>
-        <md-toolbar class="md-medium">
+        <md-toolbar class="md-medium" 
+                    :class="{ 'margin-bottom': isRouteBrowseProducts}">
             <div class="flex align-center">
-                <router-link to="/"><h2 class="md-display-1 logo">Polka</h2></router-link>
+                <router-link to="/">
+                  <h2 class="md-display-1 logo">Polka</h2>
+                </router-link>
                 <form @submit.prevent="searchProducts()">
                   <select v-model="category">
-                    <option v-for="(category, idx) in possibleCategories" 
-                            :key="idx" :value="category">{{category}}</option>
+                    <option v-for="(CATEGORY, idx) in PRODUCT_CATEGORIES" 
+                            :key="idx" :value="CATEGORY">{{CATEGORY}}</option>
                   </select>
                   <input v-model="searchStr"
                           ref="search"
@@ -27,34 +30,44 @@
 
 <script>
 import { MUTATIONS, ACTIONS } from '../store/ProductStore.js';
+import { PRODUCT_CATEGORIES } from '../const.js';
 
 export default {
-  mounted() {
-    this.$refs.search.focus();
-  },
-  methods: {
-    searchProducts() {
-      this.$router.push('/browseProducts');
-      const inDescOrTitle = (this.searchStr)? 
-          {
-            $or: [
-              { title: { $regex: `.*${this.searchStr}.*` } },
-              { desc: { $regex: `.*${this.searchStr}.*` } }
-            ]
-          }: {};
-      const ofCategory = (this.category !== 'all')? {
-        categories: { $in: [this.category] }
-      } : {};
-      const queryObj = { $and: [inDescOrTitle, ofCategory] };
-      this.$store.dispatch({ type: ACTIONS.SET_PRODUCTS, queryObj });
-    }
-  },
   data() {
     return {
       searchStr: null,
       category: 'all',
-      possibleCategories: ['all', 'clothes', 'fdsf']
+      PRODUCT_CATEGORIES
     };
+  },
+  mounted() {
+    this.$refs.search.focus();
+  },
+  computed: {
+    isRouteBrowseProducts() {
+      return this.$route.path !== '/browseProducts'
+    }
+  },
+  methods: {
+    searchProducts() {
+      this.$router.push('/browseProducts');
+      const inDescOrTitle = this.searchStr
+        ? {
+            $or: [
+              { title: { $regex: `.*${this.searchStr}.*` } },
+              { desc: { $regex: `.*${this.searchStr}.*` } }
+            ]
+          }
+        : {};
+      const ofCategory =
+        this.category !== 'all'
+          ? {
+              categories: { $in: [this.category] }
+            }
+          : {};
+      const queryObj = { $and: [inDescOrTitle, ofCategory] };
+      this.$store.dispatch({ type: ACTIONS.SET_PRODUCTS, queryObj });
+    }
   }
 };
 </script>
@@ -63,6 +76,11 @@ export default {
 .md-toolbar {
   padding: 0 30px;
   justify-content: space-between;
+  box-shadow: none;
+}
+.margin-bottom {
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
   margin-bottom: 20px;
 }
 .md-display-1.logo {

@@ -1,5 +1,5 @@
-@import './normalize.css';
 @import './helpers.css';
+@import './normalize.css';
 
 .contain {
     max-width: 1050px;
