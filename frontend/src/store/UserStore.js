@@ -1,16 +1,9 @@
 import ProductService from '../services/ProductService.js';
 
 const MUTATIONS = {
-  SET_PRODUCTS: 'setProducts',
-  SET_PRODUCT_FILTER: 'setProductFilter',
-  ADD_PRODUCT: 'addProduct',
-  UPDATE_SELECTED_PRODUCT: 'updateSelectedProduct'
-};
+}
 const ACTIONS = {
-  SET_PRODUCTS: 'setProducts',
-  SET_PRODUCTS_TO_SHOW: 'getProductsToShow',
-  ADD_PRODUCT: 'addProduct',
-  GET_PRODUCT_BY_ID: 'getProductById'
+  
 
 }
 Object.freeze(MUTATIONS);
@@ -19,37 +12,40 @@ Object.freeze(ACTIONS);
 export { MUTATIONS, ACTIONS };
 
 export default {
-  state: {
-    products: null,
-    selectedProduct:null,
-    uploadedProduct:null
-  },
+  
+    state: {
+        currUser: {
+            _id : '', 
+            name: '',
+            email: '',
+            products:[{id : 1 , img :'' } , {id : 2 , img :''}]
+       
+            
+        },
+        userSelected: {
+            _id : '2', 
+            name: 'yosi',
+            img: '../imgs/selectedUser.jpg',
+            desc: ' Hello , I am a nice person who likes to travel',
+            email: 'yosi@gmail.com',
+            products:[{id : 4 , img :'' } , {id : 5 , img :''}]
+            
+        }
+
+      },
+  
   mutations: {
-    [MUTATIONS.SET_PRODUCTS](state, { products }) {
-      state.products = products;
-    },
-    [MUTATIONS.ADD_PRODUCT](state, { product }) {
-      state.products = [product, ...state.products];
-    },
-    [MUTATIONS.UPDATE_SELECTED_PRODUCT](state, { product }) {
-      state.selectedProduct = product;
-    },
-    
   },
   getters:{
-    selectedProduct(state){
-      return state.selectedProduct
-    },
-    getProducts (state){
-      return state.products
-    },
-    // getCurrUser (state){
-    //   console.log ('yoyo');
-    //   return state.currUser
-    // }
+    getCurrUser (state){
+        console.log ('yoyo');
+        return state.currUser
+      },
 
-
-
+      getUserSelected(state){
+        return state.userSelected
+      }
+  
   },
   actions: {
     [ACTIONS.SET_PRODUCTS](store, { queryObj }) {

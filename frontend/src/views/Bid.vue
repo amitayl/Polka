@@ -48,7 +48,7 @@ export default{
   },
   created() {
     this.selectedProduct = this.$store.getters.selectedProduct;
-     
+     this.user = this.$store.getters.getUser;
      this.myProducts = this.$store.getters.getProducts;
      console.log ('myProducts' , this.myProducts); 
   },

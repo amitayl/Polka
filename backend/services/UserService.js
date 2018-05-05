@@ -41,7 +41,6 @@ let user_Id = new mongo.ObjectID(userId);
         db.collection(DBService.COLLECTIONS.USER).findOne({ _id: user_Id }, function (err, user) {
           if (err) reject(err)
           else {
-            // console.log('user' , user);
             resolve(user);
           }
           db.close();
