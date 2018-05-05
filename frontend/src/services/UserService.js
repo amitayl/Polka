@@ -1,10 +1,6 @@
 import axios from 'axios';
 const BASE_URL = 'http://127.0.0.1:3000';
 
-function add(userData) {
-  return axios.post(BASE_URL + '/user', userData).then(res => res.data);
-}
-
 function query(queryObj, colsToGet) {
   return axios
     .get(BASE_URL + '/product', {
@@ -16,6 +12,20 @@ function query(queryObj, colsToGet) {
     .then(res => res.data);
 }
 
+function add(userData) {
+  return axios.post(BASE_URL + '/user', userData).then(res => res.data);
+}
+
+function checkLogin(loginData) {
+  console.log(loginData);
+  return axios
+    .get(BASE_URL + '/user', { 
+      params: { loginData } 
+    })
+    .then(res => res.data);
+}
+
+// TODO: move this function to product service
 function add(product) {
   console.log('in Product service', product);
   return axios
@@ -24,7 +34,7 @@ function add(product) {
     .catch(err => console.log('Error:', err));
 }
 
-function getUsertById(productId) {
+function getById(productId) {
   console.log('productId');
   return axios.get(_getProductUrl(productId)).then(res => {
     let objDetails = res.data;
@@ -40,5 +50,6 @@ function _getProductUrl(productId) {
 
 export default {
   query,
-  add
+  add,
+  checkLogin
 };

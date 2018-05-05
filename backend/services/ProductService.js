@@ -51,7 +51,7 @@ function getById(productId){
     getProductById(productId)
     .then(product => {
 
-      UserService.getUserById(product.ownerId).then(user => {
+      UserService.getById(product.ownerId).then(user => {
         // product.userImg = user.img;
         // product.userName = user.name 
         resolve({product , owner:user})

@@ -9,7 +9,7 @@
 
 <script>
 import { PRODUCT_CATEGORIES } from '../const.js';
-import { ACTIONS } from '../store/ProductStore.js'
+import { PRODUCT_ACTIONS } from '../store/ProductStore.js'
 
 export default {
     data() {
@@ -20,7 +20,7 @@ export default {
     methods: {
         searchByCategory(CATEGORY) {
             const queryObj = (CATEGORY === 'all')? {} : { categories: { $in: CATEGORY } };
-            this.$store.dispatch({ type: ACTIONS.SET_PRODUCTS, queryObj });
+            this.$store.dispatch({ type: PRODUCT_ACTIONS.SET_PRODUCTS, queryObj });
         }
     }
 };

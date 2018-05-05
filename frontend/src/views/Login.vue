@@ -18,7 +18,7 @@
 
 <script>
 import LocService from '../services/LocService.js';
-import { ACTIONS } from '../store/UserStore.js';
+import { USER_ACTIONS } from '../store/UserStore.js';
 
 export default {
   data() {
@@ -31,10 +31,8 @@ export default {
   },
   methods: {
     checkLogin() {
-      this.$store.dispatch({ type: ACTIONS });
-      this.$store.dispatch({ type: ACTIONS.ADD_USER, userData }).then(_ => {
-        this.$router.push('/profile');
-      });
+      const loginData = this.loginData
+      this.$store.dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData });
     }
   }
 };

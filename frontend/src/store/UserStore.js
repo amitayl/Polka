@@ -1,16 +1,16 @@
 import UserService from '../services/UserService.js';
 
-const MUTATIONS = {
+const USER_MUTATIONS = {
   SET_LOGGED_IN_USER: 'setLoggedInUser'
 };
-const ACTIONS = {
+const USER_ACTIONS = {
   ADD_USER: 'addUser',
   CHECK_LOGIN: 'checkLogin'
 };
-Object.freeze(MUTATIONS);
-Object.freeze(ACTIONS);
+Object.freeze(USER_MUTATIONS);
+Object.freeze(USER_ACTIONS);
 
-export { MUTATIONS, ACTIONS };
+export { USER_MUTATIONS, USER_ACTIONS };
 
 export default {
   state: {
@@ -31,7 +31,6 @@ export default {
   },
   getters: {
     getCurrUser(state) {
-      console.log('yoyo');
       return state.loggedInUser;
     },
 
@@ -40,22 +39,25 @@ export default {
     }
   },
   mutations: {
-    [MUTATIONS.SET_LOGGED_IN_USER](state, { addedUser }) {
-      state.loggedInUser = addedUser;
+    [USER_MUTATIONS.SET_LOGGED_IN_USER](state, { user }) {
+      state.loggedInUser = user;
     }
   },
   actions: {
-    [ACTIONS.ADD_USER](store, { userData }) {
+    [USER_ACTIONS.ADD_USER](store, { userData }) {
       return UserService.add(userData).then(addedUser => {
         store.commit({ type: MUTATIONS.SET_LOGGED_IN_USER, addedUser });
         return addedUser;
       });
     },
-    [ACTIONS.CHECK_LOGIN](store, { loginData }) {
+    [USER_ACTIONS.CHECK_LOGIN](store, { loginData }) {
       return UserService.checkLogin(loginData)
-        .then(validUser => {
-          store.commit({ type: MUTATIONS.SET_LOGGED_IN_USER, loggedInUser });
+        .then(loggedInUser => {
+          store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: loggedInUser });
           return loggedInUser;
+        })
+        .catch(err => {
+          console.error(err);
         })
     }
   }

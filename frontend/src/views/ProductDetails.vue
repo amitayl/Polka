@@ -28,15 +28,15 @@
 </template>
 
 <script>
-import { ACTIONS } from '../store/ProductStore.js';
+import { PRODUCT_ACTIONS } from '../store/ProductStore.js';
 
 export default {
   created() {
     const productId = this.$route.params._id;
-    console.log(ACTIONS.GET_PRODUCT_BY_ID);
+    console.log(PRODUCT_ACTIONS.GET_PRODUCT_BY_ID);
     // var productId = "5ae9bc40c66def0488aff9ec";
     this.$store
-      .dispatch({ type: ACTIONS.GET_PRODUCT_BY_ID, productId })
+      .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
       .then(product => {
         console.log('product', product);
         console.log('product titel', product);

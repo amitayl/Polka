@@ -40,7 +40,7 @@
 
 <script>
 import LocService from '../services/LocService.js';
-import { ACTIONS } from '../store/UserStore.js';
+import { USER_ACTIONS } from '../store/UserStore.js';
 
 export default {
   created() {
@@ -76,7 +76,7 @@ export default {
         console.log('pass doesnt match');
       else {
         delete userData.confirmPassword;
-        this.$store.dispatch({ type: ACTIONS.ADD_USER, userData }).then(_ => {
+        this.$store.dispatch({ type: USER_ACTIONS.ADD_USER, userData }).then(_ => {
           this.$router.push('/profile');
         });
       }

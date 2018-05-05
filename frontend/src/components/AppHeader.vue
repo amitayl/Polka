@@ -2,10 +2,14 @@
     <section>
         <md-toolbar class="md-medium" 
                     :class="{ 'margin-bottom': isRouteBrowseProducts}">
+
+
             <div class="flex align-center">
+
                 <router-link to="/">
                   <h2 class="md-display-1 logo">Polka</h2>
                 </router-link>
+
                 <form @submit.prevent="searchProducts()">
                   <select v-model="category">
                     <option v-for="(CATEGORY, idx) in PRODUCT_CATEGORIES" 
@@ -18,18 +22,32 @@
                           placeholder="Find some stuff"/>
                   <button type="submit">🔎</button> 
                 </form>
+
             </div>
-            <ul>
-                <router-link v-for="str in ['messages', 'upload', 'profile']" 
-                            :key="str" :to="`/${str}`" 
-                            class="md-headline">{{str}}</router-link>
+
+
+            <ul v-if="isLoggedIn" class="link-list">
+              <li v-for="str in ['messages', 'upload', 'profile']" 
+                  :key="str" class="md-headline"> 
+                <router-link :to="`/${str}`">{{str}}</router-link>
+              </li>
+
+              <li class="md-headline"><button @click="logout()">logout</button></li>
             </ul>
+ 
+            <ul v-else class="link-list">
+              <li class="md-headline"><router-link to="/register">sign up</router-link></li>
+              <li class="md-headline"><router-link to="/login">login</router-link></li>
+            </ul>
+
+
         </md-toolbar>
     </section>
 </template>
 
 <script>
-import { MUTATIONS, ACTIONS } from '../store/ProductStore.js';
+import { PRODUCT_ACTIONS } from '../store/ProductStore.js';
+import { USER_MUTATIONS } from '../store/UserStore.js';
 import { PRODUCT_CATEGORIES } from '../const.js';
 
 export default {
@@ -46,6 +64,9 @@ export default {
   computed: {
     isRouteBrowseProducts() {
       return this.$route.path !== '/browseProducts'
+    },
+    isLoggedIn() {
+      return this.$store.getters.getCurrUser;
     }
   },
   methods: {
@@ -66,7 +87,10 @@ export default {
             }
           : {};
       const queryObj = { $and: [inDescOrTitle, ofCategory] };
-      this.$store.dispatch({ type: ACTIONS.SET_PRODUCTS, queryObj });
+      this.$store.dispatch({ type: PRODUCT_ACTIONS.SET_PRODUCTS, queryObj });
+    },
+    logout() {
+      this.$store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: null})
     }
   }
 };
@@ -106,11 +130,13 @@ button[type='submit'] {
   border: 1px solid lightgray;
   width: 50px;
 }
-a {
-  color: initial;
+.link-list {
+  display: flex;
+}
+.link-list > li {
   margin-right: 20px;
 }
-.a:last-of-type {
+.link-list > li:last-of-type {
   margin-right: 0;
 }
 </style>

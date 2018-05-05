@@ -8,7 +8,7 @@
 
 <script>
 import ProductService from '../services/ProductService.js';
-import { MUTATIONS, ACTIONS } from '../store/ProductStore.js';
+import { PRODUCT_MUTATIONS, PRODUCT_ACTIONS } from '../store/ProductStore.js';
 
 import CategoriesSubNav from '../components/CategoriesSubNav.vue'
 import ProductSort from '../components/ProductSort.vue';
@@ -16,7 +16,7 @@ import ProductList from '../components/ProductList.vue';
 
 export default {
   created() {
-    this.$store.dispatch({ type: MUTATIONS.SET_PRODUCTS, queryObj: {} })
+    this.$store.dispatch({ type: PRODUCT_MUTATIONS.SET_PRODUCTS, queryObj: {} })
   },
   computed: {
     products() {

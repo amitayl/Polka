@@ -1,4 +1,9 @@
-button:hover {
-    color: black;
-    cursor: pointer;
+button:hover,
+a:hover {
+  cursor: pointer;
+}
+
+.router-link,
+.router-link-active {
+  color: initial;
 }
