@@ -30,7 +30,6 @@ function add(product) {
 
 
 function getProductById(productId) {
-  console.log ('noooo')
   productId = new mongo.ObjectID(productId);
   return new Promise((resolve, reject) => {
     

@@ -1,22 +1,64 @@
 <template>
   <div class="bid">
     <h1 class="title is-1">New Bid</h1>
-    <div>Date: </div>
+    
+    
+    <div class="flex align-center ">
+      <div><img class="product-img" :src="selectedProduct.imgs"></div>
+      <div> {{selectedProduct.title}}</div>
+      
+    </div>
+    <!-- <img :src="myproducts[0].imgs"> -->
+     <button>upload new product</button>
   
 
   </div>
 </template>
 <style scoped>
-.transaction{
-    background-color: rgb(161, 154, 154)
+  .flex {
+    display: flex;
+}
+.align-center {
+    align-items: center;
+}
+
+.bid{
+    /* background-color: rgb(161, 154, 154) */
     
+}
+.title{
+  display:inline
+}
+img{
+  margin-left: 40px;
+  margin-bottom:30px;
+}
+.product-img{
+  width: 200px;
 }
 </style>
 
 <script>
-// @ is an alias to /s  rc
-
-export default {
+export default{
+  data() {
+    return {
+      selectedProduct: {},
+      myProducts:[]
+    };
+  },
+  created() {
+    this.selectedProduct = this.$store.getters.selectedProduct;
+     
+     this.myProducts = this.$store.getters.getProducts;
+     console.log ('myProducts' , this.myProducts); 
+  },
  
+
+  // computed : {  
+  //   product(){ 
+  //   return  this.$store.getters.selectedProduct;
+  //   }
+  
 }
+
 </script>

@@ -3,7 +3,8 @@ import ProductService from '../services/ProductService.js';
 const MUTATIONS = {
   SET_PRODUCTS: 'setProducts',
   SET_PRODUCT_FILTER: 'setProductFilter',
-  ADD_PRODUCT: 'addProduct'
+  ADD_PRODUCT: 'addProduct',
+  UPDATE_SELECTED_PRODUCT: 'updateSelectedProduct'
 };
 const ACTIONS = {
   SET_PRODUCTS: 'setProducts',
@@ -19,7 +20,7 @@ export { MUTATIONS, ACTIONS };
 
 export default {
   state: {
-    products: [],
+    products: null,
     selectedProduct:null,
     uploadedProduct:null
   },
@@ -33,6 +34,17 @@ export default {
     [MUTATIONS.UPDATE_SELECTED_PRODUCT](state, { product }) {
       state.selectedProduct = product;
     },
+    
+  },
+  getters:{
+    selectedProduct(state){
+      return state.selectedProduct
+    },
+    getProducts (state){
+      return state.products
+    }
+
+
   },
   actions: {
     [ACTIONS.SET_PRODUCTS](store, { queryObj }) {
@@ -58,9 +70,10 @@ export default {
     },
 
     [ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
-      return ProductService.getProductById(productId)
+      return  ProductService.getProductById(productId)
         .then(product => {
-          // store.commit({type: MUTATIONS.UPDATE_SELECTED_PRODUCT , product});
+          console.log ('store' , product.title);
+          store.commit({type: MUTATIONS.UPDATE_SELECTED_PRODUCT , product});
           return product;
         })
     }

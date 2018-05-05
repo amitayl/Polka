@@ -26,13 +26,9 @@ function getProductById(productId) {
     .get(_getProductUrl(productId))
     .then(res => {
       let objDetails =  res.data
-      // console.log ('objDetails' , objDetails.product);
-      // console.log ('objDetails' , objDetails.owner)
       let product = objDetails.product ;
-      console.log ('product' , product);
       product.ownerImg = objDetails.owner.img;
-      console.log ('product' , product); 
-      return res.data;
+      return product;
     })
 }
 

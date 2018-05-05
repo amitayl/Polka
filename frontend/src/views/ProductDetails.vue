@@ -7,7 +7,7 @@
        <div  class="product-imgs flex flex-column"> 
         
          <img class="primary-img product-img" src="../imgs/car_example2.jpg"> 
-         <div class="small-imgs flex space-between"> 
+         <div class="small-imgs flex space-between">
              <img class="product-img small-img" src="../imgs/car_example2.jpg">
              <img class=" product-img small-img" :src="product.imgs"> 
              <img class="product-img small-img" src="../imgs/car_example2.jpg"> 
@@ -15,7 +15,7 @@
          </div>
          </div>
          <div class="non-part-imgs  ">
-           <!-- <h2 class="product-title title is-2">{{product.userName}} </h2> -->
+           <h2 class="product-title title is-2">{{product.userName}} </h2>
            <div class= "user-img-line flex align-center ">
              <div> <img class="owner-img" :src="product.ownerImg"></div>
               <h2 class="product-title title is-2">{{product.title}} </h2>
@@ -73,6 +73,18 @@ div {
   width: 100%;
   padding-right: 20px;
   padding-left: 20px;
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+img {
+  
+animation-name: fadein;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  /* animation-delay: 100s */
 }
 
 .owner-img {
@@ -149,7 +161,7 @@ import { ACTIONS } from "../store/ProductStore.js";
 export default {
   data() {
     return {
-      product: { title: "title", desc: "desc" }
+      product: {}
     };
   },
   created() {
@@ -158,10 +170,10 @@ export default {
     // var productId = "5ae9bc40c66def0488aff9ec";
     this.$store
       .dispatch({ type: ACTIONS.GET_PRODUCT_BY_ID, productId })
-      .then(productDetails => {
-        console.log("product", productDetails);
-        this.product = productDetails.product;
-        this.product.ownerImg = productDetails.owner.img;
+      .then(product => {
+        console.log("product", product);
+        console.log ("product titel" , product )
+        this.product = product;
       });
   }
 };
