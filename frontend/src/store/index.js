@@ -10,6 +10,6 @@ export default new Vuex.Store({
   strict: true,
   modules: {
     ProductStore,
-    UserStore
+    UserStore,
   },
 });

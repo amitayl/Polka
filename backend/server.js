@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const http = require('http').Server(app);
 
+
 const corsOptions = {
   origin: /http:\/\/127.0.0.1:\d+/,
   credentials: true
@@ -31,6 +32,7 @@ addUserRoutes(app)
 
 const addProductRoutes = require('./routes/ProductRoutes')
 addProductRoutes(app);
+
 
 http.listen(3000, () => {
   console.log('listening on *:3000');

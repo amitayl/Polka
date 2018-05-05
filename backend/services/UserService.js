@@ -1,4 +1,19 @@
 const DBService = require('./DBService');
+const mongo = require('mongodb');
+
+class User {
+  constructor({ email, password, img, desc, location, nickName }) {
+    this.createdAt = Date.now();
+    this.productIds = [];
+
+    this.email = email;
+    this.password = password;
+    this.img = img;
+    this.desc = desc;
+    this.location = location;
+    this.nickName = nickName;
+  }
+}
 
 function addUser(userData) {
   return new Promise((resolve, reject) => {
@@ -33,18 +48,21 @@ function addUser(userData) {
   }
 }
 
-class User {
-  constructor({email, password, img, desc, location, nickName}) {
-    this.createdAt = Date.now();
-    this.productIds = [];
-
-    this.email = email;
-    this.password = password;
-    this.img = img;
-    this.desc = desc;
-    this.location = location;
-    this.nickName = nickName;
-  }
+function getUserById(userId) {
+  let user_Id = new mongo.ObjectID(userId);
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.USER)
+        .findOne({ _id: user_Id }, function(err, user) {
+          if (err) reject(err);
+          else {
+            resolve(user);
+          }
+          db.close();
+        });
+    });
+  });
 }
 
 // function checkLogin(user) {
@@ -52,6 +70,7 @@ class User {
 //   }
 
 module.exports = {
-  addUser
+  addUser,
+  getUserById
   //   checkLogin
 };

@@ -1,9 +1,9 @@
 @import './helpers.css';
 @import './normalize.css';
 
-.contain {
+.container {
     max-width: 1050px;
-    /* margin: 0 auto; */
+    margin: 0 auto;
     width: 100%;
     padding-right: 20px;
     padding-left: 20px;

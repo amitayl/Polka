@@ -12,10 +12,23 @@ function query(queryObj, colsToGet) {
     .then(res => res.data);
 }
 
+function add(product) {
+  console.log('in Product service',product);
+  return axios
+      .post(BASE_URL + '/product', product)
+      .then(res => res.data)
+      .catch(err => console.log('Error:', err));
+}
+
 function getProductById(productId) {
     return axios
     .get(_getProductUrl(productId))
-    .then(res => res.data)
+    .then(res => {
+      let objDetails =  res.data
+      let product = objDetails.product ;
+      product.ownerImg = objDetails.owner.img;
+      return product;
+    })
 }
 
 function _getProductUrl(productId){
@@ -25,5 +38,6 @@ function _getProductUrl(productId){
 
 export default {
   query,
-  getProductById
+  getProductById,
+  add
 };
