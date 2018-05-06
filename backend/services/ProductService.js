@@ -1,6 +1,6 @@
 const DBService = require('./DBService');
 const mongo = require('mongodb');
-const UserService = require ('./UserService.js')
+const UserService = require('./UserService.js')
 
 
 function query(criteria = {}) {
@@ -32,7 +32,6 @@ function add(product) {
 function getProductById(productId) {
   productId = new mongo.ObjectID(productId);
   return new Promise((resolve, reject) => {
-    
     DBService.dbConnect()
       .then(db => {
         db.collection(DBService.COLLECTIONS.PRODUCT).findOne({ _id: productId }, function (err, product) {
@@ -46,20 +45,43 @@ function getProductById(productId) {
   });
 }
 
-function getById(productId){
+function getOffersByProductId(productId) {
+  console.log('go to product service' , productId );
+  // new mongo.ObjectID(productId);
+  let product_Id = productId;
   return new Promise((resolve, reject) => {
-    getProductById(productId)
-    .then(product => {
-
-      UserService.getById(product.ownerId).then(user => {
-        // product.userImg = user.img;
-        // product.userName = user.name 
-        resolve({product , owner:user})
-
+    DBService.dbConnect()
+      .then(db => {
+        db.collection(DBService.COLLECTIONS.BID).findOne({ "bidder.product_Id" : product_Id }, function (err, offers) {
+          if (err) {
+            console.log('err', err);
+          }
+          else {
+            console.log('offers' , offers)
+             resolve(offers);
+          }
+          db.close();
+        });
       })
     })
-  })
-}
+  }
+
+
+
+function getById(productId) {
+      return new Promise((resolve, reject) => {
+        getProductById(productId)
+          .then(product => {
+
+            UserService.getById(product.ownerId).then(user => {
+              // product.userImg = user.img;
+              // product.userName = user.name 
+              resolve({ product, owner: user })
+
+            })
+          })
+      })
+    }
 // }
 
 // getProductWithOwnwe.then(x => console.log(x)) print {product ,owner : user}
@@ -70,7 +92,8 @@ function getById(productId){
 // }
 
 module.exports = {
-  query,
-  add,
-  getById
-};
+      query,
+      add,
+      getById,
+      getOffersByProductId,
+    };

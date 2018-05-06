@@ -31,6 +31,14 @@ function getProductById(productId) {
     })
 }
 
+function getOffersByProductId(productId) {
+  console.log('in Product service', productId);
+  return axios
+    .get(BASE_URL + '/product/getOffers/'+ productId)
+    .then(res => res.data)
+    .catch(err => console.log('Error:', err));
+}
+
 function _getProductUrl(productId){
     return `${BASE_URL}/product/${productId}`
 }
@@ -39,5 +47,6 @@ function _getProductUrl(productId){
 export default {
   query,
   getProductById,
-  add
+  add,
+  getOffersByProductId
 };

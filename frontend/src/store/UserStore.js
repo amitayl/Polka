@@ -15,10 +15,12 @@ export { USER_MUTATIONS, USER_ACTIONS };
 export default {
   state: {
     loggedInUser: {
-      _id: '',
+      _id: '1',
       name: '',
       email: '',
-      products: [{ id: 1, img: '' }, { id: 2, img: '' }]
+    // products: [{ id: 1, img: '' ,offers: [{bidderId ,bidderImg, productId ,producTitle, productImg }]}],
+    //   bids: [{ bidder: {id, productId} }],
+      
     },
     selectedUser: {
       _id: '2',
@@ -30,11 +32,11 @@ export default {
     }
   },
   getters: {
-    getCurrUser(state) {
+    getLoggedInUser(state) {
       return state.loggedInUser;
     },
 
-    getUserSelected(state) {
+    getSelectedUser(state) {
       return state.selectedUser;
     }
   },

@@ -6,7 +6,6 @@
     <div class="flex align-center ">
       <div><img class="product-img" :src="selectedProduct.imgs"></div>
       <div> {{selectedProduct.title}}</div>
-      
     </div>
     <!-- <img :src="myproducts[0].imgs"> -->
      <button>upload new product</button>

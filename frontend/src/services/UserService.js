@@ -48,6 +48,7 @@ function _getProductUrl(productId) {
   return `${BASE_URL}/product/${productId}`;
 }
 
+
 export default {
   query,
   add,

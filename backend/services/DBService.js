@@ -4,7 +4,8 @@ const { MongoClient } = require('mongodb');
 const COLLECTIONS = {
   POLKA: 'polka',
   USER: 'user',
-  PRODUCT: 'product'
+  PRODUCT: 'product',
+  BID: 'bid'
 };
 Object.freeze(COLLECTIONS);
 

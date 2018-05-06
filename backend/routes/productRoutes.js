@@ -20,6 +20,17 @@ module.exports = app => {
       })
       .catch(err => res.status(500).send(err.message));
   });
+
+  app.get(`/product/getOffers/:productId`, (req, res) => {
+    console.log ('get to routes')
+    const productId = req.params.productId;
+    console.log ('productId' , productId )
+    ProductService.getOffersByProductId(productId)
+      .then(product => {
+        res.json(product);
+      })
+      .catch(err => res.status(500).send(err.message));
+  });
   // Add product
 
   app.post('/product', (req, res) => {
