@@ -1,28 +1,33 @@
+import Vue from 'vue';
+import VueMaterial from 'vue-material';
 
+import 'vue-material/dist/vue-material.min.css';
 
-import Vue from 'vue'
-import VueMaterial from 'vue-material'
-
-import 'vue-material/dist/vue-material.min.css'
-
-Vue.use(VueMaterial)
+Vue.use(VueMaterial);
 // Vue.use(VueCloudinary, {
 //   "cloud_name": "<polka>",
 //   "api_key": "735122477923243",
 //   "cdn_subdomain": true,
 // });
 
-// cloudinary.v2.uploader.upload("../../frontend/src/imgs/best_offer.jpg)", 
+// cloudinary.v2.uploader.upload("../../frontend/src/imgs/best_offer.jpg)",
 // function(error, result) {console.log(result)});
 
-import App from './App.vue'
-import router from './router'
-import store from './store/index.js'
+// if (sessionStorage.user) {
+  // this.$store.commit({
+  //   type: 'setUser',
+  //   user: JSON.parse(sessionStorage.user)
+  // });
+// }
 
-Vue.config.productionTip = false
+import App from './App.vue';
+import router from './router';
+import store from './store/index.js';
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
