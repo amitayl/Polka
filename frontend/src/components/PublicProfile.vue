@@ -8,7 +8,7 @@
                 <br>
                 <br>    
                 <h4 class="user-desc title is-4">{{user.desc}} bla bla la bla bla </h4>
-                <h4 class="user-desc title is-4">yosi@gmail.com </h4>
+                <h4 class="user-desc title is-4">{{user.email}} </h4>
                 <h4 class="user-desc title is-4">Haifa, Sderot Moshe</h4>
                    
             </div>
@@ -24,10 +24,13 @@ export default {
             required: true
         }
     },
-    created (){
-    }
+  
+  
+  created() {
+    console.log('user.nickname', this.user.nickName);
+    console.log('user.img', this.user.img);
+  }
 };
-
 </script>
 
 <style scoped>
@@ -50,6 +53,4 @@ export default {
     width:200px;
     align-self:baseline;
 }
-
-
 </style>

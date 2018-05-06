@@ -3,7 +3,6 @@
 
 <template>
   <div class="contain flex space-between product-details">
-       
        <div  class="product-imgs flex flex-column"> 
         
          <img class="primary-img product-img" src="../imgs/car_example2.jpg"> 
@@ -17,20 +16,21 @@
          <div class="non-part-imgs">
            <h2 class="product-title title is-2">{{product.userName}} </h2>
            <div class= "user-img-line flex align-center ">
-        <router-link :to="'/profile/'+product.ownerId"><div> <img class="owner-img" :src="product.ownerImg"></div></router-link>
-              <h2 class="product-title title is-2">{{product.title}} </h2>
+           <router-link :to="'/profile/'+product.ownerId"><div> <img class="owner-img" :src="product.ownerImg"></div></router-link>
+            <h2 class="product-title title is-2">{{product.title}} </h2>
            </div>
           
            <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
            <h4 class="title is-4">Things I want: </h4>
             <h4 class="title is-4">Trade location: </h4>
           <router-link :to="'/bid'"> <button  class="bid">Bid Now </button></router-link>
-          
+          <button @click="toBid()" 
+              class="bid button"
+              :disabled="!isBidAble">Bid Now</button>
 
            <!-- This toy car was made in 1940's by the Nazi's factories (have certificate to show -->
          </div>
-     
-    </div>
+  </div>
 </template>
 <script>
 // import '../css/.css'
@@ -45,14 +45,23 @@ export default {
   },
   created() {
     const productId = this.$route.params._id;
-    console.log(PRODUCT_ACTIONS.GET_PRODUCT_BY_ID);
+    // let productId = "5ae9bc40c66def0488aff9ec";
     this.$store
       .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
       .then(product => {
-        console.log("product", product);
-        console.log ("product titel" , product )
         this.product = product;
       });
+  },
+  data() {
+    return {
+      product: {},
+      isBidAble: this.$store.getters.getLoggedInUser
+    };
+  },
+  methods: {
+    toBid() {
+      this.$router.push(`/bid/${this.$route.params._id}`);
+    }
   }
 };
 </script>
@@ -79,7 +88,7 @@ div {
   width: 45%;
 }
 .product-title {
-  margin-left:20px;
+  margin-left: 20px;
   color: rgb(174, 218, 174);
 }
 .product-desc {
@@ -97,12 +106,15 @@ div {
   padding-left: 20px;
 }
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 img {
-  
-animation-name: fadein;
+  animation-name: fadein;
   animation-duration: 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -111,16 +123,15 @@ animation-name: fadein;
 
 .owner-img {
   /* float:left; */
-  width:100px;
+  width: 100px;
   border-radius: 50%;
-
 }
-.user-img-line{
-  padding-top:0px;
-  margin-top:0px;
-} 
-button.bid{
-  float:right;
+.user-img-line {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+button.bid {
+  float: right;
 }
 .flex {
   display: flex;

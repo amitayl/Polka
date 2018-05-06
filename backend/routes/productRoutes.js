@@ -2,7 +2,6 @@ const ProductService = require('../services/ProductService');
 
 module.exports = app => {
   app.get('/product', (req, res) => {
-    console.log(req.query.queryObj);
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
     ProductService.query(queryObj, colsToGet)
@@ -12,13 +11,33 @@ module.exports = app => {
       .catch(err => res.status(500).json(err));
   });
 
-  app.get(`/product/:productId`, (req, res) => {
+  app.get(`/product/:productIds`, (req, res) => {
+    const productIds = req.params.productIds.split(',');
+
+    if (productIds.length > 1) {
+      ProductService.getByIds(productIds)
+        .then(products => {
+          res.json(products);
+        })
+        .catch(err => res.status(500).send(err.message));
+    } else {
+      ProductService.getById(productIds[0])
+        .then(product => {
+          res.json(product);
+        })
+        .catch(err => res.status(500).send(err.message));
+    }
+  });
+
+  app.get(`/productDetails/:productId`, (req, res) => {
+    console.log ('moshe');
     const productId = req.params.productId;
-    ProductService.getById(productId)
+    ProductService.getProductDetailsById(productId)
       .then(product => {
         res.json(product);
       })
       .catch(err => res.status(500).send(err.message));
+    
   });
 
   app.get(`/product/getOffers/:productId`, (req, res) => {

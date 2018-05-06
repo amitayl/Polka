@@ -27,9 +27,17 @@
 
 
             <ul v-if="isLoggedIn" class="link-list">
-              <li v-for="str in ['messages', 'upload', 'profile']" 
+              <li @click="showMessages = !showMessages" 
+                  class="md-headline">
+                <ul v-if="showMessages" class="msgs-container">
+                  {{msgs}}
+                  <!-- <li v-for="msg in msgs" :key="msg">{{msg}}</li> -->
+                </ul>
+              </li>
+
+              <li v-for="str in ['upload', 'profile']" 
                   :key="str" class="md-headline"> 
-                <router-link :to="`/${str}`">{{str}}</router-link>
+                  <router-link :to="`/${str}`">{{str}}</router-link>
               </li>
 
               <li class="md-headline"><button @click="logout()">logout</button></li>
@@ -55,6 +63,7 @@ export default {
     return {
       searchStr: null,
       category: 'all',
+      showMessages: false,
       PRODUCT_CATEGORIES
     };
   },
@@ -66,8 +75,11 @@ export default {
       return this.$route.path !== '/browseProducts'
     },
     isLoggedIn() {
-      return this.$store.getters.getCurrUser;
-    }
+      return this.$store.getters.getLoggedInUser;
+    },
+    // msgs() {
+    //   return this.$store.getters.getLoggedInUser;
+    // }
   },
   methods: {
     searchProducts() {
@@ -138,5 +150,13 @@ button[type='submit'] {
 }
 .link-list > li:last-of-type {
   margin-right: 0;
+}
+.msgs-container {
+  position: absolute;
+  border: 1px solid gray;
+  height: 400px;
+  width: 400px;
+  top: 100px;
+  transform: translate(calc(-50% + 50px));
 }
 </style>

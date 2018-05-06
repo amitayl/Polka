@@ -5,6 +5,7 @@ class User {
   constructor({ email, password, img, desc, location, nickName }) {
     this.createdAt = Date.now();
     this.productIds = [];
+    this.notifications = [];
 
     this.email = email;
     this.password = password;
@@ -52,7 +53,6 @@ function add(userData) {
 }
 
 function getById(userId) {
-  console.log ('zzzzzzzzzz' , userId);
   let user_Id = new mongo.ObjectID(userId);
   
   return new Promise((resolve, reject) => {

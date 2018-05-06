@@ -13,7 +13,6 @@ function query(queryObj, colsToGet) {
 }
 
 function getUserById(userId) {
-  // console.log ('ggggg');
   return axios.get(_getUserUrl(userId)).then(res => {
     let user = res.data;
     console.log ('user' , user);
@@ -31,11 +30,13 @@ function add(userData) {
 }
 
 function checkLogin(loginData) {
+  console.log (loginData);
   return axios
     .get(BASE_URL + '/user', {
       params: { loginData }
     })
     .then(res => {
+      console.log ('res' , res.data);
       const user = res.data;
       sessionStorage.loggedInUser = JSON.stringify(user);
       return user;

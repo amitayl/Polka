@@ -1,6 +1,5 @@
 <template>
   <section class="product-upload">
-    {{ product }}
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -12,7 +11,7 @@
         <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title">
           <div class="file">
            <label class="file-label">
-          <!-- <input class="file-input" type="file" @change="onFileChanged"> -->
+          <input class="file-input" type="file" @change="onFileChanged($event)">
           <span class="file-cta">
         <span class="file-icon">
            <i class="fas fa-upload"></i>
@@ -27,6 +26,10 @@
     </div>
   </div>
 </div>
+
+
+
+
 
 <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -114,6 +117,16 @@
   </div>
 </div>
 </form>
+          <div>
+              <div class="file-upload-form">
+                  Upload an image file:
+                  <input type="file" @change="previewImage" accept="image/*">
+              </div>
+              <div class="image-preview" v-if="imageData.length > 0">
+                  <img class="preview" :src="imageData">
+              </div>
+          </div>
+
   </section>
 </template>
 
@@ -122,35 +135,76 @@
 
 export default {
   name: "ProductUpload",
-
+  created() {
+    this.product.ownerId = this.$store.getters.getLoggedInUser._id;
+  },
   data() {
     return {
+      imageData: "  // we will store base64 format of image in this string",
       product: {
         createdAt: null,
+        title: "hey",
         imgs: [],
         categories: [],
-        //TODO change to plural
         desiredSwapCategories: [],
-        desc: "",
-        ownerId: "null",
+        desc: "fdsfa",
+        ownerId: null,
         bidIds: [],
-        location: "",
+        location: "haifa",
         isLive: true
       }
     };
   },
+
   methods: {
+    previewImage: function(event) {
+      // Reference to the DOM input element
+      var input = event.target;
+      // Ensure that you have a file before attempting to read it
+      if (input.files && input.files[0]) {
+        // create a new FileReader to read this image and convert to base64 format
+        var reader = new FileReader();
+        // Define a callback function to run, when FileReader finishes its job
+        reader.onload = e => {
+          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+          // Read image as base64 and set to imageData
+          this.imageData = e.target.result;
+
+          console.log ('this.imageData' , e.target.result);
+        };
+        // Start the reader job - read file as a data url (base64 format)
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+
+    onFileChanged(ev) {
+      console.log(ev);
+      console.log(ev.target.value);
+      this.product.imgs.push(ev.target.value);
+    },
     addProduct() {
       this.product.createdAt = Date.now();
-      this.$store.dispatch({ type: "addProduct", product: this.product })
-      .then( _ => this.$router.push("/"))
-      .catch(err => console.log({err}))
+      console.log(this.product);
+      this.$store
+        .dispatch({ type: "addProduct", product: this.product })
+        .then(_ => this.$router.push("/"))
+        .catch(err => console.log({ err }));
     }
   }
 };
 </script>
 
 <style scoped>
-
+.file-upload-form,
+.image-preview {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 20px;
+}
+img.preview {
+  width: 200px;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
 </style>
 

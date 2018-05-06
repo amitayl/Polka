@@ -13,25 +13,40 @@ function query(queryObj, colsToGet) {
 }
 
 function add(product) {
-  console.log('in Product service',product);
   return axios
-      .post(BASE_URL + '/product', product)
-      .then(res => res.data)
-      .catch(err => console.log('Error:', err));
+    .post(BASE_URL + '/product', product)
+    .then(res => res.data)
+    .catch(err => console.error('Error:', err));
 }
 
 function getProductById(productId) {
     return axios
-    .get(_getProductUrl(productId))
+    .get(BASE_URL + '/productDetails/'+ productId)
     .then(res => {
       let objDetails =  res.data
       let product = objDetails.product ;
-      product.ownerImg = objDetails.owner.img;
-      product.ownerId = objDetails.owner._id
+      console.log ('product' , product)
+      product.ownerImg = '../imgs/user.jpg'
+      // product.ownerImg = objDetails.owner.img;
+      product.ownerId = '5aeef303a4e21e1fa8743a0b'
+      // product.ownerId = objDetails.owner._id
       console.log ('objDetails.owner' , objDetails.owner);
       return product;
     })
 }
+
+// function getBothById(productId) {
+//   return axios
+//   .get(BASE_URL + '/product/productDetails/'+ productId)
+//   .then(res => {
+//     let objDetails =  res.data
+//     let product = objDetails.product ;
+//     product.ownerImg = objDetails.owner.img;
+//     product.ownerId = objDetails.owner._id
+//     console.log ('objDetails.owner' , objDetails.owner);
+//     return product;
+//   })
+// }
 
 function getOffersByProductId(productId) {
   console.log('in Product service', productId);
@@ -45,10 +60,14 @@ function _getProductUrl(productId){
     return `${BASE_URL}/product/${productId}`
 }
 
+function getProductsByIds(...productIds) {
+  return axios.get(`${BASE_URL}/product/${productIds}`).then(res => res.data);
+}
 
 export default {
   query,
   getProductById,
   add,
-  getOffersByProductId
+  getOffersByProductId,
+  getProductsByIds,
 };

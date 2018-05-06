@@ -14,7 +14,7 @@
     Offers<input type="radio" @click=changeComponent  value="offers" hidden>
   </label>
    
-  <public-profile  :user="loggedInUser"></public-profile> 
+  <public-profile  :user="profileUser"></public-profile> 
   <offers></offers>
   </div>
   </section>
@@ -32,12 +32,14 @@
 <script>
 import PublicProfile from "../components/PublicProfile.vue";
 import Offers from "../components/Offers.vue";
+import UserService from '../services/UserService';
 export default {
   data() {
     return {
       loggedInUser: {},
-      selectedUser: {},
-      isUserEqualProfile: false,
+      profileUser: {},
+
+      isUserEqualLoggidIn: false,
       // userWatched: {
       //   productId: "",
       //   name: "",
@@ -56,16 +58,20 @@ export default {
   },
   created() {
     const userId = this.$route.params._id;
+    
     this.loggedInUser = this.$store.getters.getLoggedInUser;
     if (this.loggedInUser.id === userId ){
-
-      isUserEqualProfile = false;
-      console.log ('momo');
+        this.profileUser = loggedInUser;
+      isUserEqualLoggidIn = true;
     }
     else{
-      console.log ('logged in'  , loggedInUser.id , 'userId' ,userId )
       
-       isUserEqualProfile = true;
+      UserService.getUserById(userId).
+      then(user=> this.profileUser=user)
+      isUserEqualLoggidIn = false;
+      console.log ('get user');
+      console.log ('logged in'  , loggedInUser.id , 'userId' ,userId )
+       
       console.log ('koko');
     }
     this.selectedUser = this.$store.getters.getSelectedUser;
@@ -77,7 +83,8 @@ export default {
     PublicProfile,
     Offers
   }
-};
+  
+}
 
 // @ is an alias to /src
 </script>

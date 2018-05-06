@@ -8,10 +8,12 @@ import UserProfile from './views/UserProfile.vue';
 // import PublicProfile from './views/PublicProfile.vue';
 import ProductUpload from './views/ProductUpload.vue';
 import ProductDetails from './views/ProductDetails.vue';
-import Bid from './views/Bid.vue'
+import Bid from './views/Bid.vue';
 import BrowseProducts from './views/BrowseProducts.vue';
 import Transaction from './views/Transaction.vue';
 import Admin from './views/Admin.vue';
+import LoginRequired from './views/msgs/LoginRequired.vue'
+
 const PATHS = {
   home: '/',
   login: 'login',
@@ -67,8 +69,9 @@ export default new Router({
       component: ProductUpload
     },
     {
-      path: '/bid',
+      path: '/bid/:biddedProductId',
       component: Bid,
+      beforeEnter: userOnlyRoute
     },
     {
       path: '/browseProducts',
@@ -82,6 +85,10 @@ export default new Router({
       path: '/admin',
       component: Admin
       // beforeEnter: adminOnlyRoute
+    },
+    {
+      path: '/msg/login-required',
+      component: LoginRequired
     }
   ]
 });
@@ -102,11 +109,14 @@ export default new Router({
 //     component: Bid,
 // },
 
-// function userOnlyRoute(to, from, next) {
-//     const user = MyStore.getters.loggedinUser;
-//     console.log('Navigation Guard!', user);
-//     next(user != null);
-// }
+import store from './store/index.js';
+
+function userOnlyRoute(to, from, next) {
+    const loggedInUser = store.getters.getLoggedInUser;
+    if (loggedInUser) next()
+    else next('/msg/login-required');
+}
+
 // function adminOnlyRoute(to, from, next) {
 //     var user = MyStore.getters.loggedinUser;
 //     if (!user) return next(false);
