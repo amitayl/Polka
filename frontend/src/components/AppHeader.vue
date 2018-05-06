@@ -47,7 +47,7 @@
 
 <script>
 import { PRODUCT_ACTIONS } from '../store/ProductStore.js';
-import { USER_MUTATIONS } from '../store/UserStore.js';
+import { USER_ACTIONS } from '../store/UserStore.js';
 import { PRODUCT_CATEGORIES } from '../const.js';
 
 export default {
@@ -90,7 +90,7 @@ export default {
       this.$store.dispatch({ type: PRODUCT_ACTIONS.SET_PRODUCTS, queryObj });
     },
     logout() {
-      this.$store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: null})
+      this.$store.dispatch({ type: USER_ACTIONS.LOGOUT })
     }
   }
 };

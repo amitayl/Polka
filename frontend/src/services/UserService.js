@@ -12,36 +12,45 @@ function query(queryObj, colsToGet) {
     .then(res => res.data);
 }
 
-function add(userData) {
-  return axios.post(BASE_URL + '/user', userData).then(res => res.data);
-}
-
-function checkLogin(loginData) {
-  console.log(loginData);
-  return axios
-    .get(BASE_URL + '/user', { 
-      params: { loginData } 
-    })
-    .then(res => res.data);
-}
-
-// TODO: move this function to product service
-function add(product) {
-  console.log('in Product service', product);
-  return axios
-    .post(BASE_URL + '/product', product)
-    .then(res => res.data)
-    .catch(err => console.log('Error:', err));
-}
-
 function getById(productId) {
-  console.log('productId');
   return axios.get(_getProductUrl(productId)).then(res => {
     let objDetails = res.data;
     let product = objDetails.product;
     product.ownerImg = objDetails.owner.img;
     return product;
   });
+}
+
+function add(userData) {
+  return axios
+    .post(BASE_URL + '/user', userData)
+    .then(res => res.data)
+    .catch(err => {
+      throw new Error('Register Failed');
+    });
+}
+
+function checkLogin(loginData) {
+  return axios
+    .get(BASE_URL + '/user', {
+      params: { loginData }
+    })
+    .then(res => {
+      const user = res.data;
+      sessionStorage.loggedInUser = JSON.stringify(user);
+      return user;
+    });
+}
+
+function logout() {
+  return axios
+    .post(`${BASE_URL}/logout`)
+    .then(res => {
+      delete sessionStorage.loggedInUser;
+    })
+    .catch(err => {
+      throw new Error('Logout Failed');
+    });
 }
 
 function _getProductUrl(productId) {
@@ -51,6 +60,8 @@ function _getProductUrl(productId) {
 
 export default {
   query,
+  getById,
   add,
-  checkLogin
+  checkLogin,
+  logout,
 };

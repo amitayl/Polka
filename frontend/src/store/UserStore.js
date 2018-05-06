@@ -5,7 +5,8 @@ const USER_MUTATIONS = {
 };
 const USER_ACTIONS = {
   ADD_USER: 'addUser',
-  CHECK_LOGIN: 'checkLogin'
+  CHECK_LOGIN: 'checkLogin',
+  LOGOUT: 'logout'
 };
 Object.freeze(USER_MUTATIONS);
 Object.freeze(USER_ACTIONS);
@@ -48,7 +49,7 @@ export default {
   actions: {
     [USER_ACTIONS.ADD_USER](store, { userData }) {
       return UserService.add(userData).then(addedUser => {
-        store.commit({ type: MUTATIONS.SET_LOGGED_IN_USER, addedUser });
+        store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: addedUser });
         return addedUser;
       });
     },
@@ -60,6 +61,12 @@ export default {
         })
         .catch(err => {
           console.error(err);
+        })
+    },
+    [USER_ACTIONS.LOGOUT](store) {
+      return UserService.logout()
+        .then(() => {
+          store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: null })      
         })
     }
   }

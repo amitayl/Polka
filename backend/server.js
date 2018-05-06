@@ -5,7 +5,7 @@ const http = require('http').Server(app);
 
 
 const corsOptions = {
-  origin: /http:\/\/127.0.0.1:\d+/,
+  origin: /http:\/\/(127.0.0.1|localhost):\d+/,
   credentials: true
 };
 

@@ -57,7 +57,6 @@ export default {
         imgs: 1
       };
       return ProductService.query(queryObj, colsToGet).then(products => {
-        console.log({ products });
         store.commit({ type: PRODUCT_MUTATIONS.SET_PRODUCTS, products });
       });
     },

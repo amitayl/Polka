@@ -34,7 +34,10 @@ function add(userData) {
               .collection(DBService.COLLECTIONS.USER)
               .insertOne(newUser, (err, res) => {
                 if (err) reject(err);
-                else resolve(res.ops[0]);
+                else {
+                  console.log(res.ops[0]);
+                  resolve(res.ops[0]);
+                }
                 db.close();
               });
           }

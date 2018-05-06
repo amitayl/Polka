@@ -39,21 +39,23 @@
 </template>
 
 <script>
-import LocService from '../services/LocService.js';
+import GPlacesService from '../services/GPlacesService.js';
 import { USER_ACTIONS } from '../store/UserStore.js';
 
 export default {
   created() {
-    LocService.getPosition()
-      .then(location => {
-        this.coords = {
-          lng: location.coords.longitude,
-          lat: location.coords.latitude
-        };
-      })
-      .catch(err => {
-        alert('please enable gps');
-      });
+    // LocService.getPosition()
+    //   .then(location => {
+    //     this.coords = {
+    //       lng: location.coords.longitude,
+    //       lat: location.coords.latitude
+    //     };
+    //   })
+    //   .catch(err => {
+    //     alert('please enable gps');
+    //   });
+    const coords = {lat: 33, lng: 33}
+    GPlacesService.getDetailsByCoords(coords);
   },
   data() {
     return {

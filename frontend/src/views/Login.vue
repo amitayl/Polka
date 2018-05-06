@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import LocService from '../services/LocService.js';
 import { USER_ACTIONS } from '../store/UserStore.js';
 
 export default {
