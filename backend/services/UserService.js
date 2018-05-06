@@ -5,6 +5,7 @@ class User {
   constructor({ email, password, img, desc, location, nickName }) {
     this.createdAt = Date.now();
     this.productIds = [];
+    this.notifications = [];
 
     this.email = email;
     this.password = password;

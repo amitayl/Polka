@@ -34,7 +34,7 @@ import PublicProfile from '../components/PublicProfile.vue'
 export default {
   data() {
     return {
-      currUser: {},
+      loggedInUser: {},
       userSelected:{},
       isUserEqualProfile: false,
       userWatched: {
@@ -47,23 +47,15 @@ export default {
       }
     };
   },
-  methods: {
-    changeComponent(ev) {
-      console.log("ev", ev);
-      console.log("ev.target.value", ev.target.value);
-    }
-  },
   created() {
-    console.log ('zzz');
-    this.currUser = this.$store.getters.getCurrUser;
+    this.loggedInUser = this.$store.getters.getLoggedInUser;
     this.userSelected = this.$store.getters.getUserSelected
-    console.log ('currUser' , this.currUser);
-     this.isUserEqualProfile = this.$store.getters.userSelected === currUser;
+     this.isUserEqualProfile = this.$store.getters.userSelected === this.loggedInUser;
   },
   components:{
     PublicProfile,
   }
-};
+}
 
 // @ is an alias to /src
 </script>

@@ -54,8 +54,8 @@ export default {
     //   .catch(err => {
     //     alert('please enable gps');
     //   });
-    const coords = {lat: 33, lng: 33}
-    GPlacesService.getDetailsByCoords(coords);
+    // const coords = {lat: 33, lng: 33}
+    // GPlacesService.getDetailsByCoords(coords);
   },
   data() {
     return {

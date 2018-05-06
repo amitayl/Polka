@@ -14,25 +14,22 @@
 
 <script>
 export default {
-    props: {
-        user: {
-            type: Object,
-            required: true
-        }
-    },
-    created (){
-        console.log ('user.name' ,  this.user.name)
-        console.log ('user.img' ,  this.user.img)
+  props: {
+    user: {
+      type: Object,
+      required: true
     }
+  },
+  created() {
+    console.log('user.name', this.user.name);
+    console.log('user.img', this.user.img);
+  }
 };
-
 </script>
 
 <style scoped>
-.user-img{
-    width:200px;
-    border-radius: 50%;
+.user-img {
+  width: 200px;
+  border-radius: 50%;
 }
-
-
 </style>

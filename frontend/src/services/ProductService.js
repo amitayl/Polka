@@ -13,31 +13,33 @@ function query(queryObj, colsToGet) {
 }
 
 function add(product) {
-  console.log('in Product service',product);
   return axios
-      .post(BASE_URL + '/product', product)
-      .then(res => res.data)
-      .catch(err => console.log('Error:', err));
+    .post(BASE_URL + '/product', product)
+    .then(res => res.data)
+    .catch(err => console.error('Error:', err));
 }
 
 function getProductById(productId) {
-    return axios
-    .get(_getProductUrl(productId))
-    .then(res => {
-      let objDetails =  res.data
-      let product = objDetails.product ;
-      product.ownerImg = objDetails.owner.img;
-      return product;
-    })
+  return axios.get(_getProductUrl(productId)).then(res => {
+    let objDetails = res.data;
+    console.log(objDetails);
+    let product = objDetails.product;
+    product.ownerImg = objDetails.owner.img;
+    return product;
+  });
 }
 
-function _getProductUrl(productId){
-    return `${BASE_URL}/product/${productId}`
+function _getProductUrl(productId) {
+  return `${BASE_URL}/product/${productId}`;
 }
 
+function getProductsByIds(...productIds) {
+  return axios.get(`${BASE_URL}/product/${productIds}`).then(res => res.data);
+}
 
 export default {
   query,
+  add,
   getProductById,
-  add
+  getProductsByIds
 };

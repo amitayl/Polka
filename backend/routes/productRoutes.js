@@ -2,7 +2,6 @@ const ProductService = require('../services/ProductService');
 
 module.exports = app => {
   app.get('/product', (req, res) => {
-    console.log(req.query.queryObj);
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
     ProductService.query(queryObj, colsToGet)
@@ -13,12 +12,21 @@ module.exports = app => {
   });
 
   app.get(`/product/:productId`, (req, res) => {
-    const productId = req.params.productId;
-    ProductService.getById(productId)
-      .then(product => {
-        res.json(product);
-      })
-      .catch(err => res.status(500).send(err.message));
+    const productIds = req.params.productId.split(',');
+
+    if (productIds.length > 1) {
+      ProductService.getByIds(productIds)
+        .then(products => {
+          res.json(products);
+        })
+        .catch(err => res.status(500).send(err.message));
+    } else {
+      ProductService.getById(productIds[0])
+        .then(product => {
+          res.json(product);
+        })
+        .catch(err => res.status(500).send(err.message));
+    }
   });
   // Add product
 

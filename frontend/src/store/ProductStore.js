@@ -40,11 +40,7 @@ export default {
     },
     getProducts(state) {
       return state.products;
-    }
-    // getCurrUser (state){
-    //   console.log ('yoyo');
-    //   return state.currUser
-    // }
+    },
   },
   actions: {
     [PRODUCT_ACTIONS.SET_PRODUCTS](store, { queryObj }) {
@@ -63,15 +59,12 @@ export default {
 
     [PRODUCT_ACTIONS.ADD_PRODUCT](store, { product }) {
       return new Promise((resolve, reject) => {
-        console.log('STORE: Adding new product...', product);
         ProductService.add(product)
           .then(addedProduct => {
             store.commit({ type: 'addProduct', addedProduct });
-            console.log('Product has been added.');
             resolve();
           })
           .catch(err => {
-            console.log(`Add product failed, ERROR: ${err}`);
             reject(err);
           });
       });
@@ -79,7 +72,6 @@ export default {
 
     [PRODUCT_ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
       return ProductService.getProductById(productId).then(product => {
-        console.log('store', product.title);
         store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product });
         return product;
       });

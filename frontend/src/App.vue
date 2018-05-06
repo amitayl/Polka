@@ -12,12 +12,8 @@
 
 <script>
 import AppHeader from './components/AppHeader.vue'
-console.log(document.cookie);
 
 export default {
-  created() {
-    console.log('ehy', document.cookie);
-  },
   components: {
     AppHeader
   }

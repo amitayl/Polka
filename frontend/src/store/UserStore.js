@@ -15,12 +15,7 @@ export { USER_MUTATIONS, USER_ACTIONS };
 
 export default {
   state: {
-    loggedInUser: {
-      _id: '',
-      name: '',
-      email: '',
-      products: [{ id: 1, img: '' }, { id: 2, img: '' }]
-    },
+    loggedInUser: null,
     selectedUser: {
       _id: '2',
       name: 'yosi',
@@ -31,7 +26,7 @@ export default {
     }
   },
   getters: {
-    getCurrUser(state) {
+    getLoggedInUser(state) {
       return state.loggedInUser;
     },
 
@@ -47,25 +42,30 @@ export default {
   actions: {
     [USER_ACTIONS.ADD_USER](store, { userData }) {
       return UserService.add(userData).then(addedUser => {
-        store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: addedUser });
+        store.commit({
+          type: USER_MUTATIONS.SET_LOGGED_IN_USER,
+          user: addedUser
+        });
         return addedUser;
       });
     },
     [USER_ACTIONS.CHECK_LOGIN](store, { loginData }) {
       return UserService.checkLogin(loginData)
         .then(loggedInUser => {
-          store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: loggedInUser });
+          store.commit({
+            type: USER_MUTATIONS.SET_LOGGED_IN_USER,
+            user: loggedInUser
+          });
           return loggedInUser;
         })
         .catch(err => {
           console.error(err);
-        })
+        });
     },
     [USER_ACTIONS.LOGOUT](store) {
-      return UserService.logout()
-        .then(() => {
-          store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: null })      
-        })
+      return UserService.logout().then(() => {
+        store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: null });
+      });
     }
   }
 };

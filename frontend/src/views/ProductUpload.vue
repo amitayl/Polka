@@ -1,6 +1,5 @@
 <template>
   <section class="product-upload">
-    {{ product }}
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -121,20 +120,22 @@
 // @ is an alias to /src
 
 export default {
-  name: "ProductUpload",
-
+  name: 'ProductUpload',
+  created() {
+    this.product.ownerId = this.$store.getters.getLoggedInUser._id;
+  },
   data() {
     return {
       product: {
         createdAt: null,
+        title: 'hey',
         imgs: [],
         categories: [],
-        //TODO change to plural
         desiredSwapCategories: [],
-        desc: "",
-        ownerId: "null",
+        desc: 'fdsfa',
+        ownerId: null,
         bidIds: [],
-        location: "",
+        location: 'haifa',
         isLive: true
       }
     };
@@ -142,9 +143,11 @@ export default {
   methods: {
     addProduct() {
       this.product.createdAt = Date.now();
-      this.$store.dispatch({ type: "addProduct", product: this.product })
-      .then( _ => this.$router.push("/"))
-      .catch(err => console.log({err}))
+      console.log(this.product);
+      this.$store
+        .dispatch({ type: 'addProduct', product: this.product })
+        .then(_ => this.$router.push('/'))
+        .catch(err => console.log({ err }));
     }
   }
 };
