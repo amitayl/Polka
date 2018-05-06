@@ -27,6 +27,8 @@ function getProductById(productId) {
       let objDetails =  res.data
       let product = objDetails.product ;
       product.ownerImg = objDetails.owner.img;
+      product.ownerId = objDetails.owner._id
+      console.log ('objDetails.owner' , objDetails.owner);
       return product;
     })
 }

@@ -14,10 +14,10 @@
             <img class="product-img small-img" src="../imgs/car_example2.jpg">  
          </div>
          </div>
-         <div class="non-part-imgs  ">
+         <div class="non-part-imgs">
            <h2 class="product-title title is-2">{{product.userName}} </h2>
            <div class= "user-img-line flex align-center ">
-             <div> <img class="owner-img" :src="product.ownerImg"></div>
+        <router-link :to="'/profile/'+product.ownerId"><div> <img class="owner-img" :src="product.ownerImg"></div></router-link>
               <h2 class="product-title title is-2">{{product.title}} </h2>
            </div>
           
@@ -32,6 +32,30 @@
      
     </div>
 </template>
+<script>
+// import '../css/.css'
+import { PRODUCT_ACTIONS} from "../store/ProductStore.js";
+// @ is an alias to /src
+
+export default {
+  data() {
+    return {
+      product: {}
+    };
+  },
+  created() {
+    const productId = this.$route.params._id;
+    console.log(PRODUCT_ACTIONS.GET_PRODUCT_BY_ID);
+    this.$store
+      .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
+      .then(product => {
+        console.log("product", product);
+        console.log ("product titel" , product )
+        this.product = product;
+      });
+  }
+};
+</script>
 
 <style scoped>
 div {
@@ -151,28 +175,5 @@ button.bid{
   align-items: flex-end;
 }
 </style>
-<script>
-// import '../css/.css'
-import { ACTIONS } from "../store/ProductStore.js";
-// @ is an alias to /src
 
-export default {
-  data() {
-    return {
-      product: {}
-    };
-  },
-  created() {
-    const productId = this.$route.params._id;
-    console.log(ACTIONS.GET_PRODUCT_BY_ID);
-    this.$store
-      .dispatch({ type: ACTIONS.GET_PRODUCT_BY_ID, productId })
-      .then(product => {
-        console.log("product", product);
-        console.log ("product titel" , product )
-        this.product = product;
-      });
-  }
-};
-</script>
 // 

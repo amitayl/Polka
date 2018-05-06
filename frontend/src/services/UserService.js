@@ -12,12 +12,12 @@ function query(queryObj, colsToGet) {
     .then(res => res.data);
 }
 
-function getById(productId) {
-  return axios.get(_getProductUrl(productId)).then(res => {
-    let objDetails = res.data;
-    let product = objDetails.product;
-    product.ownerImg = objDetails.owner.img;
-    return product;
+function getUserById(userId) {
+  // console.log ('ggggg');
+  return axios.get(_getUserUrl(userId)).then(res => {
+    let user = res.data;
+    console.log ('user' , user);
+    return user;
   });
 }
 
@@ -53,14 +53,14 @@ function logout() {
     });
 }
 
-function _getProductUrl(productId) {
-  return `${BASE_URL}/product/${productId}`;
+function _getUserUrl(userId) {
+  return `${BASE_URL}/user/${userId}`;
 }
 
 
 export default {
   query,
-  getById,
+  getUserById,
   add,
   checkLogin,
   logout,

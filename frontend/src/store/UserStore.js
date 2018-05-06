@@ -34,6 +34,7 @@ export default {
   },
   getters: {
     getLoggedInUser(state) {
+      console.log ('fffffffffffffffff');
       return state.loggedInUser;
     },
 

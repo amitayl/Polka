@@ -29,6 +29,7 @@ function add(product) {
 }
 
 
+
 function getProductById(productId) {
   productId = new mongo.ObjectID(productId);
   return new Promise((resolve, reject) => {
@@ -46,13 +47,13 @@ function getProductById(productId) {
 }
 
 function getOffersByProductId(productId) {
-  console.log('go to product service' , productId );
-  // new mongo.ObjectID(productId);
   let product_Id = productId;
   return new Promise((resolve, reject) => {
     DBService.dbConnect()
       .then(db => {
-        db.collection(DBService.COLLECTIONS.BID).findOne({ "bidder.product_Id" : product_Id }, function (err, offers) {
+        db.collection(DBService.COLLECTIONS.BID).findOne(        
+          { bidder : {product_id : '5ae9bc40c66def0488aff9ec'} },
+           function (err, offers) {
           if (err) {
             console.log('err', err);
           }
@@ -72,8 +73,11 @@ function getById(productId) {
       return new Promise((resolve, reject) => {
         getProductById(productId)
           .then(product => {
+            console.log ('product' , product);
+            console.log ('product.ownerId' , product.ownerId)
 
             UserService.getById(product.ownerId).then(user => {
+              console.log ('user' , user);
               // product.userImg = user.img;
               // product.userName = user.name 
               resolve({ product, owner: user })

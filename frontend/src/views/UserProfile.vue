@@ -14,7 +14,7 @@
     Offers<input type="radio" @click=changeComponent  value="offers" hidden>
   </label>
    
-  <public-profile  :user="userSelected"></public-profile> 
+  <public-profile  :user="loggedInUser"></public-profile> 
   <offers></offers>
   </div>
   </section>
@@ -22,22 +22,21 @@
 </template>
 
 <style>
-
 .button {
   width: 33%;
 }
 .active {
-  background-color:green;
+  background-color: green;
 }
 </style>
 <script>
-import PublicProfile from '../components/PublicProfile.vue'
-import Offers from '../components/Offers.vue'
+import PublicProfile from "../components/PublicProfile.vue";
+import Offers from "../components/Offers.vue";
 export default {
   data() {
     return {
       loggedInUser: {},
-      selectedUser:{},
+      selectedUser: {},
       isUserEqualProfile: false,
       // userWatched: {
       //   productId: "",
@@ -47,27 +46,34 @@ export default {
       //   feedbacks: [{ rating, desc }]
       //   //including its products
       // },
-      selectedRadio:null
+      selectedRadio: null
     };
   },
   methods: {
     changeComponent(ev) {
-      console.log("ev", ev);
-      console.log("ev.target.value", ev.target.value);
-      selectedRadio=ev.target.value;
-    },
-    func (ev){
-      console.log("ev.target.value", ev.target.value);
+      this.selectedRadio = ev.target.value;
     }
   },
   created() {
-    console.log ('zzz');
+    const userId = this.$route.params._id;
     this.loggedInUser = this.$store.getters.getLoggedInUser;
-    this.userSelected = this.$store.getters.getSelectedUser
-    console.log ('loggedinUser' , this.loggedInUser);
-     this.isUserEqualProfile = this.$store.getters.getSelectedUser=== this.loggedInUser;
+    if (this.loggedInUser.id === userId ){
+
+      isUserEqualProfile = false;
+      console.log ('momo');
+    }
+    else{
+      console.log ('logged in'  , loggedInUser.id , 'userId' ,userId )
+      
+       isUserEqualProfile = true;
+      console.log ('koko');
+    }
+    this.selectedUser = this.$store.getters.getSelectedUser;
+    console.log("loggedinUser", this.loggedInUser);
+    this.isUserEqualProfile =
+      this.$store.getters.getSelectedUser === this.loggedInUser;
   },
-  components:{
+  components: {
     PublicProfile,
     Offers
   }
