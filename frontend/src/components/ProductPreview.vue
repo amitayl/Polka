@@ -4,7 +4,7 @@
             <img :src="product.imgs[0]" alt=""/>
             <div class="info-container">
                 <div class="flex space-between info-heading-container">
-                    <h2 class="md-title">Product Title</h2>
+                    <h2 class="md-title">{{product.title}}</h2>
                     <span class="md-subheading">{{product.location}}</span>
                 </div>
                 {{product.desc}}

@@ -36,8 +36,8 @@ export default {
       }
     }
   },
-  created (){
-    console.log ('$route.transaction' , this.$route.transaction );
+    created (){
+      console.log ('$route.transaction' , this.$route.transaction );
     const transactionId = this.$route.transaction._id;
     TransactionService.getById(transactionId)
       .then(transaction => {

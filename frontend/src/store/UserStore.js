@@ -1,7 +1,6 @@
-import UserService from '../services/UserService.js';
-
 const USER_MUTATIONS = {
-  SET_LOGGED_IN_USER: 'setLoggedInUser'
+  SET_LOGGED_IN_USER: 'setLoggedInUser',
+  PUSH_PRODUCT_ID: 'pushProductId'
 };
 const USER_ACTIONS = {
   ADD_USER: 'addUser',
@@ -13,8 +12,11 @@ Object.freeze(USER_ACTIONS);
 
 export { USER_MUTATIONS, USER_ACTIONS };
 
-let loggedInUser = sessionStorage.loggedInUser;
-loggedInUser = (loggedInUser)? JSON.parse(loggedInUser) : null;
+import UserService from '../services/UserService.js';
+import StorageService from '../services/StorageService.js';
+
+let loggedInUser = StorageService.session.load('loggedInUser');
+loggedInUser = (loggedInUser)? loggedInUser : null;
 
 export default {
   state: {
@@ -40,6 +42,9 @@ export default {
   mutations: {
     [USER_MUTATIONS.SET_LOGGED_IN_USER](state, { user }) {
       state.loggedInUser = user;
+    },
+    [USER_MUTATIONS.PUSH_PRODUCT_ID](state, { productId }) {
+      state.loggedInUser.productIds.push(productId);
     }
   },
   actions: {
@@ -55,11 +60,11 @@ export default {
     [USER_ACTIONS.CHECK_LOGIN](store, { loginData }) {
       return UserService.checkLogin(loginData)
         .then(loggedInUser => {
+          console.log(loggedInUser);
           store.commit({
             type: USER_MUTATIONS.SET_LOGGED_IN_USER,
             user: loggedInUser
           });
-          return loggedInUser;
         })
         .catch(err => {
           console.error(err);

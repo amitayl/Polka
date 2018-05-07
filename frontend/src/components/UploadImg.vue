@@ -1,7 +1,6 @@
 
 <template>
     <div class="field-body">
-      <h1> lolo</h1>
     <div class="field">
       <div class="control">
         <input class="input is-danger"  type="text" placeholder="Add your product title">
