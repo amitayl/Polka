@@ -1,9 +1,7 @@
-const ProductService = require('../services/ProductService.js');
-const UserService = require('../services/UserService.js');
+const ProductService = require('../services/ProductService');
 
 module.exports = app => {
   app.get('/product', (req, res) => {
-    console.log(req.query);
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
     ProductService.query(queryObj, colsToGet)
@@ -32,16 +30,20 @@ module.exports = app => {
   });
 
   app.get(`/productDetails/:productId`, (req, res) => {
+    console.log('moshe');
     const productId = req.params.productId;
     ProductService.getProductDetailsById(productId)
       .then(product => {
         res.json(product);
       })
       .catch(err => res.status(500).send(err.message));
+
   });
 
   app.get(`/product/getOffers/:productId`, (req, res) => {
+    console.log('get to routes')
     const productId = req.params.productId;
+    console.log('productId', productId)
     ProductService.getOffersByProductId(productId)
       .then(product => {
         res.json(product);
@@ -52,13 +54,10 @@ module.exports = app => {
 
   app.post('/product', (req, res) => {
     const product = req.body;
-
     ProductService.add(product)
-      .then(addedProduct => {
-        UserService.linkProductToOwner(addedProduct[0].ownerId, addedProduct[0]._id).then(() => {
-          res.json(addedProduct);
-        });
+      .then(product => {
+        res.json(product);
       })
-      .catch(err => res.status(500).send('Could not add or link product'));
+      .catch(err => res.status(500).send('Could not add product'));
   });
 };

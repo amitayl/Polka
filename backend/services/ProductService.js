@@ -68,13 +68,14 @@ function getById(productId) {
 }
 
 function getOffersByProductId(productId) {
-  let product_Id = productId;
+
+  console.log ('get to backend offers');
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.BID)
         .findOne(
-          { bidder: { product_id: '5ae9bc40c66def0488aff9ec' } },
+          { bidder: { product_id: productId } },
           function(err, offers) {
             if (err) {
               console.log('err', err);
@@ -139,5 +140,6 @@ module.exports = {
   add,
   getById,
   getByIds,
-  getProductDetailsById
+  getProductDetailsById,
+  getOffersByProductId
 };

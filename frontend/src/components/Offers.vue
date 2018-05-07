@@ -13,7 +13,7 @@ import ProductService from '../services/ProductService'
 export default {
    data(){
        return{
-        sum :{}
+        products:null
        }
    },
         
@@ -21,14 +21,18 @@ export default {
     created (){
         console.log ('blabla')
         // this.sum = ProductService.getOffersByProduct('5ae9bc40c66def0488aff9ec');
-        
+           this.products = this.$store.getters.getLoggedInUser.productIds;
+        //   this.products ='5'
+         console.log ('products' , this.products);
         
     },
     methods : {
          Product(){
-          ProductService.getOffersByProductId('5ae9bc40c66def0488aff9ec')
-        }
+          ProductService.getOffersByProductId('')
+         
+        },
     }
+
 };
 
 </script>
@@ -38,9 +42,7 @@ export default {
     text-align:left;
 }
 .user-details{
-    padding:5px;
-    
-    
+    padding:5px;   
 }
 
 .user-title{

@@ -44,6 +44,7 @@ function getProductById(productId) {
 // }
 
 function getOffersByProductId(productId) {
+  console.log ('get in offers ');
   console.log('in Product service', productId);
   return axios
     .get(BASE_URL + '/product/getOffers/' + productId)
