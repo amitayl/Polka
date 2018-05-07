@@ -1,5 +1,6 @@
 <template>
   <section class="product-upload">
+    {{ product }}
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -10,6 +11,7 @@
       <div class="control">
         <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title" required>
         <upload-img @uploadImg="addImg"></upload-img>
+        <!-- <div v-if="product.imgs" img src="product.imgs"></div> -->
       </div>
     </div>
   </div>
