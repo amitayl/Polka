@@ -7,9 +7,7 @@
 
                 <button class="hamburger"
                         @click="showSideMenu = !showSideMenu">%</button>
-                <router-link to="/">
-                  <h2 class="md-display-1 logo">Polka</h2>
-                </router-link>
+                <h2 @click="moveTo('/')" class="md-display-1 logo">Polka</h2>
 
                 <form @submit.prevent="searchProducts()">
                   <select v-model="category">
@@ -39,7 +37,7 @@
                 </li>
 
                 <li class="md-headline" @click="moveTo('upload')">upload</li>
-                <li class="md-headline" @click="moveTo('profile')">profile</li>
+                <li class="md-headline" @click="moveToProfile()">profile</li>
                 <li class="md-headline"><button @click="logout()">logout</button></li>
               </template>
 
@@ -117,6 +115,16 @@ export default {
 
       if (prevRoute !== nextRoute) {
         this.$router.push(nextRoute);
+        this.showSideMenu = false;
+      }
+    },
+    moveToProfile() {
+      const prevRoute = this.$route.path.substr(0, 7);
+      const nextRoute = '/profile';
+
+      if (prevRoute !== nextRoute) {
+        const loggedInUserId = this.$store.getters.getLoggedInUser._id;
+        this.$router.push(nextRoute+'/'+loggedInUserId);
         this.showSideMenu = false;
       }
     },

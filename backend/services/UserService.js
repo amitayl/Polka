@@ -33,23 +33,6 @@ function query() {
   });
 }
 
-function getById(userId) {
-  const user_Id = new mongo.ObjectID(userId);
-  return new Promise((resolve, reject) => {
-    DBService.dbConnect().then(db => {
-      db
-        .collection(DBService.COLLECTIONS.USER)
-        .findOne({ _id: user_Id }, (err, user) => {
-          if (err) reject(err);
-          else {
-            resolve(user);
-          }
-          db.close();
-        });
-    });
-  });
-}
-
 function add(userData) {
   return new Promise((resolve, reject) => {
     // let isValidate = _validateDetails(user);
@@ -101,15 +84,15 @@ function remove(userId) {
 }
 
 function getById(userId) {
-  user_Id = new mongo.ObjectID(userId);
+  userId = new mongo.ObjectID(userId);
   
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.USER)
-        .findOne({ _id: user_Id }, (err, user) => {
+        .findOne({ _id: userId }, (err, user) => {
           if (err) reject(err);
-          else resolve(removedUser);
+          else resolve(user);
           db.close();
         });
     });

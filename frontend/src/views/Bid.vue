@@ -1,7 +1,7 @@
 <template>
   <section class="bid container">
 
-    <section class="logged-in-user-products">
+    <section class="logged-in-user-products" v-if="loggedInUserProducts">
       <md-card-content v-for="(loggedInUserProduct, idx) in loggedInUserProducts" 
                        @click.native="selectedProductIdx = idx"
                        :class="{ selected: selectedProductIdx === idx }"
@@ -27,14 +27,13 @@ export default {
     this.biddedProductId = this.$route.params.biddedProductId;
 
     ProductService.getProductById(this.biddedProductId).then(product => {
-      console.log(this.biddedProductId);
       this.biddedProduct = product;
     });
 
     this.loggedInUser = this.$store.getters.getLoggedInUser;
     ProductService.getProductsByIds(this.loggedInUser.productIds).then(
       products => {
-        this.loggedInUserProducts = products;
+        this.loggedInUserProducts = (products instanceof Array)? products : [products];
       }
     );
   },
