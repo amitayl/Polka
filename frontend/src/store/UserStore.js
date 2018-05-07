@@ -14,11 +14,10 @@ Object.freeze(USER_ACTIONS);
 export { USER_MUTATIONS, USER_ACTIONS };
 
 let loggedInUser = sessionStorage.loggedInUser;
-if (!loggedInUser) loggedInUser = null
+loggedInUser = (loggedInUser)? JSON.parse(loggedInUser) : null;
 
 export default {
   state: {
-    
     loggedInUser,
     selectedUser: {
       _id: '2',

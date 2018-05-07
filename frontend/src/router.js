@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import About from './views/About.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import UserProfile from './views/UserProfile.vue';
@@ -12,7 +11,10 @@ import Bid from './views/Bid.vue';
 import BrowseProducts from './views/BrowseProducts.vue';
 import Transaction from './views/Transaction.vue';
 import Admin from './views/Admin.vue';
+
 import LoginRequired from './views/msgs/LoginRequired.vue'
+
+import navGuards from './navGuards.js' 
 
 const PATHS = {
   home: '/',
@@ -30,15 +32,6 @@ export default new Router({
       name: 'home',
       component: Home
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: About
-    },
-    //     {
-    //       path: '/',
-    //       component: Landing
-    //   },
     {
       path: '/login',
       name: 'login',
@@ -63,15 +56,15 @@ export default new Router({
       path: '/product/:_id',
       component: ProductDetails
     },
-
     {
       path: '/upload',
-      component: ProductUpload
+      component: ProductUpload,
+      beforeEnter: navGuards.userOnlyRoute
     },
     {
       path: '/bid/:biddedProductId',
       component: Bid,
-      beforeEnter: userOnlyRoute
+      beforeEnter: navGuards.userOnlyRoute
     },
     {
       path: '/browseProducts',
@@ -83,8 +76,8 @@ export default new Router({
     },
     {
       path: '/admin',
-      component: Admin
-      // beforeEnter: adminOnlyRoute
+      component: Admin,
+      beforeEnter: navGuards.adminOnlyRoute
     },
     {
       path: '/msg/login-required',
@@ -108,19 +101,3 @@ export default new Router({
 //     path: '/bid/:bidId/edit',
 //     component: Bid,
 // },
-
-import store from './store/index.js';
-
-function userOnlyRoute(to, from, next) {
-    const loggedInUser = store.getters.getLoggedInUser;
-    if (loggedInUser) next()
-    else next('/msg/login-required');
-}
-
-// function adminOnlyRoute(to, from, next) {
-//     var user = MyStore.getters.loggedinUser;
-//     if (!user) return next(false);
-//     var res = (user !== null && user.isAdmin === true)
-//     console.log('Navigation Guard!',  user, res);
-//     next(res);
-// }

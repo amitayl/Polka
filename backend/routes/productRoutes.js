@@ -30,7 +30,6 @@ module.exports = app => {
   });
 
   app.get(`/productDetails/:productId`, (req, res) => {
-    console.log ('moshe');
     const productId = req.params.productId;
     ProductService.getProductDetailsById(productId)
       .then(product => {
@@ -41,9 +40,7 @@ module.exports = app => {
   });
 
   app.get(`/product/getOffers/:productId`, (req, res) => {
-    console.log ('get to routes')
     const productId = req.params.productId;
-    console.log ('productId' , productId )
     ProductService.getOffersByProductId(productId)
       .then(product => {
         res.json(product);
