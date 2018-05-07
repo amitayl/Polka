@@ -1,7 +1,6 @@
 <template>
   <section class="product-upload">
     <upload-img @uploadImg="addImg"></upload-img>
-    motek
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -29,11 +28,6 @@
   </div>
 </div>
 
-
-
-
-
-
 <div class="field is-horizontal">
   <div class="field-label is-normal">
     <label class="label">Categories</label>
@@ -51,8 +45,6 @@
       </div>
     </div>
   </div>
-
-
 
 <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -126,26 +118,26 @@
 
 <script>
 // @ is an alias to /src
-import UploadImg from '../components/UploadImg'
+import UploadImg from '../components/UploadImg';
 
 export default {
-  name: "ProductUpload",
+  name: 'ProductUpload',
   created() {
     this.product.ownerId = this.$store.getters.getLoggedInUser._id;
   },
   data() {
     return {
-      imageData: "  // we will store base64 format of image in this string",
+      imageData: '  // we will store base64 format of image in this string',
       product: {
         createdAt: null,
-        title: "hey",
+        title: null,
         imgs: [],
         categories: [],
         desiredSwapCategories: [],
-        desc: "fdsfa",
+        desc: null,
         ownerId: null,
         bidIds: [],
-        location: "haifa",
+        location: null,
         isLive: true
       }
     };
@@ -165,7 +157,7 @@ export default {
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
 
-          console.log ('this.imageData' , e.target.result);
+          console.log('this.imageData', e.target.result);
         };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
@@ -179,30 +171,27 @@ export default {
     },
     addProduct() {
       this.product.createdAt = Date.now();
-      console.log(this.product);
+      
       this.$store
-        .dispatch({ type: "addProduct", product: this.product })
-        .then(_ => this.$router.push("/"))
+        .dispatch({ type: 'addProduct', product: this.product })
+        .then(_ => this.$router.push('/'))
         .catch(err => console.log({ err }));
     },
-    addImg (urlPath){
-      // this.imgs.push('moshe');
+    addImg(urlPath) {
       this.product.imgs.push(urlPath);
-      console.log ('urlPath' , urlPath);
+      console.log('urlPath', urlPath);
     }
-    
   },
-  components:{
+  components: {
     UploadImg
-      
-    }
+  }
 };
 </script>
 
 <style scoped>
 .file-upload-form,
 .image-preview {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 img.preview {

@@ -1,7 +1,9 @@
-const ProductService = require('../services/ProductService');
+const ProductService = require('../services/ProductService.js');
+const UserService = require('../services/UserService.js');
 
 module.exports = app => {
   app.get('/product', (req, res) => {
+    console.log(req.query);
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
     ProductService.query(queryObj, colsToGet)
@@ -36,7 +38,6 @@ module.exports = app => {
         res.json(product);
       })
       .catch(err => res.status(500).send(err.message));
-    
   });
 
   app.get(`/product/getOffers/:productId`, (req, res) => {
@@ -51,10 +52,13 @@ module.exports = app => {
 
   app.post('/product', (req, res) => {
     const product = req.body;
+
     ProductService.add(product)
-      .then(product => {
-        res.json(product);
+      .then(addedProduct => {
+        UserService.linkProductToOwner(addedProduct[0].ownerId, addedProduct[0]._id).then(() => {
+          res.json(addedProduct);
+        });
       })
-      .catch(err => res.status(500).send('Could not add product'));
+      .catch(err => res.status(500).send('Could not add or link product'));
   });
 };

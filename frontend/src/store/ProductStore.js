@@ -1,5 +1,3 @@
-import ProductService from '../services/ProductService.js';
-
 const PRODUCT_MUTATIONS = {
   SET_PRODUCTS: 'setProducts',
   SET_PRODUCT_FILTER: 'setProductFilter',
@@ -17,6 +15,10 @@ Object.freeze(PRODUCT_ACTIONS);
 
 export { PRODUCT_MUTATIONS, PRODUCT_ACTIONS };
 
+import ProductService from '../services/ProductService.js';
+import UserService from '../services/UserService.js';
+import StorageService from '../services/StorageService.js';
+
 export default {
   state: {
     products: null,
@@ -26,9 +28,6 @@ export default {
   mutations: {
     [PRODUCT_MUTATIONS.SET_PRODUCTS](state, { products }) {
       state.products = products;
-    },
-    [PRODUCT_MUTATIONS.ADD_PRODUCT](state, { product }) {
-      state.products = [product, ...state.products];
     },
     [PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT](state, { product }) {
       state.selectedProduct = product;
@@ -40,7 +39,7 @@ export default {
     },
     getProducts(state) {
       return state.products;
-    },
+    }
   },
   actions: {
     [PRODUCT_ACTIONS.SET_PRODUCTS](store, { queryObj }) {
@@ -61,7 +60,16 @@ export default {
       return new Promise((resolve, reject) => {
         ProductService.add(product)
           .then(addedProduct => {
-            store.commit({ type: 'addProduct', addedProduct });
+            console.log({ addedProduct });
+
+            store.commit({
+              type: USER_MUTATIONS.PUSH_PRODUCT_ID,
+              productId: addedProduct._id
+            });
+            
+            const loggedInUser = store.getters.getLoggedInUser;
+            StorageService.session.store('loggedInUser', loggedInUser)
+
             resolve();
           })
           .catch(err => {
@@ -69,10 +77,13 @@ export default {
           });
       });
     },
-        
+
     [PRODUCT_ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
       return ProductService.getProductById(productId).then(product => {
-        store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product });
+        store.commit({
+          type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT,
+          product
+        });
         return product;
       });
     }
