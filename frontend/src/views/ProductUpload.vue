@@ -9,20 +9,9 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title">
-          <div class="file">
-           <label class="file-label">
-          <input class="file-input" type="file" @change="onFileChanged($event)">
-          <span class="file-cta">
-        <span class="file-icon">
-           <i class="fas fa-upload"></i>
-        </span>
-           <span class="file-label">
-           Upload an image
-      </span>
-    </span>
-  </label>
-</div>
+        <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title" required>
+        <upload-img @uploadImg="addImg"></upload-img>
+        <!-- <div v-if="product.imgs" img src="product.imgs"></div> -->
       </div>
     </div>
   </div>
@@ -35,7 +24,7 @@
   <div class="field-body">
     <div class="field is-narrow">
       <div class="control">
-          <input type="checkbox"  value="toys" v-model="product.categories">
+          <input type="checkbox"  value="toys" v-model="product.categories" >
           <label for="toys"> Toys </label>
           <input type="checkbox"  value="car" v-model="product.categories">
           <label for="car"> Car related </label>
@@ -53,7 +42,7 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <textarea class="textarea" placeholder="Add a few details about your item"></textarea>
+        <textarea v-model="product.desc" required class="textarea" placeholder="Add a few details about your item"></textarea>
       </div>
     </div>
   </div>
@@ -85,7 +74,7 @@
     <div class="field is-narrow">
       <div class="control">
         <div class="select is-fullwidth">
-          <select v-model="product.location">
+          <select required v-model="product.location">
             <option disabled value="">Please select location</option>
             <option>Tel aviv</option>
             <option>Haifa</option>
@@ -127,17 +116,16 @@ export default {
   },
   data() {
     return {
-      imageData: '  // we will store base64 format of image in this string',
       product: {
         createdAt: null,
-        title: null,
+        title: "Sample product title",
         imgs: [],
-        categories: [],
-        desiredSwapCategories: [],
-        desc: null,
+        categories: ['toys'],
+        desiredSwapCategories: ['vintage'],
+        desc: "Sample description for a product",
         ownerId: null,
         bidIds: [],
-        location: null,
+        location: "Haifa",
         isLive: true
       }
     };
