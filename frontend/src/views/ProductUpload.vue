@@ -1,7 +1,5 @@
 <template>
   <section class="product-upload">
-    <upload-img @uploadImg="addImg"></upload-img>
-    motek
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -10,29 +8,12 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title">
-          <div class="file">
-           <label class="file-label">
-          <input class="file-input" type="file" @change="onFileChanged($event)">
-          <span class="file-cta">
-        <span class="file-icon">
-           <i class="fas fa-upload"></i>
-        </span>
-           <span class="file-label">
-           Upload an image
-      </span>
-    </span>
-  </label>
-</div>
+        <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title" required>
+        <upload-img @uploadImg="addImg"></upload-img>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
 
 <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -41,7 +22,7 @@
   <div class="field-body">
     <div class="field is-narrow">
       <div class="control">
-          <input type="checkbox"  value="toys" v-model="product.categories">
+          <input type="checkbox"  value="toys" v-model="product.categories" >
           <label for="toys"> Toys </label>
           <input type="checkbox"  value="car" v-model="product.categories">
           <label for="car"> Car related </label>
@@ -61,7 +42,7 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <textarea class="textarea" placeholder="Add a few details about your item"></textarea>
+        <textarea v-model="product.desc" required class="textarea" placeholder="Add a few details about your item"></textarea>
       </div>
     </div>
   </div>
@@ -93,7 +74,7 @@
     <div class="field is-narrow">
       <div class="control">
         <div class="select is-fullwidth">
-          <select v-model="product.location">
+          <select required v-model="product.location">
             <option disabled value="">Please select location</option>
             <option>Tel aviv</option>
             <option>Haifa</option>
@@ -135,48 +116,22 @@ export default {
   },
   data() {
     return {
-      imageData: "  // we will store base64 format of image in this string",
       product: {
         createdAt: null,
-        title: "hey",
+        title: "Sample product title",
         imgs: [],
-        categories: [],
-        desiredSwapCategories: [],
-        desc: "fdsfa",
+        categories: ['toys'],
+        desiredSwapCategories: ['vintage'],
+        desc: "Sample description for a product",
         ownerId: null,
         bidIds: [],
-        location: "haifa",
+        location: "Haifa",
         isLive: true
       }
     };
   },
 
   methods: {
-    previewImage: function(event) {
-      // Reference to the DOM input element
-      var input = event.target;
-      // Ensure that you have a file before attempting to read it
-      if (input.files && input.files[0]) {
-        // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader();
-        // Define a callback function to run, when FileReader finishes its job
-        reader.onload = e => {
-          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-          // Read image as base64 and set to imageData
-          this.imageData = e.target.result;
-
-          console.log ('this.imageData' , e.target.result);
-        };
-        // Start the reader job - read file as a data url (base64 format)
-        reader.readAsDataURL(input.files[0]);
-      }
-    },
-
-    onFileChanged(ev) {
-      console.log(ev);
-      console.log(ev.target.value);
-      this.product.imgs.push(ev.target.value);
-    },
     addProduct() {
       this.product.createdAt = Date.now();
       console.log(this.product);
@@ -186,7 +141,6 @@ export default {
         .catch(err => console.log({ err }));
     },
     addImg (urlPath){
-      // this.imgs.push('moshe');
       this.product.imgs.push(urlPath);
       console.log ('urlPath' , urlPath);
     }

@@ -19,6 +19,7 @@
        <div class="user bidder">
          </div>
   </div>
+  </div>
   
 </template>
 
