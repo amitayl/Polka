@@ -1,3 +1,5 @@
+
+
 <template>    
     <section class="public-profile">
         <div class= "user-img-line flex user-details   ">
@@ -5,6 +7,8 @@
 
              <div  class="flex details flex-column">
                 <h2 class="user-title title is-1">{{user.nickName}} </h2>
+                <Rating v-model="yourLocalVariable">ss</Rating>
+                
                 <br>
                 <br>    
                 <h4 class="user-desc title is-4">{{user.desc}} bla bla la bla bla </h4>
@@ -12,17 +16,29 @@
                 <h4 class="user-desc title is-4">Haifa, Sderot Moshe</h4>
                    
             </div>
-        </div>
+            
+        </div> 
+        
+           
+        <router-link :to="'/transaction/'+_id"><button>See transactions</button></router-link>
     </section>
 </template>
 
 <script>
+import Rating from 'v-rating';
 export default {
     props: {
         user: {
             type: Object,
             required: true
         }
+    },
+    data(){
+        return{
+            _id:555,
+            yourLocalVariable: 3,
+        }
+
     },
   
   

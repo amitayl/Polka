@@ -3,6 +3,7 @@ import VueMaterial from 'vue-material';
 
 import 'vue-material/dist/vue-material.min.css';
 
+Vue.component('Rating', require('v-rating'));
 Vue.use(VueMaterial);
 // Vue.use(VueCloudinary, {
 //   "cloud_name": "<polka>",
