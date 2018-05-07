@@ -13,9 +13,12 @@ Object.freeze(USER_ACTIONS);
 
 export { USER_MUTATIONS, USER_ACTIONS };
 
+let loggedInUser = sessionStorage.loggedInUser;
+loggedInUser = (loggedInUser)? JSON.parse(loggedInUser) : null;
+
 export default {
   state: {
-    loggedInUser: null,
+    loggedInUser,
     selectedUser: {
       _id: '2',
       name: 'yosi',

@@ -2,14 +2,7 @@ import axios from 'axios';
 const BASE_URL = 'http://127.0.0.1:3000';
 
 function query(queryObj, colsToGet) {
-  return axios
-    .get(BASE_URL + '/product', {
-      params: {
-        queryObj,
-        colsToGet
-      }
-    })
-    .then(res => res.data);
+  return axios.get(BASE_URL + '/users').then(res => res.data);
 }
 
 function getById(productId) {
@@ -27,6 +20,15 @@ function add(userData) {
     .then(res => res.data)
     .catch(err => {
       throw new Error('Register Failed');
+    });
+}
+
+function remove(userId) {
+  return axios
+    .delete(BASE_URL + '/user',  {params: {userId}})
+    .then(res => res.data)
+    .catch(err => {
+      throw new Error('deletion failed');
     });
 }
 
@@ -59,8 +61,9 @@ function _getProductUrl(productId) {
 
 export default {
   query,
+  remove,
   getById,
   add,
   checkLogin,
-  logout,
+  logout
 };

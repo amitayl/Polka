@@ -1,11 +1,12 @@
 <template>
     <section>
-        <md-toolbar class="md-medium" 
-                    :class="{ 'margin-bottom': isRouteBrowseProducts}">
-
+        <md-toolbar class="md-medium"
+                    :class="{ 'margin-bottom': isBrowseProducts, 'invisible': isHomePage}">
 
             <div class="flex align-center">
 
+                <button class="hamburger"
+                        @click="showSideMenu = !showSideMenu">%</button>
                 <router-link to="/">
                   <h2 class="md-display-1 logo">Polka</h2>
                 </router-link>
@@ -26,28 +27,28 @@
             </div>
 
 
-            <ul v-if="isLoggedIn" class="link-list">
-              <li @click="showMessages = !showMessages" 
-                  class="md-headline">
-                <ul v-if="showMessages" class="msgs-container">
-                  {{msgs}}
-                  <!-- <li v-for="msg in msgs" :key="msg">{{msg}}</li> -->
-                </ul>
-              </li>
+            <ul class="link-list" :class="{ 'show-side-menu': showSideMenu }">
+              <template v-if="isLoggedIn">
+                <li @click="showMessages = !showMessages" 
+                    class="md-headline">
+                    messages
+                  <ul v-if="showMessages" class="msgs-container">
+                    {{msgs}}
+                    <!-- <li v-for="msg in msgs" :key="msg">{{msg}}</li> -->
+                  </ul>
+                </li>
 
-              <li v-for="str in ['upload', 'profile']" 
-                  :key="str" class="md-headline"> 
-                  <router-link :to="`/${str}`">{{str}}</router-link>
-              </li>
+                <li class="md-headline" @click="moveTo('upload')">upload</li>
+                <li class="md-headline" @click="moveTo('profile')">profile</li>
+                <li class="md-headline"><button @click="logout()">logout</button></li>
+              </template>
 
-              <li class="md-headline"><button @click="logout()">logout</button></li>
+
+              <template v-else>
+                <li class="md-headline" @click="moveTo('register')">sign up</li>
+                <li class="md-headline" @click="moveTo('login')">login</li>
+              </template>
             </ul>
- 
-            <ul v-else class="link-list">
-              <li class="md-headline"><router-link to="/register">sign up</router-link></li>
-              <li class="md-headline"><router-link to="/login">login</router-link></li>
-            </ul>
-
 
         </md-toolbar>
     </section>
@@ -61,6 +62,7 @@ import { PRODUCT_CATEGORIES } from '../const.js';
 export default {
   data() {
     return {
+      showSideMenu: false,
       searchStr: null,
       category: 'all',
       showMessages: false,
@@ -71,12 +73,17 @@ export default {
     this.$refs.search.focus();
   },
   computed: {
-    isRouteBrowseProducts() {
-      return this.$route.path !== '/browseProducts'
+    isHomePage() {
+      const route = this.$route.path;
+      return route === '/';
+    },
+    isBrowseProducts() {
+      const route = this.$route.path;
+      return route !== '/browseProducts';
     },
     isLoggedIn() {
       return this.$store.getters.getLoggedInUser;
-    },
+    }
     // msgs() {
     //   return this.$store.getters.getLoggedInUser;
     // }
@@ -102,8 +109,17 @@ export default {
       this.$store.dispatch({ type: PRODUCT_ACTIONS.SET_PRODUCTS, queryObj });
     },
     logout() {
-      this.$store.dispatch({ type: USER_ACTIONS.LOGOUT })
-    }
+      this.$store.dispatch({ type: USER_ACTIONS.LOGOUT });
+    },
+    moveTo(route) {
+      const prevRoute = this.$route.path;
+      const nextRoute = '/'+route;
+
+      if (prevRoute !== nextRoute) {
+        this.$router.push(nextRoute);
+        this.showSideMenu = false;
+      }
+    },
   }
 };
 </script>
@@ -114,10 +130,18 @@ export default {
   justify-content: space-between;
   box-shadow: none;
 }
+.md-toolbar.invisible {
+  position: absolute;
+  background-color: transparent;
+}
 .margin-bottom {
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
   margin-bottom: 20px;
+}
+.hamburger {
+  position: relative;
+  z-index: 1;
 }
 .md-display-1.logo {
   margin-right: 30px;
@@ -143,13 +167,33 @@ button[type='submit'] {
   width: 50px;
 }
 .link-list {
+  position: absolute;
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  height: 100vh;
+  width: 200px;
+  padding-top: 88px;
+  background: whitesmoke;
+  transition: transform .3s;
 }
 .link-list > li {
-  margin-right: 20px;
+  border-bottom: 1px solid gray;
+  padding: 10px 20px;
+  text-align: left;
 }
-.link-list > li:last-of-type {
-  margin-right: 0;
+.link-list > li:first-of-type {
+  border-top: 1px solid gray;  
+}
+.link-list > li:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, .1);
+}
+.show-side-menu {
+  transform: initial;
 }
 .msgs-container {
   position: absolute;
@@ -158,5 +202,30 @@ button[type='submit'] {
   width: 400px;
   top: 100px;
   transform: translate(calc(-50% + 50px));
+}
+@media (min-width: 1100px) {
+  .hamburger {
+    display: none;
+  }
+  
+  .link-list {
+    position: initial;
+    background: initial;
+    flex-direction: initial;
+    align-items: initial;
+    transform: initial;
+    height: initial;
+    width: initial;
+    padding-top: initial;
+    background: initial;
+  }
+
+  .link-list > li {
+    border: initial;
+  }
+  
+  .link-list > li:first-of-type {
+    border: initial;
+  }
 }
 </style>
