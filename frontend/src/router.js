@@ -71,7 +71,7 @@ export default new Router({
       component: BrowseProducts
     },
     {
-      path: '/transaction',
+      path: '/transaction/:_id',
       component: Transaction
     },
     {

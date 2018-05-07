@@ -22,7 +22,7 @@ export default {
   state: {
     loggedInUser,
     selectedUser: {
-      _id: '2',
+      id: '2',
       name: 'yosi',
       img: '../imgs/selectedUser.jpg',
       desc: ' Hello , I am a nice person who likes to travel',
@@ -32,6 +32,7 @@ export default {
   },
   getters: {
     getLoggedInUser(state) {
+      console.log ('zaza');
       return state.loggedInUser;
     },
 
