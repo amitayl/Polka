@@ -3,7 +3,7 @@
 <template>    
     <section class="public-profile">
         <div class= "user-img-line flex user-details   ">
-                 <img class="user-img"  src="../imgs/selectedUser.jpg">
+                 <img class="user-img"  :src="user.img">
 
              <div  class="flex details flex-column">
                 <h2 class="user-title title is-1">{{user.nickName}} </h2>
