@@ -11,8 +11,8 @@ module.exports = app => {
       .catch(err => res.status(500).json(err));
   });
 
-  app.get(`/product/:productId`, (req, res) => {
-    const productIds = req.params.productId.split(',');
+  app.get(`/product/:productIds`, (req, res) => {
+    const productIds = req.params.productIds.split(',');
 
     if (productIds.length > 1) {
       ProductService.getByIds(productIds)
@@ -27,6 +27,28 @@ module.exports = app => {
         })
         .catch(err => res.status(500).send(err.message));
     }
+  });
+
+  app.get(`/productDetails/:productId`, (req, res) => {
+    console.log ('moshe');
+    const productId = req.params.productId;
+    ProductService.getProductDetailsById(productId)
+      .then(product => {
+        res.json(product);
+      })
+      .catch(err => res.status(500).send(err.message));
+    
+  });
+
+  app.get(`/product/getOffers/:productId`, (req, res) => {
+    console.log ('get to routes')
+    const productId = req.params.productId;
+    console.log ('productId' , productId )
+    ProductService.getOffersByProductId(productId)
+      .then(product => {
+        res.json(product);
+      })
+      .catch(err => res.status(500).send(err.message));
   });
   // Add product
 

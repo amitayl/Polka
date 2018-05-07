@@ -33,7 +33,7 @@ export default {
       return state.loggedInUser;
     },
 
-    getUserSelected(state) {
+    getSelectedUser(state) {
       return state.selectedUser;
     }
   },

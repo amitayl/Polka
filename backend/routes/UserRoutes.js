@@ -35,9 +35,21 @@ module.exports = app => {
 
   app.delete('/user', (req, res) => {
     const userId = req.query.userId;
-    UserService.remove(userId).then(userId => {
-      res.json(userId);
-    }).catch(err => res.status(403).send(err));
+    UserService.remove(userId)
+      .then(userId => {
+        res.json(userId);
+      })
+      .catch(err => res.status(403).send(err));
+  });
+
+  app.get(`/user/:userId`, (req, res) => {
+    const userId = req.params.userId;
+    UserService.getById(userId)
+      .then(user => {
+        delete user.password;
+        res.json(user);
+      })
+      .catch(err => res.status(500).send(err.message));
   });
 
   app.post('/logout', (req, res) => {

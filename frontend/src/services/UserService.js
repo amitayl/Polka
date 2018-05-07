@@ -5,12 +5,11 @@ function query(queryObj, colsToGet) {
   return axios.get(BASE_URL + '/users').then(res => res.data);
 }
 
-function getById(productId) {
-  return axios.get(_getProductUrl(productId)).then(res => {
-    let objDetails = res.data;
-    let product = objDetails.product;
-    product.ownerImg = objDetails.owner.img;
-    return product;
+function getUserById(userId) {
+  return axios.get(_getUserUrl(userId)).then(res => {
+    let user = res.data;
+    console.log ('user' , user);
+    return user;
   });
 }
 
@@ -33,11 +32,13 @@ function remove(userId) {
 }
 
 function checkLogin(loginData) {
+  console.log (loginData);
   return axios
     .get(BASE_URL + '/user', {
       params: { loginData }
     })
     .then(res => {
+      console.log ('res' , res.data);
       const user = res.data;
       sessionStorage.loggedInUser = JSON.stringify(user);
       return user;
@@ -55,14 +56,15 @@ function logout() {
     });
 }
 
-function _getProductUrl(productId) {
-  return `${BASE_URL}/product/${productId}`;
+function _getUserUrl(userId) {
+  return `${BASE_URL}/user/${userId}`;
 }
+
 
 export default {
   query,
   remove,
-  getById,
+  getUserById,
   add,
   checkLogin,
   logout

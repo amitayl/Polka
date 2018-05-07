@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import UserProfile from './views/UserProfile.vue';
+// import PublicProfile from './views/PublicProfile.vue';
 import ProductUpload from './views/ProductUpload.vue';
 import ProductDetails from './views/ProductDetails.vue';
 import Bid from './views/Bid.vue';
@@ -41,8 +42,13 @@ export default new Router({
       name: 'register',
       component: Register
     },
+    // {
+    //   path: '/profile',
+    //   name: 'profile',
+    //   component: UserProfile
+    // },
     {
-      path: '/profile',
+      path: '/profile/:_id',
       name: 'profile',
       component: UserProfile
     },

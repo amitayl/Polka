@@ -1,12 +1,16 @@
-<template>
+<template>    
     <section class="public-profile">
-        <!-- <router-link :to="'/product/'+product._id"> -->
-            <div class= "user-img-line flex  align-center ">
-             <div> <img class="user-img"  src="../imgs/selectedUser.jpg"></div>
-             <div class="flex flex-column align-center">
-               
-                    <h2 class="user-title title is-2">{{user.name}} </h2>
-                    <h4 class="user-desc title is-4">{{user.desc}} </h4>
+        <div class= "user-img-line flex user-details   ">
+                 <img class="user-img"  src="../imgs/selectedUser.jpg">
+
+             <div  class="flex details flex-column">
+                <h2 class="user-title title is-1">{{user.nickName}} </h2>
+                <br>
+                <br>    
+                <h4 class="user-desc title is-4">{{user.desc}} bla bla la bla bla </h4>
+                <h4 class="user-desc title is-4">{{user.email}} </h4>
+                <h4 class="user-desc title is-4">Haifa, Sderot Moshe</h4>
+                   
             </div>
         </div>
     </section>
@@ -14,22 +18,39 @@
 
 <script>
 export default {
-  props: {
-    user: {
-      type: Object,
-      required: true
-    }
-  },
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    },
+  
+  
   created() {
-    console.log('user.name', this.user.name);
+    console.log('user.nickname', this.user.nickName);
     console.log('user.img', this.user.img);
   }
 };
 </script>
 
 <style scoped>
-.user-img {
-  width: 200px;
-  border-radius: 50%;
+.public-profile{
+    text-align:left;
+}
+.user-details{
+    padding:5px;
+}
+
+.user-title{
+    font-family: "Times New Roman", Times, serif;
+}
+      
+.user-img{
+    box-shadow: 0 2px 2px black;
+    border-radius: 50%;
+     margin-right:50px;
+     min-width:200px;
+    width:200px;
+    align-self:baseline;
 }
 </style>
