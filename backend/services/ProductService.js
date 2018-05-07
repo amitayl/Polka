@@ -17,6 +17,7 @@ function query(criteria = {}) {
 }
 
 function add(product) {
+  // console.log ('product' , product);
   return new Promise((resolve, reject) => {
     return DBService.dbConnect().then(db => {
       db

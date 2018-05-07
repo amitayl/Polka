@@ -82,8 +82,9 @@ export default {
         console.log('pass doesnt match');
       else {
         delete userData.confirmPassword;
-        this.$store.dispatch({ type: USER_ACTIONS.ADD_USER, userData }).then(_ => {
-          this.$router.push('/profile');
+        this.$store.dispatch({ type: USER_ACTIONS.ADD_USER, userData }).then(user => {
+          console.log (user);
+          this.$router.push('/');
         });
       }
     },
