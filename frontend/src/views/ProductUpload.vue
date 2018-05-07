@@ -1,6 +1,6 @@
 <template>
   <section class="product-upload">
-    {{ product }}
+    <upload-img @uploadImg="addImg"></upload-img>
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -34,8 +34,6 @@
       </div>
     </div>
   </div>
-
-
 
 <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -109,10 +107,10 @@
 
 <script>
 // @ is an alias to /src
-import UploadImg from '../components/UploadImg'
+import UploadImg from '../components/UploadImg';
 
 export default {
-  name: "ProductUpload",
+  name: 'ProductUpload',
   created() {
     this.product.ownerId = this.$store.getters.getLoggedInUser._id;
   },
@@ -134,31 +132,54 @@ export default {
   },
 
   methods: {
+    previewImage: function(event) {
+      // Reference to the DOM input element
+      var input = event.target;
+      // Ensure that you have a file before attempting to read it
+      if (input.files && input.files[0]) {
+        // create a new FileReader to read this image and convert to base64 format
+        var reader = new FileReader();
+        // Define a callback function to run, when FileReader finishes its job
+        reader.onload = e => {
+          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+          // Read image as base64 and set to imageData
+          this.imageData = e.target.result;
+
+          console.log('this.imageData', e.target.result);
+        };
+        // Start the reader job - read file as a data url (base64 format)
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+
+    onFileChanged(ev) {
+      console.log(ev);
+      console.log(ev.target.value);
+      this.product.imgs.push(ev.target.value);
+    },
     addProduct() {
       this.product.createdAt = Date.now();
-      console.log(this.product);
+      
       this.$store
-        .dispatch({ type: "addProduct", product: this.product })
-        .then(_ => this.$router.push("/"))
+        .dispatch({ type: 'addProduct', product: this.product })
+        .then(_ => this.$router.push('/'))
         .catch(err => console.log({ err }));
     },
-    addImg (urlPath){
+    addImg(urlPath) {
       this.product.imgs.push(urlPath);
-      console.log ('urlPath' , urlPath);
+      console.log('urlPath', urlPath);
     }
-    
   },
-  components:{
+  components: {
     UploadImg
-      
-    }
+  }
 };
 </script>
 
 <style scoped>
 .file-upload-form,
 .image-preview {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 img.preview {

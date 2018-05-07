@@ -1,6 +1,8 @@
 import axios from 'axios';
 const BASE_URL = 'http://127.0.0.1:3000';
 
+import StorageService from './StorageService.js';
+
 function query(queryObj, colsToGet) {
   return axios.get(BASE_URL + '/users').then(res => res.data);
 }
@@ -11,6 +13,10 @@ function getUserById(userId) {
     console.log ('user' , user);
     return user;
   });
+}
+
+function _getUserUrl(userId) {
+  return `${BASE_URL}/user/${userId}`;
 }
 
 function add(userData) {
@@ -32,15 +38,13 @@ function remove(userId) {
 }
 
 function checkLogin(loginData) {
-  console.log (loginData);
   return axios
     .get(BASE_URL + '/user', {
       params: { loginData }
     })
     .then(res => {
-      console.log ('res' , res.data);
       const user = res.data;
-      sessionStorage.loggedInUser = JSON.stringify(user);
+      StorageService.session.store('loggedInUser', user);
       return user;
     });
 }
@@ -56,16 +60,11 @@ function logout() {
     });
 }
 
-function _getUserUrl(userId) {
-  return `${BASE_URL}/user/${userId}`;
-}
-
-
 export default {
   query,
   remove,
   getUserById,
   add,
   checkLogin,
-  logout
+  logout,
 };

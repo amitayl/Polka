@@ -85,7 +85,7 @@ function remove(userId) {
 
 function getById(userId) {
   userId = new mongo.ObjectID(userId);
-  
+
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
@@ -117,10 +117,34 @@ function checkLogin(loginData) {
   });
 }
 
+function linkProductToOwner(ownerId, productId) {
+  return new Promise((resolve, reject) => {
+    console.log({ ownerId, productId });
+
+    ownerId = new mongo.ObjectID(ownerId);
+    productId = new mongo.ObjectID(productId);
+
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.USER)
+        .updateOne(
+          { _id: ownerId },
+          { $push: { productIds: productId } },
+          (err, res) => {
+            // console.log({ err, res });
+            // if (err) reject(err)
+            // else resolve(res);
+          }
+        );
+    });
+  });
+}
+
 module.exports = {
   query,
   getById,
   add,
   remove,
-  checkLogin
+  checkLogin,
+  linkProductToOwner
 };

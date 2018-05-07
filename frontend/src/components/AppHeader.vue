@@ -30,7 +30,7 @@
                 <li @click="showMessages = !showMessages" 
                     class="md-headline">
                     messages
-                  <ul v-if="showMessages" class="msgs-container">
+                  <ul v-if="showMessages" class="msgs-container md-elevation-2">
                     {{msgs}}
                     <!-- <li v-for="msg in msgs" :key="msg">{{msg}}</li> -->
                   </ul>
@@ -205,7 +205,8 @@ button[type='submit'] {
 }
 .msgs-container {
   position: absolute;
-  border: 1px solid gray;
+  background: white;
+  border-radius: 5px;
   height: 400px;
   width: 400px;
   top: 100px;

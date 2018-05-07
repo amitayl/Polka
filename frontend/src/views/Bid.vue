@@ -13,8 +13,10 @@
       </md-card-content>
     </section>
 
-     <button class="button" disabled>upload new product</button>
-     <button @click="bidProduct()" class="button" :disabled="selectedProductIdx === null">send bid</button>
+    <h2 v-else>you have no products, please upload some</h2>
+
+    <router-link to="/upload" class="button">upload new product</router-link>
+    <button @click="bidProduct()" class="button" :disabled="selectedProductIdx === null">send bid</button>
   </section>
 </template>
 
@@ -31,11 +33,13 @@ export default {
     });
 
     this.loggedInUser = this.$store.getters.getLoggedInUser;
-    ProductService.getProductsByIds(this.loggedInUser.productIds).then(
-      products => {
-        this.loggedInUserProducts = (products instanceof Array)? products : [products];
-      }
-    );
+    if (!this.loggedInUser.productIds.length === 0) {
+      ProductService.getProductsByIds(this.loggedInUser.productIds).then(
+        products => {
+          this.loggedInUserProducts = (products instanceof Array)? products : [products];
+        } 
+      );
+    }
   },
   data() {
     return {

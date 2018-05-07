@@ -1,51 +1,44 @@
-
-
-
 <template>
-  <div class="contain flex space-between product-details">
-       <div  class="product-imgs flex flex-column"> 
-        
-         <img class="primary-img product-img" src="../imgs/car_example2.jpg"> 
-         <div class="small-imgs flex space-between">
-             <img class="product-img small-img" src="../imgs/car_example2.jpg">
-             <img class=" product-img small-img" :src="product.imgs"> 
-             <img class="product-img small-img" src="../imgs/car_example2.jpg"> 
-            <img class="product-img small-img" src="../imgs/car_example2.jpg">  
-         </div>
-         </div>
-         <div class="non-part-imgs">
-           <h2 class="product-title title is-2">{{product.userName}} </h2>
-           <div class= "user-img-line flex align-center ">
-           <router-link :to="'/profile/'+product.ownerId"><div> <img class="owner-img" :src="product.ownerImg"></div></router-link>
-            <h2 class="product-title title is-2">{{product.title}} </h2>
-           </div>
-          
-           <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
-           <h4 class="title is-4">Things I want: </h4>
-            <h4 class="title is-4">Trade location: </h4>
-          <router-link :to="'/bid'"> <button  class="bid">Bid Now </button></router-link>
-          <button @click="toBid()" 
-              class="bid button"
-              :disabled="!isBidAble">Bid Now</button>
+  <section v-if="product" class="contain flex space-between product-details">
 
-           <!-- This toy car was made in 1940's by the Nazi's factories (have certificate to show -->
-         </div>
-  </div>
+    <div class="product-imgs flex flex-column"> 
+      <img class="primary-img product-img" :src="product.imgs[0]"> 
+      <div class="small-imgs flex space-between">
+          <img v-for="(img, idx) in product.imgs" v-if="idx !== 0" 
+               :key="img" :src="img" class="product-img small-img">
+      </div>
+    </div>
+
+    <div class="non-part-imgs">
+      <h2 class="product-title title is-2">{{product.userName}}</h2>
+      <div class= "user-img-line flex align-center">
+        <router-link :to="'/profile/'+product.ownerId">
+          <div>
+            <img class="owner-img" :src="product.ownerImg">
+          </div>
+        </router-link>
+        <h2 class="product-title title is-2">{{product.title}}</h2>
+      </div>
+    
+      <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
+      <h4 class="title is-4">Things I want:</h4>
+      <h4 class="title is-4">Trade location:</h4>
+      <router-link :to="'/bid'"> <button  class="bid">Bid Now </button></router-link>
+      <button @click="toBid()" 
+          class="bid button"
+          :disabled="!isBidAble">Bid Now</button>
+    </div>
+
+  </section>
 </template>
+
 <script>
-// import '../css/.css'
-import { PRODUCT_ACTIONS} from "../store/ProductStore.js";
-// @ is an alias to /src
+import { PRODUCT_ACTIONS } from '../store/ProductStore.js';
 
 export default {
-  data() {
-    return {
-      product: {}
-    };
-  },
   created() {
     const productId = this.$route.params._id;
-    // let productId = "5ae9bc40c66def0488aff9ec";
+    
     this.$store
       .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
       .then(product => {
@@ -54,7 +47,7 @@ export default {
   },
   data() {
     return {
-      product: {},
+      product: null,
       isBidAble: this.$store.getters.getLoggedInUser
     };
   },
@@ -118,11 +111,9 @@ img {
   animation-duration: 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
-  /* animation-delay: 100s */
 }
 
 .owner-img {
-  /* float:left; */
   width: 100px;
   border-radius: 50%;
 }
@@ -186,5 +177,3 @@ button.bid {
   align-items: flex-end;
 }
 </style>
-
-// 

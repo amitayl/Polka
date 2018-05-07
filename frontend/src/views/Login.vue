@@ -30,8 +30,12 @@ export default {
   },
   methods: {
     checkLogin() {
-      const loginData = this.loginData
-      this.$store.dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData });
+      const loginData = this.loginData;
+      this.$store
+        .dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData })
+        .then(() => {
+          this.$router.push('/browseProducts');
+        });
     }
   }
 };
