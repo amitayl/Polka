@@ -1,5 +1,7 @@
 <template>
   <section class="product-upload">
+    <upload-img @uploadImg="addImg"></upload-img>
+    motek
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -26,6 +28,7 @@
     </div>
   </div>
 </div>
+
 
 
 
@@ -117,21 +120,13 @@
   </div>
 </div>
 </form>
-          <div>
-              <div class="file-upload-form">
-                  Upload an image file:
-                  <input type="file" @change="previewImage" accept="image/*">
-              </div>
-              <div class="image-preview" v-if="imageData.length > 0">
-                  <img class="preview" :src="imageData">
-              </div>
-          </div>
-
+          
   </section>
 </template>
 
 <script>
 // @ is an alias to /src
+import UploadImg from '../components/UploadImg'
 
 export default {
   name: "ProductUpload",
@@ -189,8 +184,18 @@ export default {
         .dispatch({ type: "addProduct", product: this.product })
         .then(_ => this.$router.push("/"))
         .catch(err => console.log({ err }));
+    },
+    addImg (urlPath){
+      // this.imgs.push('moshe');
+      this.product.imgs.push(urlPath);
+      console.log ('urlPath' , urlPath);
     }
-  }
+    
+  },
+  components:{
+    UploadImg
+      
+    }
 };
 </script>
 

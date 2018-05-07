@@ -69,7 +69,7 @@ export default {
           });
       });
     },
-
+        
     [PRODUCT_ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
       return ProductService.getProductById(productId).then(product => {
         store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product });
