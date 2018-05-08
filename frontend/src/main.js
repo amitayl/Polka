@@ -3,16 +3,12 @@ import VueMaterial from 'vue-material';
 
 import 'vue-material/dist/vue-material.min.css';
 
-// Vue.component('Rating', require('v-rating'));
 Vue.use(VueMaterial);
-// Vue.use(VueCloudinary, {
-//   "cloud_name": "<polka>",
-//   "api_key": "735122477923243",
-//   "cdn_subdomain": true,
-// });
 
-// cloudinary.v2.uploader.upload("../../frontend/src/imgs/best_offer.jpg)",
-// function(error, result) {console.log(result)});
+import Vuetify from 'vuetify'
+ 
+Vue.use(Vuetify)
+import '../node_modules/vuetify/dist/vuetify.min.css'
 
 import App from './App.vue';
 import router from './router';

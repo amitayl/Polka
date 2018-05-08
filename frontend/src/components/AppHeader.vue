@@ -21,7 +21,8 @@
                           placeholder="Find some stuff"/>
                   <button type="submit">🔎</button> 
                 </form>
-
+                  <br>
+                  <br>
             </div>
 
 
