@@ -1,22 +1,28 @@
+
+
 <template>    
     <section class="public-profile">
         <div class= "user-img-line flex user-details   ">
-                 <img class="user-img"  src="@/imgs/selectedUser.jpg">
+                 <img class="user-img"  :src="user.img">
 
              <div  class="flex details flex-column">
                 <h2 class="user-title title is-1">{{user.nickName}} </h2>
+                <!-- <Rating v-model="yourLocalVariable"></Rating> -->
+                
                 <br>
                 <br>    
-                <h4 class="user-desc title is-4">{{user.desc}} bla bla la bla bla </h4>
-                <h4 class="user-desc title is-4">{{user.email}} </h4>
-                <h4 class="user-desc title is-4">Haifa, Sderot Moshe</h4>
-                   
+                <p class=" title user-desc">{{user.desc}} bla bla la bla bla </p>
+                <p class=" title user-email" >{{user.email}}</p>
+                <p class="title user-desc">Haifa, Sderot Moshe</p>
             </div>
-        </div>
+        </div> 
+           
+        <router-link :to="'/transaction/'"><button>See transactions</button></router-link>
     </section>
 </template>
 
 <script>
+// import Rating from 'v-rating';
 export default {
   props: {
     user: {
@@ -28,11 +34,24 @@ export default {
 </script>
 
 <style scoped>
+p {
+  font-size: 1.2rem;
+  line-height: 1.3rem;
+}
 .public-profile {
   text-align: left;
 }
 .user-details {
   padding: 5px;
+}
+.user-img-line {
+  width: 700px;
+  padding: 50px;
+  /* background-color:rgb(211, 195, 195);
+    opacity:0.8; */
+}
+.user-email {
+  color: rgb(160, 154, 219);
 }
 
 .user-title {

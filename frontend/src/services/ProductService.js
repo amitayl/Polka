@@ -21,7 +21,11 @@ function add(product) {
 
 function getProductById(productId) {
   return axios.get(BASE_URL + '/productDetails/' + productId).then(res => {
-    return res.data.product;
+    let product = res.data.product;
+    product.ownerImg = res.data.owner.img;
+    product.ownerId = res.data.owner._id;
+
+    return product;
   });
 }
 

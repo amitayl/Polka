@@ -1,10 +1,7 @@
-
 <template>
     <section class="offers">
         <h1>offers</h1>
         <button @click="Product"></button>
-        
-        
     </section>
 </template>
 

@@ -16,7 +16,8 @@
         <md-input v-model.number="userData.confirmPassword" type="password" required></md-input>
       </md-field>
 
-      <md-button>upload img</md-button>
+      <!-- <md-button>upload img</md-button> -->
+      <upload-img @uploadImg="addImg"></upload-img>
 
       <md-field>
         <label>nickName</label>
@@ -41,8 +42,11 @@
 <script>
 import GPlacesService from '../services/GPlacesService.js';
 import { USER_ACTIONS } from '../store/UserStore.js';
+import UploadImg from '@/cmps/product-upload/UploadImg';
+
 
 export default {
+  
   created() {
     // LocService.getPosition()
     //   .then(location => {
@@ -78,11 +82,19 @@ export default {
         console.log('pass doesnt match');
       else {
         delete userData.confirmPassword;
-        this.$store.dispatch({ type: USER_ACTIONS.ADD_USER, userData }).then(_ => {
-          this.$router.push('/profile');
+        this.$store.dispatch({ type: USER_ACTIONS.ADD_USER, userData }).then(user => {
+          console.log (user);
+          this.$router.push('/');
         });
       }
+    },
+    addImg(urlPath) {
+      this.userData.img = urlPath;
+      console.log('added profile pic', urlPath);
     }
+  },
+  components: {
+    UploadImg
   }
 };
 </script>
