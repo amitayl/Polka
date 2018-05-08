@@ -55,13 +55,13 @@ function getProductDetailsById(productId) {
   });
 }
 
-function getById(productId) {
+function getById(productId, colsToGet) {
   let product_id = new mongo.ObjectID(productId);
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.PRODUCT)
-        .findOne({ _id: product_id }, (err, product) => {
+        .findOne({ _id: product_id }, colsToGet, (err, product) => {
           if (err) reject(err);
           else {
             resolve(product);

@@ -30,9 +30,8 @@ export default {
   },
   methods: {
     checkLogin() {
-      const loginData = this.loginData;
       this.$store
-        .dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData })
+        .dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData: this.loginData })
         .then(() => {
           this.$router.push('/browseProducts');
         });

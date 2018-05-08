@@ -1,32 +1,28 @@
+// vue & router
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import Login from './views/Login.vue';
-import Register from './views/Register.vue';
-import UserProfile from './views/UserProfile.vue';
+Vue.use(Router);
+
+// views
+import Home from '@/views/Home.vue';
+import Login from '@/views/Login.vue';
+import Register from '@/views/Register.vue';
+import UserProfile from '@/views/UserProfile.vue';
 // import PublicProfile from './views/PublicProfile.vue';
+import ProductUpload from '@/views/ProductUpload.vue';
+import ProductDetails from '@/views/ProductDetails.vue';
+import Bid from '@/views/Bid.vue';
+import BrowseProducts from '@/views/BrowseProducts.vue';
+import Transaction from '@/views/Transaction.vue';
+import Admin from '@/views/Admin.vue';
+import DecideTrade from '@/views/DecideTrade.vue';
 
-import ProductUpload from './views/ProductUpload.vue';
-import ProductDetails from './views/ProductDetails.vue';
-import Bid from './views/Bid.vue';
-import BrowseProducts from './views/BrowseProducts.vue';
-import DecideTrade from './views/DecideTrade.vue';
-import Transaction from './views/Transaction.vue';
+// msg views
+import LoginRequired from '@/views/msgs/LoginRequired.vue'
 
-import Admin from './views/Admin.vue';
-
-import LoginRequired from './views/msgs/LoginRequired.vue'
-
+// nav guards
 import navGuards from './navGuards.js' 
 
-const PATHS = {
-  home: '/',
-  login: 'login',
-  register: 'register'
-};
-Object.freeze;
-export { PATHS };
-Vue.use(Router);
 
 export default new Router({
   routes: [

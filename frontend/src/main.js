@@ -20,7 +20,7 @@ Vue.use(Vuetify)
 // function(error, result) {console.log(result)});
 
 import App from './App.vue';
-import router from './router';
+import router from '@/router/index.js';
 import store from './store/index.js';
 
 Vue.config.productionTip = false;

@@ -26,18 +26,17 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 export default {
-    data: function() {
+  data: function() {
     return {
-       
       cloudinary: {
-        uploadPreset: "yezwubfp",
-        apiKey: "142484333591595",
-        cloudName: "amielsosa"
+        uploadPreset: 'yezwubfp',
+        apiKey: '142484333591595',
+        cloudName: 'amielsosa'
       },
       thumb: {
-        url: ""
+        url: ''
       },
       thumbs: []
     };
@@ -55,27 +54,25 @@ export default {
     },
     upload: function(file) {
       const formData = new FormData();
-      formData.append("file", file[0]);
-      formData.append("upload_preset", this.cloudinary.uploadPreset);
-      formData.append("tags", "gs-vue,gs-vue-uploaded");
+      formData.append('file', file[0]);
+      formData.append('upload_preset', this.cloudinary.uploadPreset);
+      formData.append('tags', 'gs-vue,gs-vue-uploaded');
       console.log(file[0], formData);
       // For debug purpose only
       // Inspects the content of formData
       for (var pair of formData.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
+        console.log(pair[0] + ', ' + pair[1]);
       }
       axios.post(this.clUrl, formData).then(res => {
-        this.$emit('uploadImg' , res.data.secure_url);
-        console.log (res);
+        this.$emit('uploadImg', res.data.secure_url);
+        console.log(res);
         this.thumbs.unshift({
           url: res.data.secure_url
         });
       });
     }
   }
-}
-
-
+};
 </script>
 
 <style>

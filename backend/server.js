@@ -35,6 +35,9 @@ addProductRoutes(app);
 const addBidRoutes = require('./routes/BidRoutes');
 addBidRoutes(app);
 
+const addNotificationRoutes = require('./routes/NotificationRoutes');
+addNotificationRoutes(app);
+
 http.listen(3000, () => {
   console.log('listening on *:3000');
 });

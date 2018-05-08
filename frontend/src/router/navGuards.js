@@ -1,4 +1,4 @@
-import store from './store/index.js';
+import store from '@/store/index.js';
 
 function userOnlyRoute(to, from, next) {
     const loggedInUser = store.getters.getLoggedInUser;

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import AppHeader from './components/AppHeader.vue'
+import AppHeader from './cmps/general/AppHeader.vue'
 
 export default {
   components: {

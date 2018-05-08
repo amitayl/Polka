@@ -42,7 +42,7 @@
 <script>
 import GPlacesService from '../services/GPlacesService.js';
 import { USER_ACTIONS } from '../store/UserStore.js';
-import UploadImg from '../components/UploadImg';
+import UploadImg from '@/cmps/product-upload/UploadImg';
 
 
 export default {
