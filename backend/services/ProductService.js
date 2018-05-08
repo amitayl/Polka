@@ -1,6 +1,10 @@
 const DBService = require('./DBService');
 const mongo = require('mongodb');
 const UserService = require('./UserService.js');
+function pcl(obj) {
+  var e = JSON.stringify(obj, null, 2)
+  console.log(e)
+}
 
 function query(criteria = {}) {
   return new Promise((resolve, reject) => {
@@ -67,45 +71,75 @@ function getById(productId) {
   });
 }
 
-function getOffersByProductId(productId) {
+let returnObj = {};
 
-  console.log ('get to backend offers');
-  return new Promise((resolve, reject) => {
-    DBService.dbConnect().then(db => {
-      db
-        .collection(DBService.COLLECTIONS.BID)
-        .findOne(
-          { bidder: { product_id: productId } },
-          function(err, offers) {
-            if (err) {
-              console.log('err', err);
-            } else {
-              console.log('offers', offers);
-              resolve(offers);
-            }
-            db.close();
-          }
-        );
-    });
-  });
+
+function getOffersByProductIds(ids) {
+  var prms = ids.map(getOffersByProdId)
+  return Promise.all(prms)
 }
 
-// function getProductById(productId) {
-//   return new Promise((resolve, reject) => {
-//     getProductById(productId).then(product => {
-//       // console.log('product', product);
-//       // console.log('product.ownerId', product.ownerId)
 
-//       UserService.getById(product.ownerId).then(user => {
-//         // console.log('user', user);
-//         // product.userImg = user.img;
-//         // product.userName = user.name
-//         resolve({ product, owner: user });
-//       });
-//     });
-//   });
+function getOffersByProductId(id) {
+  id =  new mongo.ObjectID(id)
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect()
+      .then(db => {
+        console.log('yalla');
+        db.collection(DBService.COLLECTIONS.PRODUCT)
+          .findOne({ _id: id })
+          .then(product => returnObj.prod = product)
+          .then(_ => {
+            db.collection(DBService.COLLECTIONS.BID)
+              .find({ owner: { productId: id } })
+              .toArray()
+              .then(bids => {
+                var bidsId = bids.map(bid => bid._id)
+                var ids = bids.map(bid =>  new mongo.ObjectID(bid.bidder.productId))
+
+                db.collection(DBService.COLLECTIONS.BID)
+                .aggregate(
+                  [ 
+                    { $match : { _id: { $in: bidsId } } },   
+                    { $lookup:
+                      {
+                        from: 'product',
+                        foreignField: '_id',
+                        localField: 'bidder.productId',
+                        as: 'elad'
+                      }
+                    }
+                  ]
+                  )
+                  .toArray((err , res ) => {
+                    (res => {
+                      returnObj.bidProds = bidProds;
+                    }).then(x => {
+                        console.log ('returnObj' , returnObj);
+                        resolve(returnObj)}) 
+
+                  })
+              
+                  // .find({ _id: { $in: ids } })
+                  // .toArray()
+                  // .then(bidProds => bidProds.map(bidProd, idx))
+                  // .then(bidProds => returnObj.bidProds = bidProds)
+                  // .then(x => {
+                  //   console.log ('returnObj' , returnObj);
+                  //   resolve(returnObj)})
+              })
+          })
+      })
+  })
+}
+
+
+// function getOffersByProductIds(ids) {
+//   var prms = ids.map(getOffersByProductId)
+//   console.log ('yalla2');
+//   return Promise.all(prms)
 // }
-// }
+
 
 function getByIds(productIds) {
   const mongoQuery = { $or: [] };

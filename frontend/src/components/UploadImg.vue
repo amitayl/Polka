@@ -1,11 +1,21 @@
 
 <template>
     <div class="field-body">
+      <h1> lolo</h1>
     <div class="field">
       <div class="control">
+        <input class="input is-danger"  type="text" placeholder="Add your product title">
           <div class="file">
            <label class="file-label">
-                     <input   type="file" accept="image/*"  class="form-control" v-on:change="upload($event.target.files)" required/>
+                     <input   type="file" accept="image/*"  class="form-control" v-on:change="upload($event.target.files)" multiple/>
+                    <span class="file-cta">
+                    <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                    Upload an image
+                </span>
+                </span>
             </label>
         </div>
       </div>

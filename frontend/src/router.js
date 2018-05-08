@@ -5,11 +5,14 @@ import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import UserProfile from './views/UserProfile.vue';
 // import PublicProfile from './views/PublicProfile.vue';
+
 import ProductUpload from './views/ProductUpload.vue';
 import ProductDetails from './views/ProductDetails.vue';
 import Bid from './views/Bid.vue';
 import BrowseProducts from './views/BrowseProducts.vue';
+import DecideTrade from './views/DecideTrade.vue';
 import Transaction from './views/Transaction.vue';
+
 import Admin from './views/Admin.vue';
 
 import LoginRequired from './views/msgs/LoginRequired.vue'
@@ -69,6 +72,10 @@ export default new Router({
     {
       path: '/browseProducts',
       component: BrowseProducts
+    },
+    {
+      path: '/decideTrade',
+      component: DecideTrade
     },
     {
       path: '/transaction/:_id',

@@ -13,7 +13,6 @@ module.exports = app => {
 
   app.get(`/product/:productIds`, (req, res) => {
     const productIds = req.params.productIds.split(',');
-
     if (productIds.length > 1) {
       ProductService.getByIds(productIds)
         .then(products => {
@@ -45,8 +44,8 @@ module.exports = app => {
     const productId = req.params.productId;
     console.log('productId', productId)
     ProductService.getOffersByProductId(productId)
-      .then(product => {
-        res.json(product);
+      .then(products => {
+        res.json(products);
       })
       .catch(err => res.status(500).send(err.message));
   });

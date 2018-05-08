@@ -32,7 +32,6 @@ export default {
   },
   getters: {
     getLoggedInUser(state) {
-      console.log ('zaza');
       return state.loggedInUser;
     },
 

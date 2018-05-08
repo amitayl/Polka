@@ -1,10 +1,15 @@
 import Vue from 'vue';
 import VueMaterial from 'vue-material';
+import Vuetify from 'vuetify'
 
 import 'vue-material/dist/vue-material.min.css';
 
 // Vue.component('Rating', require('v-rating'));
 Vue.use(VueMaterial);
+
+
+ 
+Vue.use(Vuetify)
 // Vue.use(VueCloudinary, {
 //   "cloud_name": "<polka>",
 //   "api_key": "735122477923243",

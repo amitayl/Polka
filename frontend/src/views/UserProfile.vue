@@ -9,13 +9,13 @@
         <label class="button" :class="{active: selectedRadio==='bids'  }" >
           Bids<input type="radio" @click=changeComponent  value="bids" hidden>
         </label>
-        <label class="button" :class="{active: selectedRadio==='offers'  }" >
-          Offers<input type="radio" @click=changeComponent  value="offers" hidden>
+        <label class="button" :class="{active: selectedRadio==='products'  }" >
+          Products<input type="radio" @click=changeComponent  value="products" hidden>
         </label>
       </div>
       
       <public-profile v-if="(selectedRadio==='profile')" :user="profileUser"></public-profile> 
-      <offers v-if="selectedRadio==='offers'"></offers>
+      <products v-if="selectedRadio==='products'"></products>
   </section>
 </template>
 
@@ -33,7 +33,7 @@
 </style>
 <script>
 import PublicProfile from "../components/PublicProfile.vue";
-import Offers from "../components/Offers.vue";
+import Products from "../components/Products.vue";
 import UserService from "../services/UserService";
 export default {
   data() {
@@ -80,7 +80,7 @@ export default {
   
   components: {
     PublicProfile,
-    Offers
+    Products,
   }
 };
 
