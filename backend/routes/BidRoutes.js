@@ -6,15 +6,14 @@ module.exports = app => {
     
     BidService.send(bidData)
       .then(() => res.json())
-      .catch(err => res.status(403).send({ error: `Register failed, ${err}` }));
+      .catch(err => res.status(403).send({err}));
   });
 
   app.delete('/bid', (req, res) => {
-    const bidId = req.query.bidId;
-    console.log('bid routes', {bidId});
+    const notification = JSON.parse(req.query.notification);
     
-    BidService.declineBid(bidId)
+    BidService.decline(notification)
       .then(() => res.json())
-      .catch(err => res.status(403).send({ error: `Register failed, ${err}` }));
+      .catch(err => res.status(500).send({err}));
   });
 };

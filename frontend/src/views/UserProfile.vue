@@ -22,9 +22,9 @@
 <style>
 .button {
   width: 33%;
-    opacity:0.8
+  opacity: 0.8;
 }
-.nav-profile{
+.nav-profile {
   margin-bottom: 100px;
 }
 .active {
@@ -32,24 +32,15 @@
 }
 </style>
 <script>
-import PublicProfile from "@/cmps/user-profile/PublicProfile.vue";
-import Offers from "@/cmps/user-profile/Offers.vue";
+import PublicProfile from '@/cmps/user-profile/PublicProfile.vue';
+import Offers from '@/cmps/user-profile/Offers.vue';
 import UserService from '@/services/UserService';
 export default {
   data() {
     return {
       loggedInUser: {},
       profileUser: {},
-
       isUserEqualLoggidIn: false,
-      // userWatched: {
-      //   productId: "",
-      //   name: "",
-      //   desc: "",
-      //   img: "",
-      //   feedbacks: [{ rating, desc }]
-      //   //including its products
-      // },
       selectedRadio: 'profile'
     };
   },
@@ -63,21 +54,13 @@ export default {
     this.loggedInUser = this.$store.getters.getLoggedInUser;
     if (this.loggedInUser.id === userId) {
       this.profileUser = this.loggedInUser;
-      console.log ('kk'  ,  this.profileUser , 'bb' , this.loggedInUser )
       this.isUserEqualLoggidIn = true;
     } else {
-      UserService.getUserById(userId)
-      .then(user => (this.profileUser = user));
+      UserService.getUserById(userId).then(user => (this.profileUser = user));
       this.isUserEqualLoggidIn = false;
-      console.log ('kk'  ,  this.profileUser , 'bb' , this.loggedInUser )
-      console.log("get user");
-      console.log("logged in ttt", this.loggedInUser, "userId", userId);
-
-      console.log("koko");
     }
-    
   },
-  
+
   components: {
     PublicProfile,
     Offers

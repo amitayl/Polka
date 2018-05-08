@@ -44,23 +44,7 @@ import GPlacesService from '../services/GPlacesService.js';
 import { USER_ACTIONS } from '../store/UserStore.js';
 import UploadImg from '@/cmps/product-upload/UploadImg';
 
-
 export default {
-  
-  created() {
-    // LocService.getPosition()
-    //   .then(location => {
-    //     this.coords = {
-    //       lng: location.coords.longitude,
-    //       lat: location.coords.latitude
-    //     };
-    //   })
-    //   .catch(err => {
-    //     alert('please enable gps');
-    //   });
-    // const coords = {lat: 33, lng: 33}
-    // GPlacesService.getDetailsByCoords(coords);
-  },
   data() {
     return {
       userData: {
@@ -72,25 +56,25 @@ export default {
         desc: 'I am just a regular everyday normal guy (or girl)',
         coords: null
       }
-    }
+    };
   },
   methods: {
     addUser() {
       const userData = this.userData;
 
-      if (userData.password !== userData.password)
+      if (userData.password !== userData.password) {
         console.log('pass doesnt match');
-      else {
+      } else {
         delete userData.confirmPassword;
-        this.$store.dispatch({ type: USER_ACTIONS.ADD_USER, userData }).then(user => {
-          console.log (user);
-          this.$router.push('/');
-        });
+        this.$store
+          .dispatch({ type: USER_ACTIONS.ADD_USER, userData })
+          .then(user => {
+            this.$router.push('/browseProducts');
+          });
       }
     },
     addImg(urlPath) {
       this.userData.img = urlPath;
-      console.log('added profile pic', urlPath);
     }
   },
   components: {

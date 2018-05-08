@@ -32,7 +32,6 @@ export default {
   },
   getters: {
     getLoggedInUser(state) {
-      console.log ('zaza');
       return state.loggedInUser;
     },
 
@@ -61,14 +60,14 @@ export default {
     [USER_ACTIONS.CHECK_LOGIN](store, { loginData }) {
       return UserService.checkLogin(loginData)
         .then(loggedInUser => {
-          store.commit({
-            type: USER_MUTATIONS.SET_LOGGED_IN_USER,
-            user: loggedInUser
-          });
+          if (!loggedInUser) throw Error
+          else {
+            store.commit({
+              type: USER_MUTATIONS.SET_LOGGED_IN_USER,
+              user: loggedInUser
+            });
+          }
         })
-        .catch(err => {
-          console.error(err);
-        });
     },
     [USER_ACTIONS.LOGOUT](store) {
       return UserService.logout().then(() => {

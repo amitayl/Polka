@@ -5,8 +5,8 @@ function sendBid(bidData) {
     return axios.post(`${BASE_URL}/bid`, bidData);
 }
 
-function declineBid(bidId) {
-    return axios.delete(`${BASE_URL}/bid`, {params: {bidId}});
+function declineBid(notification) {
+    return axios.delete(`${BASE_URL}/bid`, {params: {notification}});
 }
 
 export default {

@@ -13,11 +13,6 @@ export default {
       sum: {}
     };
   },
-
-  created() {
-    console.log('blabla');
-    // this.sum = ProductService.getOffersByProduct('5ae9bc40c66def0488aff9ec');
-  },
   methods: {
     Product() {
       ProductService.getOffersByProductId('5ae9bc40c66def0488aff9ec');

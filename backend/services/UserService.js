@@ -1,20 +1,6 @@
-const DBService = require('./DBService');
+const DBService = require('./DBService.js');
 const mongo = require('mongodb');
-
-class User {
-  constructor({ email, password, img, desc, location, nickName }) {
-    this.createdAt = Date.now();
-    this.productIds = [];
-    this.notifications = [];
-
-    this.email = email;
-    this.password = password;
-    this.img = img;
-    this.desc = desc;
-    this.location = location;
-    this.nickName = nickName;
-  }
-}
+const User = require('../classes/UserClass.js');
 
 function query() {
   return new Promise((resolve, reject) => {
