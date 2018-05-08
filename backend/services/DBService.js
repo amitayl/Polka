@@ -6,7 +6,8 @@ const COLLECTIONS = {
   USER: 'user',
   PRODUCT: 'product',
   BID: 'bid',
-  TRANSACTION: 'transaction'
+  TRANSACTION: 'transaction',
+  NOTIFICATION: 'notification'
 };
 Object.freeze(COLLECTIONS);
 

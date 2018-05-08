@@ -21,11 +21,7 @@ function add(product) {
 
 function getProductById(productId) {
   return axios.get(BASE_URL + '/productDetails/' + productId).then(res => {
-    let product = res.data.product;
-    product.ownerImg = '../imgs/user.jpg';
-    product.ownerId = '5aeef303a4e21e1fa8743a0b';
-    
-    return product;
+    return res.data.product;
   });
 }
 
@@ -43,7 +39,6 @@ function getProductById(productId) {
 // }
 
 function getOffersByProductId(productId) {
-  console.log('in Product service', productId);
   return axios
     .get(BASE_URL + '/product/getOffers/' + productId)
     .then(res => res.data)
@@ -55,7 +50,6 @@ function _getProductUrl(productId) {
 }
 
 function getProductsByIds(...productIds) {
-  console.log(productIds);
   return axios.get(`${BASE_URL}/product/${productIds}`).then(res => res.data);
 }
 

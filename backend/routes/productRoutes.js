@@ -3,7 +3,6 @@ const UserService = require('../services/UserService.js');
 
 module.exports = app => {
   app.get('/product', (req, res) => {
-    console.log(req.query);
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
     ProductService.query(queryObj, colsToGet)

@@ -107,7 +107,7 @@
 
 <script>
 // @ is an alias to /src
-import UploadImg from '../components/UploadImg';
+import UploadImg from '@/cmps/product-upload/UploadImg';
 
 export default {
   name: 'ProductUpload',
@@ -132,7 +132,7 @@ export default {
   },
 
   methods: {
-    previewImage: function(event) {
+    previewImage(event) {
       // Reference to the DOM input element
       var input = event.target;
       // Ensure that you have a file before attempting to read it
@@ -144,8 +144,6 @@ export default {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
-
-          console.log('this.imageData', e.target.result);
         };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
@@ -153,8 +151,6 @@ export default {
     },
 
     onFileChanged(ev) {
-      console.log(ev);
-      console.log(ev.target.value);
       this.product.imgs.push(ev.target.value);
     },
     addProduct() {
@@ -167,7 +163,6 @@ export default {
     },
     addImg(urlPath) {
       this.product.imgs.push(urlPath);
-      console.log('urlPath', urlPath);
     }
   },
   components: {

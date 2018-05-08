@@ -23,7 +23,7 @@
       <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
       <h4 class="title is-4">Things I want:</h4>
       <h4 class="title is-4">Trade location:</h4>
-      <router-link :to="'/bid'"> <button  class="bid">Bid Now </button></router-link>
+      
       <button @click="toBid()" 
           class="bid button"
           :disabled="!isBidAble">Bid Now</button>
@@ -38,17 +38,20 @@ import { PRODUCT_ACTIONS } from '../store/ProductStore.js';
 export default {
   created() {
     const productId = this.$route.params._id;
-    
+
     this.$store
       .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
       .then(product => {
         this.product = product;
+
+        const loggedInUser = this.$store.getters.getLoggedInUser;
+        this.isBidAble = this.product.ownerId !== loggedInUser._id;
       });
   },
   data() {
     return {
       product: null,
-      isBidAble: this.$store.getters.getLoggedInUser
+      isBidAble: null
     };
   },
   methods: {

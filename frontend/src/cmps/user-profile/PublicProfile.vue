@@ -1,7 +1,7 @@
 <template>    
     <section class="public-profile">
         <div class= "user-img-line flex user-details   ">
-                 <img class="user-img"  src="../imgs/selectedUser.jpg">
+                 <img class="user-img"  src="@/imgs/selectedUser.jpg">
 
              <div  class="flex details flex-column">
                 <h2 class="user-title title is-1">{{user.nickName}} </h2>
@@ -18,39 +18,33 @@
 
 <script>
 export default {
-    props: {
-        user: {
-            type: Object,
-            required: true
-        }
-    },
-  
-  
-  created() {
-    console.log('user.nickname', this.user.nickName);
-    console.log('user.img', this.user.img);
+  props: {
+    user: {
+      type: Object,
+      required: true
+    }
   }
 };
 </script>
 
 <style scoped>
-.public-profile{
-    text-align:left;
+.public-profile {
+  text-align: left;
 }
-.user-details{
-    padding:5px;
+.user-details {
+  padding: 5px;
 }
 
-.user-title{
-    font-family: "Times New Roman", Times, serif;
+.user-title {
+  font-family: 'Times New Roman', Times, serif;
 }
-      
-.user-img{
-    box-shadow: 0 2px 2px black;
-    border-radius: 50%;
-     margin-right:50px;
-     min-width:200px;
-    width:200px;
-    align-self:baseline;
+
+.user-img {
+  box-shadow: 0 2px 2px black;
+  border-radius: 50%;
+  margin-right: 50px;
+  min-width: 200px;
+  width: 200px;
+  align-self: baseline;
 }
 </style>

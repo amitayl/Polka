@@ -24,7 +24,7 @@ export default {
     selectedUser: {
       _id: '2',
       name: 'yosi',
-      img: '../imgs/selectedUser.jpg',
+      img: '@/imgs/selectedUser.jpg',
       desc: ' Hello , I am a nice person who likes to travel',
       email: 'yosi@gmail.com',
       products: [{ id: 4, img: '' }, { id: 5, img: '' }]
@@ -60,7 +60,6 @@ export default {
     [USER_ACTIONS.CHECK_LOGIN](store, { loginData }) {
       return UserService.checkLogin(loginData)
         .then(loggedInUser => {
-          console.log(loggedInUser);
           store.commit({
             type: USER_MUTATIONS.SET_LOGGED_IN_USER,
             user: loggedInUser
