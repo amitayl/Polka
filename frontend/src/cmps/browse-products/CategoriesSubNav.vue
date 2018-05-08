@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import { PRODUCT_CATEGORIES } from '../const.js';
-import { PRODUCT_ACTIONS } from '../store/ProductStore.js'
+import { PRODUCT_CATEGORIES } from '@/const.js';
+import { PRODUCT_ACTIONS } from '@/store/ProductStore.js'
 
 export default {
     data() {

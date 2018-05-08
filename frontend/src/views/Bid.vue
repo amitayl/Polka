@@ -3,17 +3,17 @@
 
     <section class="logged-in-user-products" v-if="loggedInUserProducts">
       <md-card-content v-for="(loggedInUserProduct, idx) in loggedInUserProducts" 
-                       @click.native="selectedProductIdx = idx"
-                       :class="{ selected: selectedProductIdx === idx }"
-                       :key="idx" class="md-elevation-2">
+                      @click.native="selectedProductIdx = idx"
+                      :class="{ selected: selectedProductIdx === idx }"
+                      :key="idx" class="md-elevation-2">
 
         <md-icon v-if="selectedProductIdx === idx" class="done-icon">done</md-icon> 
         <img :src="loggedInUserProduct.imgs[0]">
         <h3>{{loggedInUserProduct.title}}</h3>
       </md-card-content>
+    
+      <h2 v-if="loggedInUserProducts===false">you have no products, please upload some</h2>
     </section>
-
-    <h2 v-else>you have no products, please upload some</h2>
 
     <router-link to="/upload" class="button">upload new product</router-link>
     <button @click="bidProduct()" class="button" :disabled="selectedProductIdx === null">send bid</button>
@@ -33,13 +33,14 @@ export default {
     });
 
     this.loggedInUser = this.$store.getters.getLoggedInUser;
-    if (!this.loggedInUser.productIds.length === 0) {
+    if (this.loggedInUser.productIds.length !== 0) {
       ProductService.getProductsByIds(this.loggedInUser.productIds).then(
         products => {
-          this.loggedInUserProducts = (products instanceof Array)? products : [products];
-        } 
+          this.loggedInUserProducts =
+            products instanceof Array ? products : [products];
+        }
       );
-    }
+    } else this.loggedInUserProducts = false;
   },
   data() {
     return {

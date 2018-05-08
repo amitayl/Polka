@@ -22,10 +22,9 @@ function add(product) {
 function getProductById(productId) {
   return axios.get(BASE_URL + '/productDetails/' + productId).then(res => {
     let product = res.data.product;
-    console.log ('res.data' , res.data);
-      product.ownerImg = res.data.owner.img;
-      product.ownerId = res.data.owner._id;
-    
+    product.ownerImg = res.data.owner.img;
+    product.ownerId = res.data.owner._id;
+
     return product;
   });
 }
@@ -44,8 +43,6 @@ function getProductById(productId) {
 // }
 
 function getOffersByProductId(productId) {
-  console.log ('get in offers ');
-  console.log('in Product service', productId);
   return axios
     .get(BASE_URL + '/product/getOffers/' + productId)
     .then(res => res.data)

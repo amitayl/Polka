@@ -5,6 +5,9 @@ class Bid {
   constructor({ owner, bidder }) {
     this.createdAt = Date.now();
 
+    owner.productId = new mongo.ObjectID(owner.productId);
+    bidder.productId = new mongo.ObjectID(bidder.productId);
+
     this.owner = owner;
     this.bidder = bidder;
   }
@@ -15,6 +18,7 @@ function send(bidData) {
     DBService.dbConnect().then(db => {
       const bidCollection = db.collection(DBService.COLLECTIONS.BID);
       const productCollection = db.collection(DBService.COLLECTIONS.PRODUCT);
+      const userCollection = db.collection(DBService.COLLECTIONS.USER);
 
       isBidExists(bidCollection, bidData).then(isBidExists => {
         if (isBidExists) reject('bid exists');
@@ -22,7 +26,11 @@ function send(bidData) {
           const newBid = new Bid(bidData);
           addBidToDB(bidCollection, newBid).then(bidFromDB => {
             const prmLinkBid = linkBidToOwnerProduct(productCollection, newBid);
-            const prmPushNotification = pushNotificationToOwner();
+            const prmPushNotification = pushNotificationToOwner(
+              productCollection,
+              userCollection,
+              newBid
+            );
 
             Promise.all(prmLinkBid, prmPushNotification).then(_ => {
               db.close();
@@ -36,7 +44,6 @@ function send(bidData) {
 
 function isBidExists(bidCollection, bidData) {
   return new Promise((resolve, reject) => {
-    console.log(bidData);
     bidCollection.findOne(bidData, (err, bid) => {
       if (err) reject(err);
       else resolve(!!bid);
@@ -44,9 +51,9 @@ function isBidExists(bidCollection, bidData) {
   });
 }
 
-function addBidToDB(bidCollection, newBid) {
+function addBidToDB(bidCollection, bid) {
   return new Promise((resolve, reject) => {
-    bidCollection.insertOne(newBid, (err, res) => {
+    bidCollection.insertOne(bid, (err, res) => {
       if (err) reject(err);
       else resolve(res.ops[0]);
     });
@@ -54,31 +61,66 @@ function addBidToDB(bidCollection, newBid) {
 }
 
 function linkBidToOwnerProduct(productCollection, bid) {
-  // get owner product
-  console.log('bid in link bid to owner product', bid);
-  // push to the owner's notifications our bid notification
-  productCollection.updateOne(
-    { _id: bid.owner.productId },
-    { $push: { bidIds: bid._id } },
-    (err, res) => {
-      if (err) reject(err);
-      else resolve();
-    }
-  );
+  return new Promise((resolve, reject) => {
+    productCollection.updateOne(
+      { _id: bid.owner.productId },
+      { $push: { bidIds: bid._id } },
+      (err, res) => {
+        if (err) reject(err);
+        else resolve();
+      }
+    );
+  });
 }
 
-function pushNotificationToOwner(bidCollection, newBid) {
-  const bidNotification = { type: 'newBid', bidId: newBid._id };
-  bidCollection.updateOne(
-    { _id: newBid.owner._id },
-    { $push: { notifications: [...notifications, bidNotification] } },
-    (err, res) => {
-      if (err) reject(err);
-      else resolve();
-    }
-  );
+function pushNotificationToOwner(productCollection, userCollection, bid) {
+  return new Promise((resolve, reject) => {
+    // find owner Id
+    productCollection.findOne(
+      { _id: bid.owner.productId },
+      { ownerId: 1 },
+      (err, { ownerId }) => {
+        // push a notification
+        const bidNotification = { type: 'newBid', bidId: bid._id };
+
+        ownerId = new mongo.ObjectID(ownerId);
+        userCollection.updateOne(
+          { _id: ownerId },
+          { $push: { notifications: bidNotification } },
+          (err, addedBidNotification) => {
+            if (err) reject(err);
+            else resolve();
+          }
+        );
+      }
+    );
+  });
+}
+
+function declineBid(bidId) {
+  console.log('bid service backend', { bidId });
+
+  removeBidFromOwnerNotifications();
+
+  // DBService.dbConnect().then(db => {
+  //   db
+  //     .collection(DBService.COLLECTIONS.USER)
+  //     .updateOne({ _id: userId }, (err, removedUser) => {
+  //       if (err) reject(err);
+  //       else resolve(removedUser);
+  //       db.close();
+  //     });
+  // });
+  
+  // remove from notifications (also visually)
+  // remove from bids array in the product
+  // remove frmo bids collection
+  // send a declining msg
+
+  return Promise.resolve();
 }
 
 module.exports = {
-  send
+  send,
+  declineBid
 };

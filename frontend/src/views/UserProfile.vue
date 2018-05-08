@@ -32,9 +32,9 @@
 }
 </style>
 <script>
-import PublicProfile from "../components/PublicProfile.vue";
-import Offers from "../components/Offers.vue";
-import UserService from "../services/UserService";
+import PublicProfile from "@/cmps/user-profile/PublicProfile.vue";
+import Offers from "@/cmps/user-profile/Offers.vue";
+import UserService from '@/services/UserService';
 export default {
   data() {
     return {

@@ -18,6 +18,7 @@ export { PRODUCT_MUTATIONS, PRODUCT_ACTIONS };
 import ProductService from '../services/ProductService.js';
 import UserService from '../services/UserService.js';
 import StorageService from '../services/StorageService.js';
+import { USER_MUTATIONS } from './UserStore.js';
 
 export default {
   state: {
@@ -56,19 +57,20 @@ export default {
       });
     },
 
-    [PRODUCT_ACTIONS.ADD_PRODUCT](store, { product }) {
+    [PRODUCT_ACTIONS.ADD_PRODUCT](ctx, { product }) {
       return new Promise((resolve, reject) => {
         ProductService.add(product)
           .then(addedProduct => {
-            console.log({ addedProduct });
+            addedProduct = addedProduct[0];
 
-            store.commit({
-              type: USER_MUTATIONS.PUSH_PRODUCT_ID,
-              productId: addedProduct._id
-            });
-            
-            const loggedInUser = store.getters.getLoggedInUser;
-            StorageService.session.store('loggedInUser', loggedInUser)
+            ctx.commit(
+              USER_MUTATIONS.PUSH_PRODUCT_ID,
+              { productId: addedProduct._id },
+              { root: true }
+            );
+
+            const loggedInUser = ctx.getters.getLoggedInUser;
+            StorageService.session.store('loggedInUser', loggedInUser);
 
             resolve();
           })
@@ -77,7 +79,6 @@ export default {
           });
       });
     },
-
     [PRODUCT_ACTIONS.GET_PRODUCT_BY_ID](store, { productId }) {
       return ProductService.getProductById(productId).then(product => {
         store.commit({
