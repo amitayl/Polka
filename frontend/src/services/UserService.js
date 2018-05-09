@@ -8,7 +8,6 @@ function query(queryObj, colsToGet) {
 }
 
 function getUserById(userId) {
-  console.log (zozo);
   return axios.get(_getUserUrl(userId)).then(res => {
     let user = res.data;
     console.log ('user' , user);

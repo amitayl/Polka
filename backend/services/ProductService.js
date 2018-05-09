@@ -87,53 +87,53 @@ function getById(productId, colsToGet) {
   });
 }
 
-function getOffersByProductId(id) {
-  let returnObj = {};
-  id = new mongo.ObjectID(id);
-  return new Promise((resolve, reject) => {
-    DBService.dbConnect().then(db => {
-      console.log('yalla');
-      db
-        .collection(DBService.COLLECTIONS.PRODUCT)
-        .findOne({ _id: id })
-        .then(product => (returnObj.prod = product))
-        .then(_ => {
-          db
-            .collection(DBService.COLLECTIONS.BID)
-            .find({ owner: { productId: id } })
-            .toArray()
-            .then(bids => {
-              var bidsId = bids.map(bid => bid._id);
-              var ids = bids.map(
-                bid => new mongo.ObjectID(bid.bidder.productId)
-              );
+// function getOffersByProductId(id) {
+//   let returnObj = {};
+//   id = new mongo.ObjectID(id);
+//   return new Promise((resolve, reject) => {
+//     DBService.dbConnect().then(db => {
+//       console.log('yalla');
+//       db
+//         .collection(DBService.COLLECTIONS.PRODUCT)
+//         .findOne({ _id: id })
+//         .then(product => (returnObj.prod = product))
+//         .then(_ => {
+//           db
+//             .collection(DBService.COLLECTIONS.BID)
+//             .find({ owner: { productId: id } })
+//             .toArray()
+//             .then(bids => {
+//               var bidsId = bids.map(bid => bid._id);
+//               var ids = bids.map(
+//                 bid => new mongo.ObjectID(bid.bidder.productId)
+//               );
 
-              db
-                .collection(DBService.COLLECTIONS.BID)
-                .aggregate([
-                  { $match: { _id: { $in: bidsId } } },
-                  {
-                    $lookup: {
-                      from: 'product',
-                      foreignField: '_id',
-                      localField: 'bidder.productId',
-                      as: 'elad'
-                    }
-                  }
-                ])
-                .toArray((err, res) => {
-                  (res => {
-                    returnObj.bidProds = bidProds;
-                  }).then(x => {
-                    console.log('returnObj', returnObj);
-                    resolve(returnObj);
-                  });
-                });
-            });
-        });
-    });
-  });
-}
+//               db
+//                 .collection(DBService.COLLECTIONS.BID)
+//                 .aggregate([
+//                   { $match: { _id: { $in: bidsId } } },
+//                   {
+//                     $lookup: {
+//                       from: 'product',
+//                       foreignField: '_id',
+//                       localField: 'bidder.productId',
+//                       as: 'elad'
+//                     }
+//                   }
+//                 ])
+//                 .toArray((err, res) => {
+//                   (res => {
+//                     returnObj.bidProds = bidProds;
+//                   }).then(x => {
+//                     console.log('returnObj', returnObj);
+//                     resolve(returnObj);
+//                   });
+//                 });
+//             });
+//         });
+//     });
+//   });
+// }
 function getByIds(productIds) {
   const mongoQuery = { $or: [] };
   mongoQuery.$or = productIds.map(productId => {
@@ -168,5 +168,5 @@ module.exports = {
   getById,
   getByIds,
   getProductDetailsById,
-  getOffersByProductId
+  // getOffersByProductId
 };

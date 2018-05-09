@@ -10,9 +10,9 @@ module.exports = app => {
   });
 
   app.delete('/bid', (req, res) => {
-    const notification = JSON.parse(req.query.notification);
+    const bid = JSON.parse(req.query.bid);
     
-    BidService.decline(notification)
+    BidService.decline(bid)
       .then(() => res.json())
       .catch(err => res.status(500).send({err}));
   });
