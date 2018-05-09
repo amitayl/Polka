@@ -1,4 +1,3 @@
-
 <template>
 <section class="container">
     <div v-if="true" class="nav-profile  has-addons is-grouped"> 
@@ -9,13 +8,13 @@
         <label class="button" :class="{active: selectedRadio==='bids'  }" >
           Bids<input type="radio" @click=changeComponent  value="bids" hidden>
         </label>
-        <label class="button" :class="{active: selectedRadio==='offers'  }" >
-          Offers<input type="radio" @click=changeComponent  value="offers" hidden>
+        <label class="button" :class="{active: selectedRadio==='products'  }" >
+          Products<input type="radio" @click=changeComponent  value="products" hidden>
         </label>
       </div>
       
       <public-profile v-if="(selectedRadio==='profile')" :user="profileUser"></public-profile> 
-      <offers v-if="selectedRadio==='offers'"></offers>
+      <products v-if="selectedRadio==='products'"></products>
   </section>
 </template>
 
@@ -32,9 +31,11 @@
 }
 </style>
 <script>
+import UserService from '@/services/UserService';
 import PublicProfile from '@/cmps/user-profile/PublicProfile.vue';
 import Offers from '@/cmps/user-profile/Offers.vue';
-import UserService from '@/services/UserService';
+import Products from '@/cmps/user-profile/Products.vue';
+
 export default {
   data() {
     return {
@@ -63,9 +64,7 @@ export default {
 
   components: {
     PublicProfile,
-    Offers
+    Products
   }
 };
-
-// @ is an alias to /src
 </script>
