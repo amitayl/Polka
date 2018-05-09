@@ -41,11 +41,14 @@ export default {
     }
   },
   getters: {
-    selectedProduct(state) {
+    getSelectedProduct(state) {
       return state.selectedProduct;
     },
     getProducts(state) {
       return state.products;
+    },
+    getCurrProduct(state) {
+      return state.currProduct
     }
   },
   actions: {

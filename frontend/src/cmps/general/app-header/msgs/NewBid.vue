@@ -1,21 +1,23 @@
 <template>
   <section class="new-bid">
-        <div class="flex flex-column align-center">
-            <p class="md-body-1">{{notification.bidder.nickName}} wants your</p>
-            <img :src="notification.owner.product.imgs[0]" class="bid-product" alt="my product">
-            <p class="md-caption">{{notification.owner.product.title}}</p>
-        </div>
+    <div class="flex flex-column align-center">
+        <p class="md-body-1">{{bid.bidder.nickName}} wants your</p>
+        <img :src="bid.owner.product.imgs[0]" class="bid-product" alt="my product">
+        <p class="md-caption">{{bid.owner.product.title}}</p>
+    </div>
 
-        --->
+    --->
 
-        <div class="flex flex-column align-center">
-            <p class="md-body-1">for his</p>
-            <img :src="notification.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
-            <p class="md-caption">{{notification.bidder.product.title}}</p>
-        </div>
+    <div class="flex flex-column align-center">
+        <p class="md-body-1">for his</p>
+        <img :src="bid.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
+        <p class="md-caption">{{bid.bidder.product.title}}</p>
+    </div>
 
-      <button @click="acceptBid()">V</button>
-      <button @click="declineBid()">X</button>
+    <div class="flex flex-column align-center">
+      <md-button class="md-dense accept-btn" @click.native="acceptBid()">accept V</md-button>
+      <md-button class="md-dense decline-btn" @click.native="declineBid()">decline X</md-button>
+    </div>
   </section>
 </template>
 
@@ -24,7 +26,7 @@ import BidService from '@/services/BidService.js';
 
 export default {
   props: {
-    notification: {
+    bid: {
       type: Object,
       required: true
     }
@@ -34,7 +36,7 @@ export default {
       console.log('accepting');
     },
     declineBid() {
-      BidService.declineBid(this.notification).then(() => {
+      BidService.declineBid(this.bid).then(() => {
         console.log('deleted');
       });
     }
@@ -54,5 +56,24 @@ export default {
 .bid-product {
   height: 50px;
   width: auto;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.md-button {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  width: 50px;
+}
+
+.accept-btn {
+  background: lightseagreen;
+}
+
+.decline-btn {
+  background: lightcoral;
 }
 </style>

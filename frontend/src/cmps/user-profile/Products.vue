@@ -10,6 +10,7 @@
 <script>
 import UserProducts from './UserProducts';
 import Offers from './Offers';
+import ProductService from '@/services/ProductService';
 
 export default {
   data() {
@@ -40,13 +41,12 @@ export default {
       }
       // isShowOffers=true;
     },
-      goToBid (productBidderId){
+      goToBid (bidId){
+        this.$router.push('/decideTrade/'+bidId);
+
         
-        let ids =  this.productId+','+productBidderId;
-        console.log ('ids' , ids);
-        // this.$router.push('/decideTrade:ids');
-        
-    }
+    },
+
     //  getProducts(){
     //   ProductService.getOffersByProductIds(this.productIds).
     //   then (productOffersObjs=>{

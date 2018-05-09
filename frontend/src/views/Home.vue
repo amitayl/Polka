@@ -1,5 +1,5 @@
 <template>
-<div>
+
  <div id="app">
    <v-app light>
     <v-toolbar class="white">
@@ -12,8 +12,8 @@
           <v-carousel-item v-for="(item,i) in items" :src="item.src" :key="i"></v-carousel-item>
           
           <div class="search-bar">
-             <h1 class="white--text mb-2 display-1 text-xs-center">STOP BUYING. START TRADING.</h1>
-            <div class="subheading white--text mb-3 text-xs-center">Trade Anything: Items and Services.</div>
+             <h1 class="black--text mb-2 display-1 text-xs-center">STOP BUYING. START TRADING.</h1>
+            <div class="subheading black--text mb-3 text-xs-center">Trade Anything: Items and Services.</div>
       <v-btn
               class="blue lighten-2 mt-5"
               dark
@@ -39,7 +39,7 @@
         >
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
-              <h2 class="headline">Save money and help the enviorment </h2>
+              <h2 class="headline">Save money and help the enviorment</h2>
               <span class="subheading">
                 The best way to meet cool new people
               </span>
@@ -99,42 +99,74 @@
         </v-layout>
       </section>
 
-       <!-- <div class="columns is-mobile">
-  <div class="column">
-    <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Vintage artisian toy</p>
-          <p class="subtitle">rare, in mint condition</p>
-          <figure class="image is-4by3">
-            <img src="https://i.pinimg.com/736x/31/91/31/319131518bd0368601556584660403c4--antique-toys-vintage-toys.jpg">
+    <div class="best-sellers">
+      <h1>Best Sellers:</h1>
+      <div class="tile is-ancestor">
+  <div class="tile is-4">
+    <article class="tile is-child notification">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-square">
+            <img src="">
           </figure>
         </article>
-      </div>
   </div>
-  <div class="column is-mobile">
-    <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Ford focus</p>
-          <p class="subtitle">in great condition</p>
-          <figure class="image is-4by3">
-            <img src="http://media.liveauctiongroup.net/i/33811/29498993_2.jpg?v=8D58B9FA7F47530">
+  <div class="tile is-4">
+    <article class="tile is-child notification">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-square">
+            <img src="">
           </figure>
         </article>
-      </div>
   </div>
-  <div class="column">
-    <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Alladin lamp</p>
-          <p class="subtitle">just rub it</p>
-          <figure class="image is-4by3">
-            <img src="https://ae01.alicdn.com/kf/HTB1QLCZIVXXXXcNXpXXq6xXFXXX2/Antique-Arts-Craft-Aladdin-Lamp-Home-Decoration-SMALL-Size-from-Arabian-Nights-Story-Vintage-Home-Decoration.jpg">
+  <div class="tile is-4">
+    <article class="tile is-child notification">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-square">
+            <img src="">
           </figure>
         </article>
-      </div>
   </div>
-  </div> -->
+  
+          </div>
+      </div>
 
+    <div class="categories">
+      <br>
+      <h1>Categories:</h1>
+      <div class="tile is-ancestor">
+  <div class="tile is-4 is-mobile">
+    <article class="tile is-child notification">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-square">
+            <img src="">
+          </figure>
+        </article>
+  </div>
+  <div class="tile is-4 is-mobile">
+    <article class="tile is-child notification">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-square">
+            <img src="">
+          </figure>
+        </article>
+  </div>
+  <div class="tile is-4 is-mobile">
+    <article class="tile is-child notification">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-square">
+            <img src="">
+          </figure>
+        </article>
+  </div>
+  
+          </div>
+      </div>
 
       <v-footer class="blue darken-2">
         <v-layout row wrap align-center>
@@ -142,8 +174,7 @@
             <div class="white--text ml-3">
               Made with
               <v-icon class="red--text">favorite</v-icon>
-              by <a class="white--text" href="https://vuetifyjs.com" target="_blank">Vuetify</a>
-              and <a class="white--text" href="https://github.com/vwxyzjn">Costa Huang</a>
+              by <a class="white--text" href="https://vuetifyjs.com" target="_blank">Asaf, Omri & Tal</a>
             </div>
           </v-flex>
         </v-layout>
@@ -152,7 +183,8 @@
   </v-app>
  </div>
   
-</div>
+
+
 
   <!-- <div class="home">
     <div class="home-img"></div>
@@ -195,20 +227,19 @@ export default {
       items: [
         {
           src:
-            "https://cdn.pixabay.com/photo/2018/04/29/12/35/driver-3359860_960_720.jpg"
+            "./imgs/carousel/slide1.jpg"
         },
         {
           src:
-            "https://cdn.pixabay.com/photo/2017/09/20/15/10/painting-2768860_960_720.jpg"
+            "./imgs/carousel/slide2.jpg"
         },
         {
           src:
-            "https://cdn.pixabay.com/photo/2016/01/15/14/14/wash-1141782_960_720.jpg"
+            "./imgs/carousel/slide3.jpg"
         },
         {
           src:
-            "https://cdn.pixabay.com/photo/2018/01/19/06/26/handymen-3091826_960_720.jpg"
-        }
+            "./imgs/carousel/slide4.jpg"        }
       ]
     };
   }
@@ -216,6 +247,34 @@ export default {
 </script>
 
 <style>
+.carousel__controls {
+  display: none;
+}
+
+.carousel {
+  height: 400px;
+}
+
+.jumbotron__content {
+  height: 80%;
+}
+
+.toolbar {
+  display: none;
+}
+
+/* .invisible {
+  background-color: yellow;
+} */
+
+.md-toolbar.invisible[data-v-02522b51] {
+  position: relative;
+}
+
+.margin-bottom[data-v-02522b51] {
+  margin-bottom: 0px;
+}
+
 .home-picture {
   width: 100%;
   height: 20%;
@@ -227,7 +286,7 @@ export default {
 
 .home-img {
   height: 100vh;
-  background-image: url("../imgs/Teddy2.jpg");
+  background-image: url("../../public/imgs/Teddy2.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

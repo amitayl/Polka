@@ -6,11 +6,12 @@
             <img :src="product.imgs[0]">
             <p>{{product.title}}</p>
         </div>
-        <product-list @emitSelected="emitSelected" :products="offers"></product-list>
+        <product-list @emitSelected="getBidId" :products="offers"></product-list>
     </section>
 </template>
 
 <script>
+import { PRODUCT_MUTATIONS, PRODUCT_ACTIONS } from '@/store/ProductStore.js';
 import ProductService from '@/services/ProductService';
 import ProductList from '@/cmps/general/ProductList';
 
@@ -23,6 +24,8 @@ export default {
   },
   data() {
     return {
+      chosenProductId:[],
+      detailsBids: [],
       productOffersObjs: [],
       productOffersObj: {},
       productIds: [],
@@ -38,8 +41,11 @@ export default {
         this.productOffersObj = productOffersObj;
         console.log('productOffersObjslllllllllllll', productOffersObj);
         this.product = productOffersObj.prod;
-      //  store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
-        this.offers = productOffersObj.bids.map ( bid=>   bid.bidderProd) 
+        
+        this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
+        let currProduct = this.$store.getters.getCurrProduct
+        this.detailsBids = productOffersObj.bids
+        this.offers = productOffersObj.bids.map ( bid => bid.bidderProd)
       }
     );
   },
@@ -50,7 +56,20 @@ export default {
     },
     emitSelected(productBidderId){
       this.$emit('emitSelected', productBidderId,);
+    },
+    getBidIdForChosenProduct(){
+      console.log ('bidId' , bidId);
+      // let bidId = this.detailBids.find (return bidId) 
+    },
+    getBidId(id){
+      console.log ('id' , id);
+      let chosenProduct = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id );
+      this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product: chosenProduct});
+      let bidId = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id ).bidderProdId;
+       console.log ('bidId' , bidId); 
+       this.$emit ('emitSelected' , bidId);
     }
+     
     //  getProducts(){
 
     //   ProductService.getOffersByProductIds(this.productIds).
