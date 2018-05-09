@@ -39,7 +39,7 @@
         >
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
-              <h2 class="headline">Save money and help the enviorment </h2>
+              <h2 class="headline">Save money and help the enviorment</h2>
               <span class="subheading">
                 The best way to meet cool new people
               </span>
@@ -174,8 +174,7 @@
             <div class="white--text ml-3">
               Made with
               <v-icon class="red--text">favorite</v-icon>
-              by <a class="white--text" href="https://vuetifyjs.com" target="_blank">Vuetify</a>
-              and <a class="white--text" href="https://github.com/vwxyzjn">Costa Huang</a>
+              by <a class="white--text" href="https://vuetifyjs.com" target="_blank">Asaf, Omri & Tal</a>
             </div>
           </v-flex>
         </v-layout>
@@ -248,6 +247,18 @@ export default {
 </script>
 
 <style>
+.carousel__controls {
+  display: none;
+}
+
+.carousel {
+  height: 400px;
+}
+
+.jumbotron__content {
+  height: 80%;
+}
+
 .toolbar {
   display: none;
 }

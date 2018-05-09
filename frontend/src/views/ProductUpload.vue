@@ -45,7 +45,7 @@
     <label class="label">Description</label>
   </div>
   <div class="field-body">
-    <div class="field">
+    <div class="field is-narrow">
       <div class="control">
         <textarea v-model="product.desc" required class="textarea" placeholder="Add a few details about your item"></textarea>
       </div>
@@ -106,7 +106,6 @@
   </div>
 </div>
 </form>
-          
   </section>
 </template>
 
@@ -203,6 +202,18 @@ export default {
 </script>
 
 <style scoped>
+body {
+  margin: 0 auto;
+}
+
+.control {
+  width: 500px;
+}
+
+.input {
+  width:50%;
+}
+
 .md-card {
     width: 320px;
     margin: 4px;
