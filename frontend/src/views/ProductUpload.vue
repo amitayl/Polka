@@ -1,6 +1,5 @@
 <template>
   <section class="product-upload">
-    <upload-img @uploadImg="addImg"></upload-img>
     <form @submit.prevent="addProduct">
     <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -9,9 +8,15 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <input class="input is-danger" v-model="product.title" type="text" placeholder="Add your product title" required>
+        <input class="input" v-model="product.title" type="text" placeholder="Add your product title" required>
         <upload-img @uploadImg="addImg"></upload-img>
-        <!-- <div v-if="product.imgs" img src="product.imgs"></div> -->
+          <div v-if="product.imgs">
+          <img :src="product.imgs[0]" height="100" width="100">
+          <img :src="product.imgs[1]" height="100" width="100">
+          <img :src="product.imgs[2]" height="100" width="100">
+          <img :src="product.imgs[3]" height="100" width="100">
+          <img :src="product.imgs[4]" height="100" width="100">
+          </div>
       </div>
     </div>
   </div>
@@ -107,10 +112,10 @@
 
 <script>
 // @ is an alias to /src
-import UploadImg from '@/cmps/product-upload/UploadImg';
+import UploadImg from "@/cmps/product-upload/UploadImg";
 
 export default {
-  name: 'ProductUpload',
+  name: "ProductUpload",
   created() {
     this.product.ownerId = this.$store.getters.getLoggedInUser._id;
   },
@@ -120,8 +125,8 @@ export default {
         createdAt: null,
         title: "Sample product title",
         imgs: [],
-        categories: ['toys'],
-        desiredSwapCategories: ['vintage'],
+        categories: ["toys"],
+        desiredSwapCategories: ["vintage"],
         desc: "Sample description for a product",
         ownerId: null,
         bidIds: [],
@@ -180,14 +185,15 @@ export default {
     // },
     addProduct() {
       this.product.createdAt = Date.now();
-      
+
       this.$store
-        .dispatch({ type: 'addProduct', product: this.product })
-        .then(_ => this.$router.push('/'))
+        .dispatch({ type: "addProduct", product: this.product })
+        .then(_ => this.$router.push("/"))
         .catch(err => console.log({ err }));
     },
     addImg(urlPath) {
       this.product.imgs.push(urlPath);
+      console.log("img uploaded");
     }
   },
   components: {
@@ -197,9 +203,16 @@ export default {
 </script>
 
 <style scoped>
+.md-card {
+    width: 320px;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
 .file-upload-form,
 .image-preview {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 img.preview {
