@@ -2,7 +2,7 @@
   <div class="browse-products">
     <categories-sub-nav></categories-sub-nav>
     <product-sort></product-sort>
-    <product-list v-if="products" :products="products"></product-list>
+    <product-list @emitSelected="routeDetails" v-if="products" :products="products"></product-list>
   </div>
 </template>
 
@@ -27,6 +27,12 @@ export default {
     CategoriesSubNav,
     ProductSort,
     ProductList,
+  },
+  methods:{
+    routeDetails(id){
+    console.log ('kkkk');
+    this.$router.push('/product/'+id);
+    }
   }
 };
 </script>

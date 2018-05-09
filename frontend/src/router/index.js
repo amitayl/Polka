@@ -15,6 +15,7 @@ import Bid from '@/views/Bid.vue';
 import BrowseProducts from '@/views/BrowseProducts.vue';
 import Transaction from '@/views/Transaction.vue';
 import Admin from '@/views/Admin.vue';
+import DecideTrade from '@/views/DecideTrade.vue';
 
 // msg views
 import LoginRequired from '@/views/msgs/LoginRequired.vue'
@@ -67,6 +68,10 @@ export default new Router({
     {
       path: '/browseProducts',
       component: BrowseProducts
+    },
+    {
+      path: '/decideTrade',
+      component: DecideTrade
     },
     {
       path: '/transaction/:_id',

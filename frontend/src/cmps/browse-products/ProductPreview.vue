@@ -1,6 +1,5 @@
 <template>
     <section class="product-preview">
-        <router-link :to="'/product/'+product._id">
             <img :src="product.imgs[0]" alt=""/>
             <div class="info-container">
                 <div class="flex space-between info-heading-container">
@@ -9,7 +8,6 @@
                 </div>
                 {{product.desc}}
             </div>
-        </router-link> 
     </section>
 </template>
 

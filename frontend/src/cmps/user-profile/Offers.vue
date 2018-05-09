@@ -1,32 +1,74 @@
+
 <template>
     <section class="offers">
-        <h1>offers</h1>
-        <button @click="Product"></button>
+        <button @click="goBack">back</button>
+        <div class="product flex" >
+            <img :src="product.imgs[0]">
+            <p>{{product.title}}</p>
+        </div>
+        <product-list :products="offers"></product-list>
     </section>
 </template>
 
 <script>
 import ProductService from '@/services/ProductService';
+import ProductList from '../browse-products/ProductList';
+
 export default {
+  props: {
+    productId: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
-      sum: {}
+      productOffersObjs: [],
+      productOffersObj: {},
+      productIds: [],
+      product: null,
+      offers: []
     };
   },
 
   created() {
     console.log('blabla');
     // this.sum = ProductService.getOffersByProduct('5ae9bc40c66def0488aff9ec');
+    ProductService.getOffersByProductId(this.productId).then(
+      productOffersObj => {
+        this.productOffersObj = productOffersObj;
+        console.log('productOffersObjslllllllllllll', productOffersObj);
+        this.product = productOffersObj.prod;
+        this.offers = productOffersObj.bidProds;
+      }
+    );
   },
   methods: {
-    Product() {
-      ProductService.getOffersByProductId('5ae9bc40c66def0488aff9ec');
+    goBack() {
+      console.log('koko');
+      this.$emit('toggleOffers', null);
     }
+    //  getProducts(){
+
+    //   ProductService.getOffersByProductIds(this.productIds).
+    //   then (productOffersObjs=>{
+    //       this.productOffersObjs = productOffersObjs;
+    //       console.log ('productOffersObjslllllllllllll' , productOffersObjs);
+    //   })
+    // },
+  },
+
+  components: {
+    ProductList
   }
 };
 </script>
 
 <style scoped>
+.product img {
+  width: 100px;
+  height: 100px;
+}
 .public-profile {
   text-align: left;
 }

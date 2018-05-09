@@ -34,8 +34,8 @@ export default {
       console.log('accepting');
     },
     declineBid() {
-      BidService.declineBid(this.notification._id).then(()=> {
-          console.log('deleted');
+      BidService.declineBid(this.notification).then(() => {
+        console.log('deleted');
       });
     }
   }

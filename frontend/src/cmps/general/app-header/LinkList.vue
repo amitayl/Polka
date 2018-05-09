@@ -42,9 +42,6 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.getLoggedInUser;
-    },
-    logout() {
-      this.$store.dispatch({ type: USER_ACTIONS.LOGOUT });
     }
   },
   methods: {
@@ -57,6 +54,11 @@ export default {
         this.$router.push(nextRoute + '/' + loggedInUserId);
         this.showSideMenu = false;
       }
+    },
+    logout() {
+      this.$store.dispatch({ type: USER_ACTIONS.LOGOUT }).then(() => {
+        this.$router.push('/login');
+      });
     }
   },
   components: {

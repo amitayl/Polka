@@ -1,11 +1,20 @@
 import Vue from 'vue';
 import VueMaterial from 'vue-material';
+import Vuetify from 'vuetify'
 
 import 'vue-material/dist/vue-material.min.css';
 
 Vue.use(VueMaterial);
 
-import Vuetify from 'vuetify'
+
+ 
+// Vue.use(VueCloudinary, {
+//   "cloud_name": "<polka>",
+//   "api_key": "735122477923243",
+//   "cdn_subdomain": true,
+// });
+
+// import Vuetify from 'vuetify'
  
 Vue.use(Vuetify)
 import '../node_modules/vuetify/dist/vuetify.min.css'

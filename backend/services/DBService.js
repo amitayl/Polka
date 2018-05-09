@@ -1,5 +1,5 @@
 const DB_URL = 'mongodb://polka:polka@ds263109.mlab.com:63109/polka_db';
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 
 const COLLECTIONS = {
   POLKA: 'polka',
@@ -21,6 +21,13 @@ function dbConnect() {
   prmConnect.catch(err => console.error(err));
   return prmConnect;
 }
+function pcl(obj) {
+  var e = JSON.stringify(obj, null, 2)
+  console.log(e)
+}
+
+
+
 
 module.exports = {
   COLLECTIONS,

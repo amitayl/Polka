@@ -18,19 +18,19 @@ module.exports = app => {
 
   app.get('/user', (req, res) => {
     const loginData = req.query.loginData;
-    UserService.checkLogin(loginData).then(userFromDB => {
-      if (userFromDB) {
+    UserService.checkLogin(loginData)
+      .then(userFromDB => {
         delete userFromDB.password;
+        res.json(userFromDB);
 
         // send back a cookie with userData
-        req.session.user = userFromDB;
-        res.json(userFromDB);
-      } else {
-        // send back empty cookie
-        req.session.user = null;
-        res.status(403).send({ error: 'Login failed!' });
-      }
-    });
+        // req.session.user = userFromDB;
+      })
+      .catch(err => {
+        res.status(400).send(err);
+        // // send back empty cookie
+        // req.session.user = null;
+      });
   });
 
   app.delete('/user', (req, res) => {
@@ -42,7 +42,7 @@ module.exports = app => {
       .catch(err => res.status(403).send(err));
   });
 
-  app.get(`/user/:userId`, (req, res) => {
+  app.get(`/user/:userI1d`, (req, res) => {
     const userId = req.params.userId;
     UserService.getById(userId)
       .then(user => {

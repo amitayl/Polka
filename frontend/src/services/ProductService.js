@@ -45,7 +45,10 @@ function getProductById(productId) {
 function getOffersByProductId(productId) {
   return axios
     .get(BASE_URL + '/product/getOffers/' + productId)
-    .then(res => res.data)
+    .then(res => {
+      console.log ('res.data' , res.data)
+      return res.data
+    })
     .catch(err => console.log('Error:', err));
 }
 
@@ -54,6 +57,7 @@ function _getProductUrl(productId) {
 }
 
 function getProductsByIds(...productIds) {
+  console.log ('productIds' , productIds);
   return axios.get(`${BASE_URL}/product/${productIds}`).then(res => res.data);
 }
 

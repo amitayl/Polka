@@ -1,28 +1,44 @@
 <template>
-  <section class="accepted-bid">
-    we are sorry, yosi refused your offer :(
-    {{data}}
+  <section class="new-bid">
+      {{notification}}
   </section>
 </template>
 
 <script>
+import BidService from '@/services/BidService.js';
 
 export default {
-    props: {
-        data: {
-            type: Object,
-            required: true
-        }
-    },
-    created() {
-        // get your product by productid 
-        // the bidder product img by productid
-        // the bidder picture by _id
-        // a little x to close img
+  props: {
+    notification: {
+      type: Object,
+      required: true
     }
-}
+  },
+  methods: {
+    acceptBid() {
+      console.log('accepting');
+    },
+    declineBid() {
+      BidService.declineBid(this.notification).then(() => {
+        console.log('deleted');
+      });
+    }
+  }
+};
 </script>
 
-<style>
+<style scoped>
+.new-bid {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+  background: orangered;
+}
 
+.bid-product {
+  height: 50px;
+  width: auto;
+}
 </style>

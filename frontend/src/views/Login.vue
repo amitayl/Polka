@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <section class="login">
     <form class="login-form" @submit.prevent="checkLogin()">
       <md-field>
         <label>email</label>
@@ -13,7 +13,8 @@
 
       <md-button class="login-btn" type="submit">login</md-button>
     </form>
-  </div>
+    <h2 v-if="wrongCredentials">wrong credentials, please try again</h2>
+  </section>
 </template>
 
 <script>
@@ -25,7 +26,8 @@ export default {
       loginData: {
         email: 'asafshpigler@gmail.com',
         password: 1234
-      }
+      },
+      wrongCredentials: false
     };
   },
   methods: {
@@ -34,6 +36,10 @@ export default {
         .dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData: this.loginData })
         .then(() => {
           this.$router.push('/browseProducts');
+        })
+        .catch(()=> {
+          this.wrongCredentials = true;
+          setTimeout(()=>{this.wrongCredentials = false}, 2000);
         });
     }
   }

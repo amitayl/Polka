@@ -1,9 +1,9 @@
 <template>
     <section class="product-list-section">
         <ul class="clean-list product-list-list">
-            <li v-for="product in products" 
+            <li @click="emitSelected(product._id)" v-for="product in products" 
                 :key="product._id">
-                <product-preview :product="product"></product-preview>
+                <product-preview  :product="product"></product-preview>
             </li>
         </ul>
     </section>
@@ -17,6 +17,11 @@ export default {
     products: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    emitSelected(id) {
+      this.$emit('emitSelected', id);
     }
   },
   components: {

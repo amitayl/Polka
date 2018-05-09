@@ -58,7 +58,14 @@ export default {
       const bidder = { productId: bidProduct._id };
 
       const bidData = { owner, bidder };
-      BidService.sendBid(bidData);
+
+      BidService.sendBid(bidData)
+        .then(_ => {
+          console.log('bid sent successfully');
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
