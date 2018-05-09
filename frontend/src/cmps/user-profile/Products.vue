@@ -2,7 +2,7 @@
 <template>
     <section class="products">
       <user-products v-if="!isShowOffers"  @emitSelected="toggleOffers"></user-products>
-      <offers v-if="isShowOffers" :productId="productId"  @toggleOffers="toggleOffers"></offers>
+      <offers v-if="isShowOffers" :productId="productId" @emitSelected="goToBid"  @toggleOffers="toggleOffers"></offers>
         
     </section>
 </template>
@@ -39,6 +39,13 @@ export default {
         this.productId = null;
       }
       // isShowOffers=true;
+    },
+      goToBid (productBidderId){
+        
+        let ids =  this.productId+','+productBidderId;
+        console.log ('ids' , ids);
+        // this.$router.push('/decideTrade:ids');
+        
     }
     //  getProducts(){
     //   ProductService.getOffersByProductIds(this.productIds).

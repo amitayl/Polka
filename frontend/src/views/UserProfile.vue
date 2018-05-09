@@ -53,11 +53,13 @@ export default {
   created() {
     const userId = this.$route.params._id;
     this.loggedInUser = this.$store.getters.getLoggedInUser;
-    if (this.loggedInUser.id === userId) {
+    if (this.loggedInUser._id === userId) {
       this.profileUser = this.loggedInUser;
       this.isUserEqualLoggidIn = true;
     } else {
-      UserService.getUserById(userId).then(user => (this.profileUser = user));
+      UserService.getUserById(userId).then(user => {
+        (this.profileUser = user)
+      });
       this.isUserEqualLoggidIn = false;
     }
   },

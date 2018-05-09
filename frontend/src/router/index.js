@@ -70,7 +70,7 @@ export default new Router({
       component: BrowseProducts
     },
     {
-      path: '/decideTrade',
+      path: '/decideTrade/:_ids',
       component: DecideTrade
     },
     {

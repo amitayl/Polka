@@ -12,7 +12,7 @@ import { PRODUCT_MUTATIONS, PRODUCT_ACTIONS } from '../store/ProductStore.js';
 
 import CategoriesSubNav from '@/cmps/browse-products/CategoriesSubNav.vue'
 import ProductSort from '@/cmps/browse-products/ProductSort.vue';
-import ProductList from '@/cmps/browse-products/ProductList.vue';
+import ProductList from '@/cmps/general/ProductList.vue';
 
 export default {
   created() {

@@ -50,6 +50,10 @@
 
 <script>
 export default {
+    created(){
+        let idsStr = req.params.query;
+        console.log ('idsStr' ,idsStr ); 
+    },
     data (){
         return {
             products:[{
@@ -66,6 +70,7 @@ export default {
 
 }
 </script>
+
 
 <style>
 .owner-img{

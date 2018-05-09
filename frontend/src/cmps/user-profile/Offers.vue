@@ -6,13 +6,13 @@
             <img :src="product.imgs[0]">
             <p>{{product.title}}</p>
         </div>
-        <product-list :products="offers"></product-list>
+        <product-list @emitSelected="emitSelected" :products="offers"></product-list>
     </section>
 </template>
 
 <script>
 import ProductService from '@/services/ProductService';
-import ProductList from '../browse-products/ProductList';
+import ProductList from '@/cmps/general/ProductList';
 
 export default {
   props: {
@@ -28,18 +28,18 @@ export default {
       productIds: [],
       product: null,
       offers: []
-    };
+    }
   },
-
+ 
   created() {
-    console.log('blabla');
     // this.sum = ProductService.getOffersByProduct('5ae9bc40c66def0488aff9ec');
     ProductService.getOffersByProductId(this.productId).then(
       productOffersObj => {
         this.productOffersObj = productOffersObj;
         console.log('productOffersObjslllllllllllll', productOffersObj);
         this.product = productOffersObj.prod;
-        this.offers = productOffersObj.bidProds;
+      //  store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
+        this.offers = productOffersObj.bids.map ( bid=>   bid.bidderProd) 
       }
     );
   },
@@ -47,6 +47,9 @@ export default {
     goBack() {
       console.log('koko');
       this.$emit('toggleOffers', null);
+    },
+    emitSelected(productBidderId){
+      this.$emit('emitSelected', productBidderId,);
     }
     //  getProducts(){
 
