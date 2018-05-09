@@ -275,7 +275,7 @@ export default {
 
 .home-img {
   height: 100vh;
-  background-image: url("../imgs/Teddy2.jpg");
+  background-image: url("../../public/imgs/Teddy2.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
