@@ -5,7 +5,15 @@
       <div class="control">
           <div class="file">
            <label class="file-label">
-                     <input   type="file" accept="image/*"  class="form-control" v-on:change="upload($event.target.files)" required/>
+                     <input type="file" accept="image/*"  class="form-control" v-on:change="upload($event.target.files)" required/>
+                     <!-- <v-if="this.thumbs"> -->
+                       <!-- <div v-for="pic in thumbs">
+                         {{ pic.url }}
+                         <img :src="pic.url[0]" alt=""/> -->
+                         <!-- {{ thumb }} {{ index }} -->
+                       <!-- </div> -->
+                       <!-- {{ thumbs }} -->
+                     <!-- </v-if> -->
             </label>
         </div>
       </div>

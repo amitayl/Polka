@@ -99,77 +99,42 @@
         </v-layout>
       </section>
 
-      <section>
-        <v-parallax src="https://vuetifyjs.com/themes/parallax-starter/assets/section.jpeg" height="380">
-          <v-layout column align-center justify-center>
-            <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
-            <em>Kick-start your application today</em>
-            <v-btn
-              class="blue lighten-2 mt-5"
-              dark
-              large
-              href="/pre-made-themes"
-            >
-              Get Started
-            </v-btn>
-          </v-layout>
-        </v-parallax>
-      </section>
+       <!-- <div class="columns is-mobile">
+  <div class="column">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Vintage artisian toy</p>
+          <p class="subtitle">rare, in mint condition</p>
+          <figure class="image is-4by3">
+            <img src="https://i.pinimg.com/736x/31/91/31/319131518bd0368601556584660403c4--antique-toys-vintage-toys.jpg">
+          </figure>
+        </article>
+      </div>
+  </div>
+  <div class="column is-mobile">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Ford focus</p>
+          <p class="subtitle">in great condition</p>
+          <figure class="image is-4by3">
+            <img src="http://media.liveauctiongroup.net/i/33811/29498993_2.jpg?v=8D58B9FA7F47530">
+          </figure>
+        </article>
+      </div>
+  </div>
+  <div class="column">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Alladin lamp</p>
+          <p class="subtitle">just rub it</p>
+          <figure class="image is-4by3">
+            <img src="https://ae01.alicdn.com/kf/HTB1QLCZIVXXXXcNXpXXq6xXFXXX2/Antique-Arts-Craft-Aladdin-Lamp-Home-Decoration-SMALL-Size-from-Arabian-Nights-Story-Vintage-Home-Decoration.jpg">
+          </figure>
+        </article>
+      </div>
+  </div>
+  </div> -->
 
-      <section>
-        <v-container grid-list-xl>
-          <v-layout row wrap justify-center class="my-5">
-            <v-flex xs12 sm4>
-              <v-card class="elevation-0 transparent">
-                <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">Company info</div>
-                </v-card-title>
-                <v-card-text>
-                  Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. 
-                  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-                  Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti. 
-                </v-card-text>
-              </v-card>
-            </v-flex>
-            <v-flex xs12 sm4 offset-sm1>
-              <v-card class="elevation-0 transparent">
-                <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">Contact us</div>
-                </v-card-title>
-                <v-card-text>
-                  Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
-                </v-card-text>
-                <v-list class="transparent">
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>777-867-5309</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">place</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>Chicago, US</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">email</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>john@vuetifyjs.com</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </v-list>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </section>
 
       <v-footer class="blue darken-2">
         <v-layout row wrap align-center>
@@ -227,7 +192,6 @@
 export default {
   data() {
     return {
-      title: "Polka",
       items: [
         {
           src:
