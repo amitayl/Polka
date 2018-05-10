@@ -4,7 +4,7 @@
                     :class="{ 'margin-bottom': isBrowseProducts, 'invisible': isHomePage}">
 
             <hamburger-logo-search @toggleSideMenu="showSideMenu = !showSideMenu"
-                                   @moveToHome="moveTo()"></hamburger-logo-search>
+                                   @moveToHome="moveTo('')"></hamburger-logo-search>
 
             <link-list :showSideMenu="showSideMenu"
                        @moveTo="moveTo($event)"></link-list>
