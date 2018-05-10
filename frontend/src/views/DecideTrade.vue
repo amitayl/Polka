@@ -2,12 +2,13 @@
     <div class="container">
         <div class="flex align-center space-between">
 
-            <trade-card :user="owner"></trade-card>
+            <trade-card v-if="owner" :user="owner"></trade-card>
             <div buttons class=" buttons  flex space-between flex-column">
-            <button @click="acceptTransaction" class="button">Trade</button>
+            <button v-once  @click="acceptTransaction" class="button">Trade</button>
+
             <button class="button">Decline</button>
             </div>
-            <trade-card :user="bidder"></trade-card>
+            <trade-card v-if="bidder" :user="bidder"></trade-card>
             <!-- <div class="card">
             
             </div> -->
@@ -22,8 +23,13 @@ export default {
     created(){
         const bidId = this.$route.params._id;
         let selectedProduct = this.$store.getters.getSelectedProduct;
+        console.log ('selectedProduct' , selectedProduct);
         let currProduct =  this.$store.getters.getCurrProduct;
+        console.log ('currProduct' , currProduct);
+
         let loggedInUser =  this.$store.getters.getLoggedInUser;
+        console.log ('loggedInUser' , loggedInUser);
+
 
         
 
@@ -51,10 +57,17 @@ export default {
     },
     methods :{
         acceptTransaction(){
-            TransactionService.createTransaction();
-
+            this.switchImgs()
+            setTimeout( _ => this.$router.push ('/transaction/'), 3000);
+            // TransactionService.createTransaction();
+        },
+        switchImgs(){
+            let tempImg = this.owner.productImg;
+            this.owner.productImg = this.bidder.productImg;
+            this.bidder.productImg = tempImg
         }
     },
+    
     components : {
         TradeCard
     }

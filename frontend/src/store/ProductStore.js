@@ -49,6 +49,7 @@ export default {
       return state.products;
     },
     getCurrProduct(state) {
+      console.log ('currmmmmmmm' ,state.currProduct );
       return state.currProduct
     }
   },

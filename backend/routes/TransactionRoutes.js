@@ -8,3 +8,10 @@ app.get(`/transaction/:transactionId`, (req, res) => {
       })
       .catch(err => res.status(500).send(err.message));
   });
+  app.post(`/transaction/`, (req, res) => {
+    let transaction = req.body;
+    Transaction.service.addTransaction (transaction)
+    .then (transaction =>
+    res.json(Transaction)
+
+    

@@ -139,6 +139,7 @@ function getOffersByProductId(id) {
                         _id: new mongo.ObjectId(bidderProd.ownerId)
                       }).then (bidder =>{
                         return {
+                          bidderName: bidder.nickName,
                           bidderImg: bidder.img,
                           bidId: bid._id,
                           bidderProdId: bid.bidder.productId, 

@@ -11,14 +11,36 @@ function getById(transactionId) {
         return transaction;
     });
 }
-function addTransaction (){
-    
+function addTransaction (isDeal){
+    let transaction = gatherTransaction(isDeal);
+    return axios.post((BASE_URL + '/transaction'  ,  transaction)).then(res => {
+        let fullTransaction = res.data;
+        console.log('transaction', fullTransaction);
+        return fullTransaction;
+    });
+}
+function gatherTransaction(isDeal){
+        let selectedProduct = this.$store.getters.getSelectedProduct;
+        let currProduct =  this.$store.getters.getCurrProduct;
+        let loggedInUser =  this.$store.getters.getLoggedInUser;
+        let transaction  = {
+            owner : { id :loggedInUser._id,
+                product:currProduct,
+
+            },
+            bidder: {id: selectedProduct.bidderProd.ownerId,
+                product : selectedProduct.bidderProd,
+            },
+            isDeal,
+
+        }
+        return transaction
 }
 
 
 
 export default {
     getById,
-    createTransaction
+    addTransaction
    
 }

@@ -3,9 +3,9 @@
     <section class="offers">
         <div class="flex space-between align-center">
         <div>Offers for </div>
-        <img :src="product.imgs[0]">
+        <img v-if="product" :src="product.imgs[0]">
         <!-- <product-preview :product="product"> </product-preview> -->
-        <button class="button" @click="goBack">back</button>
+        <button  class="button" @click="goBack">back</button>
          </div> 
       
         
@@ -19,7 +19,9 @@
         </div> -->
         <br>
         <br>
-        <product-list @emitSelected="getBidId" :products="offers"></product-list>
+        <product-list @emitSelected="getBidId" v-if="offers.length" :products="offers"></product-list>
+        <h1 v-if="!offers.length" >No offers</h1>
+        
     </section>
 </template>
 
@@ -56,9 +58,13 @@ export default {
         this.productOffersObj = productOffersObj;
         console.log('productOffersObjslllllllllllll', productOffersObj); 
       this.product = productOffersObj.prod;
+      console.log ('product' , this.product);
         this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
+        let curr = this.$store.getters.getCurrProduct;
+        console.log ('curr' , curr);
         this.detailsBids = productOffersObj.bids
         if (this.detailsBids)  this.offers = productOffersObj.bids.map ( bid => bid.bidderProd)
+        console.log ('ggggggggggggggggggg' , this.offers);
       }
     );
   },
@@ -71,11 +77,13 @@ export default {
     },
     getBidId(id){
       console.log ('id' , id);
+      
       let chosenProduct = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id );
       this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product: chosenProduct});
       let bidId = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id ).bidderProdId;
        console.log ('bidId' , bidId); 
        this.$emit ('emitSelected' , bidId);
+       
     }
      
     //  getProducts(){

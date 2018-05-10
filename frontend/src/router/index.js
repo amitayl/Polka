@@ -74,7 +74,7 @@ export default new Router({
       component: DecideTrade
     },
     {
-      path: '/transaction/:_id',
+      path: '/transaction/',
       component: Transaction
     },
     {
