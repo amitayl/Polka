@@ -39,7 +39,7 @@
         >
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
-              <h2 class="headline">Save money and help the enviorment</h2>
+              <h2 class="headline">Save money and help the enviorment </h2>
               <span class="subheading">
                 The best way to meet cool new people
               </span>
@@ -174,7 +174,8 @@
             <div class="white--text ml-3">
               Made with
               <v-icon class="red--text">favorite</v-icon>
-              by <a class="white--text" href="https://vuetifyjs.com" target="_blank">Asaf, Omri & Tal</a>
+              by <a class="white--text" href="https://vuetifyjs.com" target="_blank">Vuetify</a>
+              and <a class="white--text" href="https://github.com/vwxyzjn">Costa Huang</a>
             </div>
           </v-flex>
         </v-layout>
@@ -226,20 +227,17 @@ export default {
     return {
       items: [
         {
-          src:
-            "./imgs/carousel/slide1.jpg"
+          src: './imgs/carousel/slide1.jpg'
         },
         {
-          src:
-            "./imgs/carousel/slide2.jpg"
+          src: './imgs/carousel/slide2.jpg'
         },
         {
-          src:
-            "./imgs/carousel/slide3.jpg"
+          src: './imgs/carousel/slide3.jpg'
         },
         {
-          src:
-            "./imgs/carousel/slide4.jpg"        }
+          src: './imgs/carousel/slide4.jpg'
+        }
       ]
     };
   }
@@ -247,18 +245,6 @@ export default {
 </script>
 
 <style>
-.carousel__controls {
-  display: none;
-}
-
-.carousel {
-  height: 400px;
-}
-
-.jumbotron__content {
-  height: 80%;
-}
-
 .toolbar {
   display: none;
 }
@@ -286,7 +272,7 @@ export default {
 
 .home-img {
   height: 100vh;
-  background-image: url("../../public/imgs/Teddy2.jpg");
+  background-image: url('../../public/imgs/Teddy2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

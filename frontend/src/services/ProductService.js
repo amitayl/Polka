@@ -57,7 +57,6 @@ function _getProductUrl(productId) {
 }
 
 function getProductsByIds(...productIds) {
-  console.log ('productIds' , productIds);
   return axios.get(`${BASE_URL}/product/${productIds}`).then(res => res.data);
 }
 
