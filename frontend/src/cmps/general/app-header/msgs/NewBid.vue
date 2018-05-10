@@ -1,17 +1,17 @@
 <template>
-  <section class="new-bid">
+  <section class="new-bid bid">
     <div class="flex flex-column align-center">
-        <p class="md-body-1">{{bid.bidder.nickName}} wants your</p>
-        <img :src="bid.owner.product.imgs[0]" class="bid-product" alt="my product">
-        <p class="md-caption">{{bid.owner.product.title}}</p>
+        <p class="md-body-1">{{data.bidder.nickName}} wants your</p>
+        <img :src="data.owner.product.imgs[0]" class="bid-product" alt="my product">
+        <p class="md-caption">{{data.owner.product.title}}</p>
     </div>
 
     --->
 
     <div class="flex flex-column align-center">
         <p class="md-body-1">for his</p>
-        <img :src="bid.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
-        <p class="md-caption">{{bid.bidder.product.title}}</p>
+        <img :src="data.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
+        <p class="md-caption">{{data.bidder.product.title}}</p>
     </div>
 
     <div class="flex flex-column align-center">
@@ -26,7 +26,7 @@ import BidService from '@/services/BidService.js';
 
 export default {
   props: {
-    bid: {
+    data: {
       type: Object,
       required: true
     }
@@ -36,33 +36,21 @@ export default {
       console.log('accepting');
     },
     declineBid() {
-      BidService.declineBid(this.bid).then(() => {
-        console.log('deleted');
+        console.log('sending delete');
+      BidService.declineBid(this.data).then(() => {
+        console.log('DELETED');
       });
     }
   }
 };
 </script>
 
-<style scoped>
+<style>
 .new-bid {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid lightgray;
+  background-color: rgb(217, 245, 255);
 }
 
-.bid-product {
-  height: 50px;
-  width: auto;
-}
-
-p {
-  margin-bottom: 0;
-}
-
-.md-button {
+.new-bid .md-button {
   color: white;
   font-size: 12px;
   font-weight: bold;

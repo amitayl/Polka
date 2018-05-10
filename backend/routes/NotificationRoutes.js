@@ -5,7 +5,9 @@ module.exports = app => {
     const loggedInUserId = req.query.loggedInUserId;
 
     NotificationService.query(loggedInUserId)
-      .then(notifications => res.json(notifications))
+      .then(notifications => {
+        res.json(notifications);
+      })
       .catch(err =>
         res.status(500).send({ error: `couldnt get notifications, ${err}` })
       );

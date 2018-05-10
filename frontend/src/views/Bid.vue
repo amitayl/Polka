@@ -1,9 +1,9 @@
 <template>
-  <section class="bid container">
+  <section class="bid-container container">
 
     <section class="logged-in-user-products" v-if="loggedInUserProducts">
       <md-card-content v-for="(loggedInUserProduct, idx) in loggedInUserProducts" 
-                      @click.native="selectedProductIdx = idx"
+                      @click.native="selectProduct(loggedInUserProduct._id, idx)"
                       :class="{ selected: selectedProductIdx === idx }"
                       :key="idx" class="md-elevation-2">
 
@@ -16,7 +16,13 @@
     </section>
 
     <router-link to="/upload" class="button">upload new product</router-link>
-    <button @click="bidProduct()" class="button" :disabled="selectedProductIdx === null">send bid</button>
+    
+    
+    
+    <button @click="bidProduct()" class="button" 
+      :disabled="selectedProductIdx === null || isSelectedProductBidded">
+        {{sendBidTxt}}
+    </button>
   </section>
 </template>
 
@@ -47,10 +53,28 @@ export default {
       biddedProductId: null,
       loggedInUser: null,
       loggedInUserProducts: null,
-      selectedProductIdx: null
+      selectedProductIdx: null,
+      isSelectedProductBidded: null
     };
   },
+  computed: {
+    sendBidTxt() {
+      return this.isSelectedProductBidded
+        ? 'you allready bidded this product'
+        : 'send bid';
+    }
+  },
   methods: {
+    selectProduct(selectedProductId, idx) {
+      this.selectedProductIdx = idx;
+
+      const ownerProductId = this.$route.params.biddedProductId;
+      const biddedProductId = selectedProductId;
+
+      BidService.isExists(ownerProductId, biddedProductId).then(isExists => {
+        this.isSelectedProductBidded = isExists;
+      });
+    },
     bidProduct() {
       const owner = { productId: this.biddedProductId };
 
@@ -60,12 +84,14 @@ export default {
       const bidData = { owner, bidder };
 
       BidService.sendBid(bidData)
-        .then(_ => {
+        .then(() => {
           console.log('bid sent successfully');
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
+          console.log('sorry sending the bid failed');
         });
+
+        this.$router.push('/product/' + this.biddedProductId);
     }
   }
 };
