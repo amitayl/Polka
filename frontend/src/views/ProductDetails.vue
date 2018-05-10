@@ -17,12 +17,15 @@
             <img class="owner-img" :src="product.ownerImg">
           </div>
         </router-link>
-        <h2 class="product-title title is-2">{{product.title}}</h2>
       </div>
     
+    <div>
+      <br>
+      <h2 class="product-title title is-2">{{product.title}}</h2>
       <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
       <h4 class="title is-4">Things I want:</h4>
       <h4 class="title is-4">Trade location:</h4>
+      </div>
       
       <button v-if="loggedInUser" @click="toBid()" 
           class="bid-btn button"

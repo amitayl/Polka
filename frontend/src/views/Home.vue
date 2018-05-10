@@ -12,8 +12,8 @@
           <v-carousel-item v-for="(item,i) in items" :src="item.src" :key="i"></v-carousel-item>
           
           <div class="search-bar">
-             <h1 class="black--text mb-2 display-1 text-xs-center">STOP BUYING. START TRADING.</h1>
-            <div class="subheading black--text mb-3 text-xs-center">Trade Anything: Items and Services.</div>
+             <h1 class="black--text mb-2 display-1 text-xs-center"> 
+               STOP BUYING.</h1>
       <v-btn
               class="blue lighten-2 mt-5"
               dark
@@ -39,9 +39,9 @@
         >
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
-              <h2 class="headline">Save money and help the enviorment </h2>
+              <h2 class="headline">Why should i use Polka?</h2>
               <span class="subheading">
-                The best way to meet cool new people
+                Polka offers a new, fun, and mindful way to get all that you desire 🙂 . It’s a way for you to get value out of your stuff and your many talents, all the while you are helping to reduce waste and your carbon footprint. There’s NO money, NO waste, and NO carbon emissions. You’ll also have fun searching and trying to make a deal, and will likely meet a few awesome people along the way!
               </span>
             </div>
           </v-flex>
@@ -245,6 +245,23 @@ export default {
 </script>
 
 <style>
+.carousel {
+  height: 400px;
+}
+
+.content h1 {
+  font-weight: 600;
+}
+
+.black--text{
+ -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: white;
+}
+
+.carousel__controls {
+  display:none;
+}
+
 .toolbar {
   display: none;
 }

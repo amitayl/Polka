@@ -72,7 +72,7 @@ export default {
       return new Promise((resolve, reject) => {
         ProductService.add(product)
           .then(addedProduct => {
-            addedProduct = addedProduct[0];
+            // addedProduct = addedProduct[0];
 
             ctx.commit(
               USER_MUTATIONS.PUSH_PRODUCT_ID,

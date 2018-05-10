@@ -18,6 +18,8 @@ function addTransaction (isDeal){
         console.log('transaction', fullTransaction);
         return fullTransaction;
     });
+        
+
 }
 function gatherTransaction(isDeal){
         let selectedProduct = this.$store.getters.getSelectedProduct;
@@ -25,11 +27,11 @@ function gatherTransaction(isDeal){
         let loggedInUser =  this.$store.getters.getLoggedInUser;
         let transaction  = {
             owner : { id :loggedInUser._id,
-                product:currProduct,
+                productId: currProduct_id,
 
             },
             bidder: {id: selectedProduct.bidderProd.ownerId,
-                product : selectedProduct.bidderProd,
+                productId : selectedProduct.bidderProd._id,
             },
             isDeal,
 
