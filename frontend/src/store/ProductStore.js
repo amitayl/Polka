@@ -2,13 +2,15 @@ const PRODUCT_MUTATIONS = {
   SET_PRODUCTS: 'setProducts',
   SET_PRODUCT_FILTER: 'setProductFilter',
   ADD_PRODUCT: 'addProduct',
-  UPDATE_SELECTED_PRODUCT: 'updateSelectedProduct'
+  UPDATE_SELECTED_PRODUCT: 'updateSelectedProduct',
+  UPDATE_CURR_PRODUCT: 'updateCurrProduct'
 };
 const PRODUCT_ACTIONS = {
   SET_PRODUCTS: 'setProducts',
   SET_PRODUCTS_TO_SHOW: 'getProductsToShow',
   ADD_PRODUCT: 'addProduct',
   GET_PRODUCT_BY_ID: 'getProductById'
+
 };
 Object.freeze(PRODUCT_MUTATIONS);
 Object.freeze(PRODUCT_ACTIONS);
@@ -22,6 +24,7 @@ import { USER_MUTATIONS } from './UserStore.js';
 
 export default {
   state: {
+    curr: null,
     products: null,
     selectedProduct: null,
     uploadedProduct: null
@@ -32,14 +35,20 @@ export default {
     },
     [PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT](state, { product }) {
       state.selectedProduct = product;
+    },
+    [PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT](state, { product }) {
+      state.currProduct = product;
     }
   },
   getters: {
-    selectedProduct(state) {
+    getSelectedProduct(state) {
       return state.selectedProduct;
     },
     getProducts(state) {
       return state.products;
+    },
+    getCurrProduct(state) {
+      return state.currProduct
     }
   },
   actions: {

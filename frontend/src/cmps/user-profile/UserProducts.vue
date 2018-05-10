@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ProductList from '@/cmps/browse-products/ProductList';
+import ProductList from '@/cmps/general/ProductList';
 import ProductService from "@/services/ProductService";
 
 export default {

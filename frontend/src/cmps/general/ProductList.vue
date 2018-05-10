@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     emitSelected(id) {
+      console.log ('toto');
       this.$emit('emitSelected', id);
     }
   },
