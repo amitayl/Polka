@@ -254,8 +254,8 @@ export default {
 }
 
 .black--text{
- -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
 }
 
 .carousel__controls {

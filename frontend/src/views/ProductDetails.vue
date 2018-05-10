@@ -23,8 +23,8 @@
       <br>
       <h2 class="product-title title is-2">{{product.title}}</h2>
       <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
-      <h4 class="title is-4">Things I want:</h4>
-      <h4 class="title is-4">Trade location:</h4>
+      <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4>
+      <h4 class="title is-4">Trade location: {{ product.location }}</h4>
       </div>
       
       <button v-if="loggedInUser" @click="toBid()" 
@@ -80,7 +80,7 @@ div {
   margin-top: 20px;
 }
 .primary-img {
-  width: 500px;
+  width: 400px;
   height: 300px;
 }
 .product-img {
