@@ -85,7 +85,7 @@ function _replaceBidsInnerPointersWithData(notifications, db) {
           { _id: new mongo.ObjectID(bidderProductId) }
         ]
       };
-      const ColsToGet = { _id: 1, imgs: 1, ownerId: 1, title: 1 };
+      const ColsToGet = { _id: 1, imgs: 1, ownerId: 1, title: 1, desc: 1 };
 
       const findProductPrm = new Promise((resolve, reject) => {
         db

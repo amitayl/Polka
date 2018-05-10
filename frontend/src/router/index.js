@@ -80,7 +80,7 @@ export default new Router({
     {
       path: '/admin',
       component: Admin,
-      // beforeEnter: navGuards.adminOnlyRoute
+      beforeEnter: navGuards.adminOnlyRoute
     },
     {
       path: '/msg/login-required',

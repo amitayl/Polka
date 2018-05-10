@@ -37,18 +37,18 @@ export default {
   created() {
     UserService.query().then(users => {
       this.users = users;
-    })
+    });
   },
   data() {
     return {
       users: null
-    }
+    };
   },
   methods: {
     deleteUser(userId, idx) {
       UserService.remove(userId).then(() => {
         this.users.splice(idx, 1);
-      })
+      });
     }
   }
 };

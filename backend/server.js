@@ -26,17 +26,23 @@ app.use(
   })
 );
 
+// const addRoutes = require('./routes/index.js');
+// addRoutes(app)
+
 const addUserRoutes = require('./routes/UserRoutes.js');
 addUserRoutes(app);
 
-const addProductRoutes = require('./routes/ProductRoutes');
+const addProductRoutes = require('./routes/ProductRoutes.js');
 addProductRoutes(app);
 
-const addBidRoutes = require('./routes/BidRoutes');
+const addBidRoutes = require('./routes/BidRoutes.js');
 addBidRoutes(app);
 
-const addNotificationRoutes = require('./routes/NotificationRoutes');
+const addNotificationRoutes = require('./routes/NotificationRoutes.js');
 addNotificationRoutes(app);
+
+const addTransactionRoutes = require('./routes/TransactionRoutes.js');
+addTransactionRoutes(app);
 
 http.listen(3000, () => {
   console.log('listening on *:3000');

@@ -6,7 +6,8 @@
                 <li @click="showNotifications = !showNotifications">
                     messages
                     <notifications v-show="showNotifications" 
-                                   :notifications="notifications"></notifications>
+                                   :notifications="notifications"
+                                   @deleteNotification="deleteFromUi($event)"></notifications>
                 </li>
 
                 <li @click="$emit('moveTo', 'upload')">upload</li>
@@ -31,13 +32,19 @@
 import { USER_ACTIONS } from '@/store/UserStore.js';
 import NotificationService from '@/services/NotificationService.js';
 import Notifications from './Notifications.vue';
+import TransactionService from '@/services/TransactionService.js';
 
 export default {
   created() {
     const loggedInUserId = this.$store.getters.getLoggedInUser._id;
     NotificationService.query(loggedInUserId).then(notifications => {
       this.notifications = notifications.reverse();
+      console.log(this.notifications);
     });
+
+    TransactionService.query().then(transactions => {
+      console.log({transactions});
+    })
   },
   props: {
     showSideMenu: {
@@ -71,6 +78,9 @@ export default {
       this.$store.dispatch({ type: USER_ACTIONS.LOGOUT }).then(() => {
         this.$router.push('/login');
       });
+    },
+    deleteFromUi(idx) {
+      this.notifications.splice(idx, 1);
     }
   },
   components: {
