@@ -1,4 +1,4 @@
-const PRODUCT_MUTATIONS = {
+  const PRODUCT_MUTATIONS = {
   SET_PRODUCTS: 'setProducts',
   SET_PRODUCT_FILTER: 'setProductFilter',
   ADD_PRODUCT: 'addProduct',
@@ -24,7 +24,7 @@ import { USER_MUTATIONS } from './UserStore.js';
 
 export default {
   state: {
-    curr: null,
+    currProdut: null,
     products: null,
     selectedProduct: null,
     uploadedProduct: null
@@ -37,6 +37,7 @@ export default {
       state.selectedProduct = product;
     },
     [PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT](state, { product }) {
+      console.log ('bbbbbbbbbbbbbbbbbbbbbb' , product);
       state.currProduct = product;
     }
   },

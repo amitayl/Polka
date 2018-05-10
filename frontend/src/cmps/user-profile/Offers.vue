@@ -2,10 +2,14 @@
 <template>
     <section class="offers">
         <button @click="goBack">back</button>
-        <div class="product flex" >
+
+        <product-preview> </product-preview>
+        <!-- <div class="product flex" >
             <img :src="product.imgs[0]">
             <p>{{product.title}}</p>
-        </div>
+        </div> -->
+        <br>
+        <br>
         <product-list @emitSelected="getBidId" :products="offers"></product-list>
     </section>
 </template>
@@ -14,6 +18,7 @@
 import { PRODUCT_MUTATIONS, PRODUCT_ACTIONS } from '@/store/ProductStore.js';
 import ProductService from '@/services/ProductService';
 import ProductList from '@/cmps/general/ProductList';
+import ProductPreview from '@/cmps/general/ProductPreview';
 
 export default {
   props: {
@@ -35,31 +40,25 @@ export default {
   },
  
   created() {
+    //elad move to dispatch
     // this.sum = ProductService.getOffersByProduct('5ae9bc40c66def0488aff9ec');
     ProductService.getOffersByProductId(this.productId).then(
       productOffersObj => {
         this.productOffersObj = productOffersObj;
-        console.log('productOffersObjslllllllllllll', productOffersObj);
-        this.product = productOffersObj.prod;
-        
+        console.log('productOffersObjslllllllllllll', productOffersObj); 
+      this.product = productOffersObj.prod;
         this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
-        let currProduct = this.$store.getters.getCurrProduct
         this.detailsBids = productOffersObj.bids
-        this.offers = productOffersObj.bids.map ( bid => bid.bidderProd)
+        if (this.detailsBids)  this.offers = productOffersObj.bids.map ( bid => bid.bidderProd)
       }
     );
   },
   methods: {
     goBack() {
-      console.log('koko');
       this.$emit('toggleOffers', null);
     },
     emitSelected(productBidderId){
       this.$emit('emitSelected', productBidderId,);
-    },
-    getBidIdForChosenProduct(){
-      console.log ('bidId' , bidId);
-      // let bidId = this.detailBids.find (return bidId) 
     },
     getBidId(id){
       console.log ('id' , id);
@@ -81,7 +80,8 @@ export default {
   },
 
   components: {
-    ProductList
+    ProductList,
+    ProductPreview
   }
 };
 </script>

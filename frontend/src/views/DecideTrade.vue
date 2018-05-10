@@ -1,52 +1,16 @@
 <template>
     <div>
         <div class="flex align-center space-between">
-            <div class="card">
-            <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
-                <v-card>
-                <v-card-media :src="owner.productImg" height="200px"> </v-card-media>
-                <v-card-title primary-title>
-                    <div>
-                    <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
-                    <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
-                     <img class="owner-img" :src="owner.userImg" height="200px">
-                    </div>
-                </v-card-title>
-                <v-card-actions>
-                    <!-- <v-btn flat color="orange">Share</v-btn>
-                    <v-btn flat color="orange">Explore</v-btn> -->
-                </v-card-actions>
-                </v-card>
-            </v-flex>
-            </v-layout>
-            </div>
+
+            <trade-card :user="owner"></trade-card>
             <div buttons class=" buttons  flex space-between flex-column">
             <button class="button">Trade</button>
             <button class="button">Decline</button>
             </div>
-            <div class="card">
-             <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
-                <v-card>
-                <v-card-media :src="bidder.productImg" height="200px">   </v-card-media>
-                
-                <v-card-title primary-title>
-                    <div>
-                       
-                    <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
-                    <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
-                         <img class="owner-img" :src="bidder.UserImg" height="200px">
-                    </div>
-                </v-card-title>
-                <v-card-actions>
-                    <!-- <v-btn flat color="orange">Share</v-btn>
-                    <v-btn flat color="orange">Explore</v-btn> -->
-                </v-card-actions>
-                </v-card>
-            </v-flex>
-            </v-layout>
-            </div>
+            <trade-card :user="bidder"></trade-card>
+            <!-- <div class="card">
+            
+            </div> -->
         </div>
 
       
@@ -54,6 +18,7 @@
 </template>
 
 <script>
+import TradeCard from '@/cmps/trade/TradeCard'
 export default {
     created(){
         const bidId = this.$route.params._id;
@@ -84,7 +49,7 @@ export default {
         return {
             owner:{},
             bidder:{},
-            transactionDetails
+            transactionDetails: ''
 
             
             // products:[{
@@ -97,6 +62,9 @@ export default {
             //     ]  
             // }]
         }
+    },
+    components : {
+        TradeCard
     }
 
 }
