@@ -10,13 +10,16 @@
 import ProductService from '../services/ProductService.js';
 import { PRODUCT_MUTATIONS, PRODUCT_ACTIONS } from '../store/ProductStore.js';
 
-import CategoriesSubNav from '@/cmps/browse-products/CategoriesSubNav.vue'
+import CategoriesSubNav from '@/cmps/browse-products/CategoriesSubNav.vue';
 import ProductSort from '@/cmps/browse-products/ProductSort.vue';
 import ProductList from '@/cmps/browse-products/ProductList.vue';
 
 export default {
   created() {
-    this.$store.dispatch({ type: PRODUCT_MUTATIONS.SET_PRODUCTS, queryObj: {} })
+    this.$store.dispatch({
+      type: PRODUCT_MUTATIONS.SET_PRODUCTS,
+      queryObj: {}
+    });
   },
   computed: {
     products() {
@@ -26,12 +29,11 @@ export default {
   components: {
     CategoriesSubNav,
     ProductSort,
-    ProductList,
+    ProductList
   },
-  methods:{
-    routeDetails(id){
-    console.log ('kkkk');
-    this.$router.push('/product/'+id);
+  methods: {
+    routeDetails(id) {
+      this.$router.push('/product/' + id);
     }
   }
 };

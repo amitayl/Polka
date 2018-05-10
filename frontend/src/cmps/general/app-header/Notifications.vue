@@ -2,30 +2,22 @@
     <section class="notifications" @click="stopPropogation">
         <ul class="notifications-container md-elevation-2">
           <li v-if="notifications.length > 0" v-for="(notification, idx) in notifications" :key="idx">
-            <component :is="notification.type" :bid="notification.bid"></component>
+            <component :is="notification.type" :data="notification.bid"></component>
           </li>
         </ul>   
     </section>
 </template>
 
 <script>
-import NotificationService from '@/services/NotificationService.js';
 import NewBid from './msgs/NewBid.vue';
 import AcceptedBid from './msgs/AcceptedBid.vue';
 import DeclinedBid from './msgs/DeclinedBid.vue';
 
 export default {
-  created() {
-    const loggedInUserId = this.$store.getters.getLoggedInUser._id;
-    NotificationService.query(loggedInUserId).then(notifications => {
-      console.log({ notifications });
-      this.notifications = notifications;
-    });
-  },
-  data() {
-    return {
-      notifications: null
-    };
+  props: {
+    notifications: {
+      required: true
+    }
   },
   methods: {
     stopPropogation(event) {
@@ -49,7 +41,7 @@ export default {
   position: absolute;
   background: white;
   border-radius: 5px;
-  height: 200px;
+  height: 300px;
   width: 400px;
   top: 100px;
   transform: translate(calc(-50% + 50px));

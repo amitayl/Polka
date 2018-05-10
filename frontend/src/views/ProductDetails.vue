@@ -24,9 +24,13 @@
       <h4 class="title is-4">Things I want:</h4>
       <h4 class="title is-4">Trade location:</h4>
       
-      <button @click="toBid()" 
-          class="bid button"
+      <button v-if="loggedInUser" @click="toBid()" 
+          class="bid-btn button"
           :disabled="!isBidAble">Bid Now</button>
+
+      <button v-else class="bid-btn button"
+          disabled="true">Login to bid</button>
+        
     </div>
 
   </section>
@@ -34,6 +38,7 @@
 
 <script>
 import { PRODUCT_ACTIONS } from '../store/ProductStore.js';
+import BidService from '../services/BidService';
 
 export default {
   created() {
@@ -51,8 +56,13 @@ export default {
   data() {
     return {
       product: null,
-      isBidAble: null
+      isBidAble: null,
     };
+  },
+  computed: {
+    loggedInUser() {
+      return this.$store.getters.getLoggedInUser;
+    }
   },
   methods: {
     toBid() {
@@ -124,7 +134,7 @@ img {
   padding-top: 0px;
   margin-top: 0px;
 }
-button.bid {
+.bid-btn {
   float: right;
 }
 .flex {

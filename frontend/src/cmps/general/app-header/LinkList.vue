@@ -2,21 +2,25 @@
     <section>
         <ul class="link-list" :class="{ 'show-side-menu': showSideMenu }">
 
-            <template v-if="isLoggedIn">
+            <template v-if="loggedInUser">
                 <li @click="showNotifications = !showNotifications">
                     messages
-                    <notifications v-show="showNotifications"></notifications>
+                    <notifications v-show="showNotifications" 
+                                   :notifications="notifications"></notifications>
                 </li>
 
                 <li @click="$emit('moveTo', 'upload')">upload</li>
                 <li @click="moveToProfile()">profile</li>
-                <li><button class="button" @click="logout()">logout</button></li>
+                <li>
+                  <span>hello {{loggedInUser.nickName}}</span>
+                  <button class="button" @click="logout()">logout</button>
+                </li>
             </template>
 
 
             <template v-else>
                 <li @click="$emit('moveTo', 'register')">sign up</li>
-                <li @click="$emit('moveTo', 'login')">login</li>
+                <li @click="$emit('moveTo', 'login')"> login</li>
             </template>
 
         </ul>
@@ -25,9 +29,16 @@
 
 <script>
 import { USER_ACTIONS } from '@/store/UserStore.js';
+import NotificationService from '@/services/NotificationService.js';
 import Notifications from './Notifications.vue';
 
 export default {
+  created() {
+    const loggedInUserId = this.$store.getters.getLoggedInUser._id;
+    NotificationService.query(loggedInUserId).then(notifications => {
+      this.notifications = notifications.reverse();
+    });
+  },
   props: {
     showSideMenu: {
       type: Boolean,
@@ -36,11 +47,12 @@ export default {
   },
   data() {
     return {
-      showNotifications: false
+      showNotifications: false,
+      notifications: null
     };
   },
   computed: {
-    isLoggedIn() {
+    loggedInUser() {
       return this.$store.getters.getLoggedInUser;
     }
   },

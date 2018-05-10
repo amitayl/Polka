@@ -1,6 +1,22 @@
 <template>
-  <section class="new-bid">
-      {{notification}}
+  <section class="declined-bid bid">
+    <div class="flex flex-column align-center">
+        <p class="md-body-1">{{data.owner.nickName}} refused your offer</p>
+        <img class="bid-product">
+        <p class="md-caption">{{data.owner.product.title}}</p>
+    </div>
+
+    --X->
+
+    <div class="flex flex-column align-center">
+        <p class="md-body-1">for your</p>
+        <img class="bid-product">
+        <p class="md-caption">{{data.bidder.product.title}}</p>
+    </div>
+
+    <div class="flex flex-column align-center">
+      <md-icon class="close-btn" @click="closeBid()">close</md-icon>
+    </div>
   </section>
 </template>
 
@@ -9,7 +25,7 @@ import BidService from '@/services/BidService.js';
 
 export default {
   props: {
-    notification: {
+    data: {
       type: Object,
       required: true
     }
@@ -19,7 +35,7 @@ export default {
       console.log('accepting');
     },
     declineBid() {
-      BidService.declineBid(this.notification).then(() => {
+      BidService.declineBid(this.data).then(() => {
         console.log('deleted');
       });
     }
@@ -27,18 +43,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.new-bid {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid lightgray;
-  background: orangered;
-}
-
-.bid-product {
-  height: 50px;
-  width: auto;
+<style>
+.declined-bid {
+  background-color: rgb(255, 211, 211)
 }
 </style>

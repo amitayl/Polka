@@ -167,6 +167,6 @@ module.exports = {
   add,
   getById,
   getByIds,
-  getProductDetailsById,
+  getProductDetailsById
   // getOffersByProductId
 };

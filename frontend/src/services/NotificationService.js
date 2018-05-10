@@ -6,11 +6,6 @@ function query(loggedInUserId) {
     .then(res => res.data);
 }
 
-// function query(loggedInUserId) {
-//   return axios.get(`${BASE_URL}/notification`, { params: { loggedInUserId } })
-//     .then(res => res.data);
-// }
-
 export default {
   query
 };
