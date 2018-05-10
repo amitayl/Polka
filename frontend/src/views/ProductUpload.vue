@@ -233,4 +233,3 @@ img.preview {
   padding: 5px;
 }
 </style>
-

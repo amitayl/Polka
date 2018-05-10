@@ -36,10 +36,15 @@ export default {
       console.log('accepting');
     },
     declineBid() {
-        console.log('sending delete');
-      BidService.declineBid(this.data).then(() => {
-        console.log('DELETED');
-      });
+      console.log('sending delete');
+      BidService.declineBid(this.data)
+        .then(() => {
+          this.$emit('deleteNotification');
+          console.log('DELETED');
+        })
+        .catch(() => {
+          console.log('DELETION DIDNT WORK!');
+        });
     }
   }
 };

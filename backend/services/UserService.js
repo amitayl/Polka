@@ -54,6 +54,8 @@ function add(userData) {
 }
 
 function remove(userId) {
+  // got through all his products and set isLive = false;
+
   userId = new mongo.ObjectID(userId);
 
   return new Promise((resolve, reject) => {
