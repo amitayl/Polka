@@ -21,7 +21,10 @@ export default {
     this.productIds = this.$store.getters.getLoggedInUser.productIds;
     ProductService.getProductsByIds(this.productIds).then(products => {
       if (!Array.isArray(products)) this.products = [products];
-      else this.products = products;
+      else {
+        this.products = products;
+        console.log ('products' , products);
+      }
     });
   },
   methods: {

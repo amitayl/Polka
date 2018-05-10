@@ -11,7 +11,14 @@ function getById(transactionId) {
         return transaction;
     });
 }
+function addTransaction (){
+    
+}
+
+
 
 export default {
-    getById
+    getById,
+    createTransaction
+   
 }

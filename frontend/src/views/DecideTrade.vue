@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="container">
         <div class="flex align-center space-between">
 
             <trade-card :user="owner"></trade-card>
             <div buttons class=" buttons  flex space-between flex-column">
-            <button class="button">Trade</button>
+            <button @click="acceptTransaction" class="button">Trade</button>
             <button class="button">Decline</button>
             </div>
             <trade-card :user="bidder"></trade-card>
@@ -12,12 +12,11 @@
             
             </div> -->
         </div>
-
-      
     </div>
 </template>
 
 <script>
+import TransactionService from '@/services/TransactionService'
 import TradeCard from '@/cmps/trade/TradeCard'
 export default {
     created(){
@@ -26,9 +25,7 @@ export default {
         let currProduct =  this.$store.getters.getCurrProduct;
         let loggedInUser =  this.$store.getters.getLoggedInUser;
 
-        this.transactionDetails = {
-
-        }
+        
 
         this.owner = {
             userImg: loggedInUser.img,
@@ -50,17 +47,12 @@ export default {
             owner:{},
             bidder:{},
             transactionDetails: ''
+        }
+    },
+    methods :{
+        acceptTransaction(){
+            TransactionService.createTransaction();
 
-            
-            // products:[{
-            //     title:'',
-            //     imgs:['https://vuetifyjs.com/static/doc-images/cards/desert.jpg'
-            //     ]
-            // },{
-            //    title:'',
-            //     imgs:['http://assets.storaenso.com/se/buildingandliving/Product-Image-Library/Building-systems-by-Stora-Enso.jpg?RenditionID=8.jpg'
-            //     ]  
-            // }]
         }
     },
     components : {
@@ -71,17 +63,9 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .buttons{
     height:100px;
-}
-.card {
-    min-width:300px;
-    width:300px;
-    text-align: center;
-}
-.owner-img{
-    border-radius:80%;
 }
 
 .button{

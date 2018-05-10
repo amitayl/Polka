@@ -25,7 +25,7 @@
 </template>
 
 <script>
- import TransactionService from '../services/TransactionService.js'
+ import TransactionService from '@/services/TransactionService.js'
 export default {
   data() {
     return {
@@ -38,6 +38,7 @@ export default {
     }
   },
     created (){
+      TransactionService.createTransaction();
       console.log ('$route.transaction' , this.$route.transaction );
     const transactionId = this.$route.transaction._id;
     TransactionService.getById(transactionId)

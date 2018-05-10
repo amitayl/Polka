@@ -1,10 +1,19 @@
 
 <template>
     <section class="offers">
-        <button @click="goBack">back</button>
-
-        <product-preview> </product-preview>
-        <!-- <div class="product flex" >
+        <div class="flex space-between align-center">
+        <div>Offers for </div>
+        <img :src="product.imgs[0]">
+        <!-- <product-preview :product="product"> </product-preview> -->
+        <button class="button" @click="goBack">back</button>
+         </div> 
+      
+        
+        <!-- <div class="my-product">  
+        
+       
+        <hr>
+        <! <div class="product flex" >
             <img :src="product.imgs[0]">
             <p>{{product.title}}</p>
         </div> -->
@@ -87,9 +96,22 @@ export default {
 </script>
 
 <style scoped>
+.button {
+  width:50px;
+}
+img {
+  width:200px;
+  border-radius:1px solid rgb(182, 171, 171);
+  display:inline-block;
+}
 .product img {
   width: 100px;
   height: 100px;
+}
+.my-product{
+  margin:0 auto;
+  margin-left:200px;
+  color:green;
 }
 .public-profile {
   text-align: left;
