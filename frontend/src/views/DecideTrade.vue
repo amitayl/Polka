@@ -59,7 +59,6 @@ export default {
         acceptTransaction(){
             this.switchImgs()
             setTimeout( _ => this.$router.push ('/transaction/'), 3000);
-            // TransactionService.createTransaction();
         },
         switchImgs(){
             let tempImg = this.owner.productImg;
