@@ -19,10 +19,14 @@
       <!-- <md-button>upload img</md-button> -->
       <upload-img @uploadImg="addImg"></upload-img>
 
+      <!-- <img :src="user.imgs[0]" height="100" width="100"> -->
+
       <md-field>
         <label>nickName</label>
         <md-input v-model="userData.nickName"></md-input>
       </md-field>
+      
+      <get-place></get-place>
 
       <md-field>
         <label>tell us a bit about yourself</label>
@@ -40,8 +44,9 @@
 </template>
 
 <script>
-import GPlacesService from '../services/GPlacesService.js';
-import { USER_ACTIONS } from '../store/UserStore.js';
+import GetPlace from '@/cmps/LoginRegister/GetPlace'
+import GPlacesService from '@/services/GPlacesService.js';
+import { USER_ACTIONS } from '@/store/UserStore.js';
 import UploadImg from '@/cmps/product-upload/UploadImg';
 
 export default {
@@ -78,7 +83,8 @@ export default {
     }
   },
   components: {
-    UploadImg
+    UploadImg,
+    GetPlace
   }
 };
 </script>

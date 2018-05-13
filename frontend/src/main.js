@@ -3,12 +3,12 @@ import VueMaterial from 'vue-material';
 import Vuetify from 'vuetify'
 
 import 'vue-material/dist/vue-material.min.css';
-
+// Vue.use(vuelidate.default)    
 Vue.use(VueMaterial);
 
 
  
-// Vue.use(VueCloudinary, {
+  // Vue.use(VueCloudinary, {
 //   "cloud_name": "<polka>",
 //   "api_key": "735122477923243",
 //   "cdn_subdomain": true,
@@ -26,6 +26,12 @@ import store from './store/index.js';
 Vue.config.productionTip = false;
 
 new Vue({
+  // validations: {
+//   name: { requiinred, maxLength: maxLength(10) },
+  //   email: { required, email },
+
+  // },
+  // mixins: [validationMixin],
   router,
   store,
   render: h => h(App)

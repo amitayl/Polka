@@ -1,5 +1,5 @@
 const TransactionService = require('../services/TransactionService');
-
+module.exports = app => {
 app.get(`/transaction/:transactionId`, (req, res) => {
     const transactionId = req.params.transactionId;
     TransactionService.getById(transactionId)
@@ -13,6 +13,7 @@ app.get(`/transaction/:transactionId`, (req, res) => {
     Transaction.service.addTransaction (transaction)
     .then (transaction =>  res.json(Transaction))
   })
+}
   
 
     

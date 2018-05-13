@@ -5,6 +5,7 @@
   <div class="field-label is-normal">
     <label class="label">Item title</label>
   </div>
+  
   <div class="field-body">
     <div class="field">
       <div class="control">

@@ -20,8 +20,8 @@
 
 
             <template v-else>
-                <li @click="$emit('moveTo', 'register')">sign up</li>
-                <li @click="$emit('moveTo', 'login')"> login</li>
+                <li @click="$emit('moveTo', 'login')">Login/Register</li>
+                <!-- <li @click="$emit('moveTo', 'login')"> login</li> -->
             </template>
 
         </ul>
@@ -36,15 +36,15 @@ import TransactionService from '@/services/TransactionService.js';
 
 export default {
   created() {
-    const loggedInUserId = this.$store.getters.getLoggedInUser._id;
-    NotificationService.query(loggedInUserId).then(notifications => {
-      this.notifications = notifications.reverse();
-      console.log(this.notifications);
-    });
+    // const loggedInUserId = this.$store.getters.getLoggedInUser._id;
+    // NotificationService.query(loggedInUserId).then(notifications => {
+    //   this.notifications = notifications.reverse();
+    //   console.log(this.notifications);
+    // });
 
-    TransactionService.query().then(transactions => {
-      console.log({transactions});
-    })
+    // TransactionService.query().then(transactions => {
+    //   console.log({transactions});
+    // })
   },
   props: {
     showSideMenu: {
@@ -68,11 +68,11 @@ export default {
       const prevRoute = this.$route.path.substr(0, 7);
       const nextRoute = '/profile';
 
-      if (prevRoute !== nextRoute) {
-        const loggedInUserId = this.$store.getters.getLoggedInUser._id;
-        this.$router.push(nextRoute + '/' + loggedInUserId);
-        this.showSideMenu = false;
-      }
+      // if (prevRoute !== nextRoute) {
+      //   const loggedInUserId = this.$store.getters.getLoggedInUser._id;
+      //   this.$router.push(nextRoute + '/' + loggedInUserId);
+      //   this.showSideMenu = false;
+      // }
     },
     logout() {
       this.$store.dispatch({ type: USER_ACTIONS.LOGOUT }).then(() => {

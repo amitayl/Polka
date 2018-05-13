@@ -1,3 +1,4 @@
+
 const DBService = require('../DBService.js');
 const mongo = require('mongodb');
 const Bid = require('../../classes/BidClass.js');
