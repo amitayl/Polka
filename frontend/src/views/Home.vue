@@ -183,45 +183,9 @@
     </v-content>
   </v-app>
  </div>
-  
-
-
-
-  <!-- <div class="home">
-    <div class="home-img"></div>
-    <pre><h1 class=" main-title title ">My Barter.</h1></pre>
-   <div class="search-bar">
-      <form id="form"  onsubmit="return false">
-          <input type="text"  class="textbox " placeholder="search" autofocus>
-          <button class="button" title="search" type="submit" >
-          <i class="fas fa-search"></i>
-          </button>
-      </form>
-    </div>   -->
-
-
-  <!-- <div class="search-bar  field has-addons">
-  <div class="control is-large">
-    <input class="input" type="text" placeholder="search">
-  </div>
-  <div class="control">
-    <button class="button" title="search" type="submit" >
-                        <i class="fas fa-search"></i>
-                        </button>
-    
-     
-  </div> -->
-
-  <!-- <h1 class=" main-title title "> -->
-  
-  <!-- <h1 class=" main-title title ">barter.
-  </h1> -->
-  <!-- </div> -->
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   data() {
     return {
@@ -253,13 +217,13 @@ export default {
   font-weight: 600;
 }
 
-.black--text{
+.black--text {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: white;
 }
 
 .carousel__controls {
-  display:none;
+  display: none;
 }
 
 .toolbar {
@@ -270,10 +234,6 @@ export default {
   background-color: yellow;
 } */
 
-.md-toolbar.invisible[data-v-02522b51] {
-  position: relative;
-}
-
 .margin-bottom[data-v-02522b51] {
   margin-bottom: 0px;
 }
@@ -281,10 +241,6 @@ export default {
 .home-picture {
   width: 100%;
   height: 20%;
-}
-
-.home .md-toolbar {
-  margin-bottom: none;
 }
 
 .home-img {

@@ -5,13 +5,13 @@
         <div class="control">
           <div class="file">
            <label class="file-label">
-                     <input   type="file" accept="image/*"  class="form-control" v-on:change="upload($event.target.files)" required/>
+              <input type="file" accept="image/*" 
+                     class="form-control" required
+                     v-on:change="upload($event.target.files)" />
             </label>
         </div>
       </div>
     </div>
-   
-    
   </div> 
 </template>
 

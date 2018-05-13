@@ -1,33 +1,56 @@
 <template>
   <section class="login">
-    <form class="login-form" @submit.prevent="checkLogin()">
-      <md-field>
-        <label>email</label>
-        <md-input v-model="loginData.email" type="email" required></md-input>
-      </md-field>
 
-      <md-field>
-        <label>password</label>
-        <md-input v-model.number="loginData.password" type="password" required></md-input>
-      </md-field>
+    <v-form class="login-form" @submit.prevent="checkLogin()">
+      <v-text-field
+        v-model="loginData.email"
+        :rules="emailRules"
+        :counter="10"
+        label="Email"
+        autofocus
+        required
+      ></v-text-field>
 
-      <md-button class="login-btn" type="submit">login</md-button>
-    </form>
-    <h2 v-if="wrongCredentials">wrong credentials, please try again</h2>
+      <v-text-field
+        v-model="loginData.password"
+        :append-icon="visiblePass ? 'visibility' : 'visibility_off'"
+        :append-icon-cb="() => (visiblePass = !visiblePass)"
+        :type="visiblePass? 'text' : 'password'"
+        label="Enter your password"
+        hint="At least 8 characters"
+        min="8"
+        required
+      ></v-text-field>
+      
+      <div class="flex">
+        <v-spacer></v-spacer>
+        <v-btn type="submit">login</v-btn>
+      </div>
+    </v-form>
   </section>
 </template>
 
 <script>
 import { USER_ACTIONS } from '../store/UserStore.js';
 
+import io from 'socket.io-client';
+import { SOCKET_MUTATIONS } from '../store/SocketStore.js';
+import EventBusService, { EVENTS } from '../services/EventBusService';
+
 export default {
   data() {
     return {
       loginData: {
         email: 'asafshpigler@gmail.com',
-        password: 1234
+        password: '1234'
       },
-      wrongCredentials: false
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'E-mail must be valid'
+      ],
+      visiblePass: false,
     };
   },
   methods: {
@@ -36,10 +59,44 @@ export default {
         .dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData: this.loginData })
         .then(() => {
           this.$router.push('/browseProducts');
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'welcome',
+            desc: 'did you miss me?'
+          });
+
+          /* -------------
+          SOCKET STUFF
+          ---------------*/
+
+          // const loggedInUserId = this.$store.getters.getLoggedInUser._id;
+          // emit to create name space of logged in user
+          // this.$socket.emit('sendLoggedInUserId', loggedInUserId);
+
+          // const loggedInUserSocket = io(
+          //   'http://localhost:3000/' + loggedInUserId
+          // );
+
+          // // sign up to that name space
+          // this.$store.commit({
+          //   type: SOCKET_MUTATIONS.SET_SOCKET,
+          //   loggedInUserSocket
+          // });
+
+          // // listen to product bidded
+          // this.$store.commit({
+          //   type: SOCKET_MUTATIONS.SET_LISTENER,
+          //   eventName: 'productBidded',
+          //   callback: p => {
+          //     console.log(p);
+          //   }
+          // });
         })
-        .catch(()=> {
-          this.wrongCredentials = true;
-          setTimeout(()=>{this.wrongCredentials = false}, 2000);
+        .catch(() => {
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'oops',
+            desc: 'wrong credentials, try again',
+            success: false
+          });
         });
     }
   }
@@ -50,13 +107,8 @@ export default {
 .login-form {
   margin: 0 auto;
   width: 500px;
-  padding: 0 10px;
+  padding: 20px;
   background: whitesmoke;
-}
-
-.md-button.login-btn {
-  background-color: lightgreen;
-  width: 100%;
 }
 </style>
 

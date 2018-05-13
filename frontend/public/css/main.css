@@ -24,10 +24,9 @@
   margin-bottom: 0;
 }
 
-/* overriding vue material */
-img:not(.md-img).bid-product {
+.bid-product {
   height: 50px;
-  width: 80px;
+  width: 50px;
 }
 
 .close-btn {

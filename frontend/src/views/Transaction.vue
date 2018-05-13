@@ -1,20 +1,20 @@
 <template>
   <div class="container">
     <div class="trans"> 
-        <!-- <h1 >Transaction</h1> -->
-    <!-- <button @click="upload">yosi</button> -->
-    
-        <h1 class="display-2">Deal :#1</h1> 
-        <br>
-        <h1 class="display-1">Date : {{time}}</h1>
-        <br>
-         <!-- <h1 class="display-1">Between</h1> -->
-        <div class="owner">
-           <!-- <h1 class="display-3">{{loggedInUser.nickName}}</h1>  -->
-        </div>
-          <div class="bidder">
-            </div> 
+      <!-- <h1 >Transaction</h1> -->
+  <!-- <button @click="upload">yosi</button> -->
+  
+      <h1 class="display-2">Deal :#1</h1> 
+      <br>
+      <h1 class="display-1">Date : {{time}}</h1>
+      <br>
+        <!-- <h1 class="display-1">Between</h1> -->
+      <div class="owner">
+          <!-- <h1 class="display-3">{{loggedInUser.nickName}}</h1>  -->
       </div>
+        <div class="bidder">
+          </div> 
+    </div>
   </div>
 
   

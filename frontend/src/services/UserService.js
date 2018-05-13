@@ -1,5 +1,9 @@
 import axios from 'axios';
-const BASE_URL = 'http://127.0.0.1:3000';
+let BASE_URL = 'http://127.0.0.1:3000';
+
+if(process.env.NODE_ENV !== 'development') {
+  BASE_URL = '';
+}
 
 import StorageService from './StorageService.js';
 
@@ -44,7 +48,8 @@ function checkLogin(loginData) {
     })
     .then(res => {
       const user = res.data;
-      StorageService.session.store('loggedInUser', user);
+      const userCredentials = {email: loginData.email, password: loginData.password};
+      StorageService.session.store('userCredentials', userCredentials);
       return user;
     });
 }

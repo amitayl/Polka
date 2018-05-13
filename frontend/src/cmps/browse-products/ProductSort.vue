@@ -1,11 +1,11 @@
 <template>
     <section class="product-sort flex justify-end">
-        <md-button @click.native="toggleFilters()">sortBy &</md-button>
+        <v-btn @click.native="showFilters = !showFilters">sortBy &</v-btn>
         <ul class="sort-opts" v-show="showFilters">
             <li v-for="(sortOpt, idx) in sortOpts" :key="idx">
-                <md-button>
+                <v-btn flat>
                     {{sortOpt}}
-                </md-button>
+                </v-btn>
             </li>
         </ul> 
     </section>
@@ -19,11 +19,6 @@ export default {
             showFilters: false
         }
     },
-    methods: {
-        toggleFilters() {
-            this.showFilters = !this.showFilters
-        }
-    }
 }
 </script>
 
@@ -35,6 +30,7 @@ export default {
 
 .sort-opts {
     position: absolute;
+    z-index: 1;
     bottom: -100px;
     display: flex;
     flex-direction: column;

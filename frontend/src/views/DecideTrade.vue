@@ -4,9 +4,9 @@
 
             <trade-card v-if="owner" :user="owner"></trade-card>
             <div buttons class=" buttons  flex space-between flex-column">
-            <button v-once  @click="acceptTransaction" class="button">Trade</button>
+            <v-btn v-once @click="acceptTransaction">Trade</v-btn>
 
-            <button class="button">Decline</button>
+            <v-btn>Decline</v-btn>
             </div>
             <trade-card v-if="bidder" :user="bidder"></trade-card>
             <!-- <div class="card">

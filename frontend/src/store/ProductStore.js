@@ -37,7 +37,6 @@ export default {
       state.selectedProduct = product;
     },
     [PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT](state, { product }) {
-      console.log ('bbbbbbbbbbbbbbbbbbbbbb' , product);
       state.currProduct = product;
     }
   },
@@ -49,7 +48,6 @@ export default {
       return state.products;
     },
     getCurrProduct(state) {
-      console.log ('currmmmmmmm' ,state.currProduct );
       return state.currProduct
     }
   },
@@ -79,10 +77,6 @@ export default {
               { productId: addedProduct._id },
               { root: true }
             );
-
-            const loggedInUser = ctx.getters.getLoggedInUser;
-            StorageService.session.store('loggedInUser', loggedInUser);
-
             resolve();
           })
           .catch(err => {

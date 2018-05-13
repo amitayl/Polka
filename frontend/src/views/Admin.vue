@@ -1,31 +1,24 @@
 <template>
   <section class="admin container">
-    <md-table>
-      <md-table-row>
-        <md-table-head>img</md-table-head>
-        <md-table-head>name</md-table-head>
-        <md-table-head>created at</md-table-head>
-        <md-table-head>email</md-table-head>
-        <md-table-head>password</md-table-head>
-        <md-table-head>description</md-table-head>
-        <md-table-head>actions</md-table-head>
-      </md-table-row>
 
-      <md-table-row v-for="(user, idx) in users" :key="idx">
-        <md-table-cell>
-          <img class="user-img" :src="user.img">
-        </md-table-cell>
-        <md-table-cell>{{user.nickName}}</md-table-cell>
-        <md-table-cell>{{user.createdAt}}</md-table-cell>
-        <md-table-cell>{{user.email}}</md-table-cell>
-        <md-table-cell>{{user.password}}</md-table-cell>
-        <md-table-cell>{{user.desc}}</md-table-cell>
-        <md-table-cell>
-          <button @click="deleteUser(user._id, idx)" class="button is-danger">X</button>
-        </md-table-cell>
-      </md-table-row>
-
-    </md-table>
+    <v-data-table v-if="users"
+      :headers="headers"
+      :items="users"
+      hide-actions
+      class="elevation-1"
+    >
+      <template slot="items" slot-scope="props">
+        <td><img class="user-img" :src="props.item.img"></td>
+        <td class="text-xs-right">{{props.item.nickName}}</td>
+        <td class="text-xs-right">{{props.item.createdAt}}</td>
+        <td class="text-xs-right">{{props.item.email}}</td>
+        <td class="text-xs-right">{{props.item.password}}</td>
+        <td class="text-xs-right">{{props.item.desc}}</td>
+        <td class="text-xs-right">
+          <v-btn @click="deleteUser(user._id, idx)" class="red lighten-3">X</v-btn>
+        </td>
+      </template>
+    </v-data-table>
   </section>
 </template>
 
@@ -39,9 +32,24 @@ export default {
       this.users = users;
     });
   },
+
   data() {
     return {
-      users: null
+      users: null,
+      headers: [
+        {
+          text: 'img',
+          // align: 'left',
+          // sortable: false,
+          value: 'img'
+        },
+        { text: 'name', value: 'name' },
+        { text: 'created at', value: 'createdAt' },
+        { text: 'email', value: 'email' },
+        { text: 'password', value: 'password' },
+        { text: 'description', value: 'description' },
+        { text: 'actions', value: 'actions' }
+      ]
     };
   },
   methods: {
@@ -53,14 +61,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.user-img {
-  height: 50px;
-  width: 50px;
-}
-
-.admin tr {
-  vertical-align: middle;
-}
-</style>

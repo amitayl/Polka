@@ -3,13 +3,15 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-import ProductStore from './ProductStore.js'
-import UserStore from './UserStore.js'
+import ProductStore from './ProductStore.js';
+import UserStore from './UserStore.js';
+// import SocketStore from './SocketStore.js';
 
 export default new Vuex.Store({
-  strict: true,
+  // strict: true,
   modules: {
     ProductStore,
     UserStore,
-  },
+    // SocketStore
+  }
 });

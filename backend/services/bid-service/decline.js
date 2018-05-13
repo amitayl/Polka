@@ -6,15 +6,14 @@ function decline(bid) {
 
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
-      // const prms;
-
       const bidId = new mongo.ObjectID(bid._id);
       const ownerProductId = new mongo.ObjectID(bid.owner.product._id);
 
       const prms = [
+        removeNotificationFromOwner(bid, db),
         createTransactionPushNotification(bid, db),
         removeBidFromBids(bidId, db),
-        removeBidfromOwnerBidIds(ownerProductId, bidId, db),
+        removeBidfromOwnerBidIds(ownerProductId, bidId, db)
       ];
 
       Promise.all(prms)
@@ -26,8 +25,23 @@ function decline(bid) {
           reject();
           db.close();
         });
-      // draw failed transactions from DB with linkList created();
     });
+  });
+}
+
+function removeNotificationFromOwner(bid, db) {
+  const ownerId = new mongo.ObjectID(bid.owner.product.ownerId);
+  const bidId = new mongo.ObjectId(bid._id);
+
+  return new Promise((resolve, reject) => {
+    db.collection(DBService.COLLECTIONS.USER).updateOne(
+      { _id: ownerId },
+      { $pull: { notifications: {bidId} } },
+      (err, res) => {
+        if (err) reject();
+        else resolve();
+      }
+    );
   });
 }
 
@@ -50,9 +64,9 @@ function createTransactionPushNotification(bid, db) {
       .insertOne(transaction, (err, { insertedId }) => {
         if (err) reject();
         else {
-          const ownerId = new mongo.ObjectID(bid.owner.product.ownerId);
+          const bidderId = new mongo.ObjectID(bid.bidder.product.ownerId);
 
-          pushNotification(ownerId, insertedId, db)
+          pushNotification(bidderId, insertedId, db)
             .then(() => resolve())
             .catch(() => reject());
           resolve();
