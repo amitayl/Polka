@@ -26,17 +26,28 @@ module.exports = app => {
       });
   });
 
-  app.delete('/bid', (req, res) => {
-    const bid = JSON.parse(req.query.bid);
+  app.post('/decline', (req, res)=> {
+    const bid = req.body;
+    console.log(bid);
 
     BidService.decline(bid)
       .then(() => {
-        console.log('bid declined SUCCESS');
         res.json()
       })
       .catch(err => {
-        console.log('bid declined FAIL')
         res.status(500).send({ err })
       });
-  });
+  })
+
+  app.post('/accept', (req, res)=> {
+    const bid = req.body;
+
+    BidService.accept(bid)
+      .then(() => {
+        res.json()
+      })
+      .catch(err => {
+        res.status(500).send({ err })
+      });
+  })
 };

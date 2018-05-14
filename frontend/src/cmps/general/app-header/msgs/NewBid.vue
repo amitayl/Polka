@@ -1,5 +1,5 @@
 <template>
-  <section class="new-bid bid">
+  <section class="new-bid bid" @click="moveTo('/decideTrade/'+data._id)">
     <div class="flex flex-column align-center">
         <p class="body-1">{{data.bidder.nickName}} wants your</p>
         <img :src="data.owner.product.imgs[0]" class="bid-product" alt="my product">
@@ -23,6 +23,7 @@
 
 <script>
 import BidService from '@/services/BidService.js';
+import EventBusService, { EVENTS } from '@/services/EventBusService.js';
 
 export default {
   props: {
@@ -32,21 +33,34 @@ export default {
     }
   },
   methods: {
+    moveTo(path) {
+      this.$router.push(path);
+    },
     acceptBid() {
-      console.log('accepting');
+      this.$emit('removeNotificationFromUi');
+
+      BidService.acceptBid(this.data).catch(() => {
+        EventBusService.$emit(EVENTS.RETURN_REMOVED_NOTIFICATION);
+
+        EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+          title: 'accept failed',
+          desc: 'please try again later',
+          success: false
+        });
+      });
     },
     declineBid() {
-      BidService.declineBid(this.data)
-        .then(() => {
-          this.$emit('deleteNotification');
-        })
-        .catch(() => {
-          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
-            title: 'decline failed',
-            desc: 'please try again later',
-            success: false
-          });
+      this.$emit('removeNotificationFromUi');
+
+      BidService.declineBid(this.data).catch(() => {
+        EventBusService.$emit(EVENTS.RETURN_REMOVED_NOTIFICATION);
+
+        EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+          title: 'decline failed',
+          desc: 'please try again later',
+          success: false
         });
+      });
     }
   }
 };
@@ -55,6 +69,10 @@ export default {
 <style>
 .new-bid {
   background-color: rgb(217, 245, 255);
+}
+.new-bid:hover {
+  cursor: pointer;
+  background-color: rgb(186, 235, 253);
 }
 
 .accept-btn {

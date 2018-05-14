@@ -4,7 +4,8 @@
         <li v-if="notifications.length > 0" v-for="(notification, idx) in notifications" :key="idx">
           <component :is="notification.type" 
                       :data="notification.bid"
-                      @deleteNotification="$emit('deleteNotification', idx)"></component>
+                      @removeNotificationFromUi="$emit('removeNotificationFromUi', idx)"
+                      @deleteNotification="$emit('deleteNotification', {idx, notification})"></component>
         </li>
       </ul>  
   </section>
@@ -24,7 +25,7 @@ export default {
   methods: {
     stopPropogation(event) {
       event.cancelBubble = true;
-    }
+    },
   },
   components: {
     NewBid,

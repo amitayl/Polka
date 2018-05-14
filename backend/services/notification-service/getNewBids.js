@@ -15,12 +15,10 @@ function getNewBids(loggedInUserId) {
               db.close();
             })
             .catch(err => {
-              console.log('couldnt replace bids inner pointers', err);
               db.close();
             });
         })
         .catch(err => {
-          console.log('cant get notification bid data', err);
           db.close();
         });
     });
@@ -76,8 +74,8 @@ function _replaceBidsInnerPointersWithData(notifications, db) {
     const prms = [];
 
     notifications.forEach(notification => {
-      const ownerProductId = notification.bid.owner.productId;
-      const bidderProductId = notification.bid.bidder.productId;
+      let ownerProductId = notification.bid.owner.productId;
+      let bidderProductId = notification.bid.bidder.productId;
 
       const filter = {
         $or: [
@@ -93,7 +91,11 @@ function _replaceBidsInnerPointersWithData(notifications, db) {
           .find(filter, ColsToGet)
           .toArray((err, products) => {
             products.forEach(product => {
-              if (ownerProductId === product._id.toString())
+              const productId = product._id.toString();
+              ownerProductId = ownerProductId.toString();
+              bidderProductId = bidderProductId.toString();
+
+              if (ownerProductId === productId)
                 notification.bid.owner.product = product;
               else notification.bid.bidder.product = product;
             });

@@ -33,8 +33,8 @@
 <script>
 import { USER_ACTIONS } from '../store/UserStore.js';
 
-import io from 'socket.io-client';
-import { SOCKET_MUTATIONS } from '../store/SocketStore.js';
+// import io from 'socket.io-client';
+// import { SOCKET_MUTATIONS } from '../store/SocketStore.js';
 import EventBusService, { EVENTS } from '../services/EventBusService';
 
 export default {

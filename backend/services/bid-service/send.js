@@ -9,11 +9,9 @@ function send(bidData) {
     DBService.dbConnect().then(db => {
       isExists(bidData.owner.productId, bidData.bidder.productId).then(
         isExists => {
-
           if (!isExists) {
             const newBid = new Bid(bidData);
             addToDB(newBid, db).then(bidFromDB => {
-
               const prms = [
                 linkToOwnerProduct(newBid, db),
                 pushNotificationToOwner(newBid, db)
@@ -29,7 +27,6 @@ function send(bidData) {
                   db.close();
                 });
             });
-
           } else {
             reject();
             db.close();
@@ -41,6 +38,10 @@ function send(bidData) {
 }
 
 function addToDB(bid, db) {
+  console.log(bid);
+  bid.owner.productId = new mongo.ObjectID(bid.owner.productId);
+  bid.bidder.productId = new mongo.ObjectID(bid.bidder.productId);
+
   return new Promise((resolve, reject) => {
     db.collection(DBService.COLLECTIONS.BID).insertOne(bid, (err, res) => {
       if (err) reject(err);
