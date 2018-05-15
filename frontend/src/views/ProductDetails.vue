@@ -23,8 +23,8 @@
       <br>
       <h2 class="product-title title is-2">{{product.title}}</h2>
       <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
-      <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4>
-      <h4 class="title is-4">Trade location: {{ product.location }}</h4>
+      <!-- bring desired swap categories frmo owner -->
+      <!-- <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4> -->
     </div>
       
       <v-btn v-if="loggedInUser" @click="toBid()" 
@@ -51,6 +51,7 @@ export default {
       .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
       .then(product => {
         this.product = product;
+        console.log(this.product);
 
         const loggedInUser = this.$store.getters.getLoggedInUser;
         if (loggedInUser) {

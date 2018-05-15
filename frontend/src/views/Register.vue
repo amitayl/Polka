@@ -1,7 +1,7 @@
 <template>
   <div class="register">
 
-    <v-form class="add-user-form" @submit.prevent="addUser()">
+    <v-form class="grey-form" @submit.prevent="addUser()">
       <v-text-field
         v-model="userData.email"
         :rules="emailRules"
@@ -48,7 +48,7 @@
         required
       ></v-text-field>
 
-      <upload-img @uploadImg="addImg"></upload-img>
+      <upload-img @uploadImg="addImg" :imgs="[userData.img]" :round="true"></upload-img>
 
       <div class="flex">
         <v-spacer></v-spacer>
@@ -114,12 +114,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.add-user-form {
-  margin: 0 auto;
-  width: 500px;
-  padding: 20px;
-  background: whitesmoke;
-}
-</style>

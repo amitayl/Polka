@@ -28,10 +28,7 @@ export default {
       required: true
     }
   },
-  created() {
-    console.log(this.data);
-  }
-};
+};  
 </script>
 
 <style>

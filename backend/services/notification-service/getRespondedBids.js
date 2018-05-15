@@ -12,9 +12,6 @@ function getDeclinedBids(loggedInUserId) {
         _replaceProductIdsWithData(transactions, db)
           .then(transactions => {
             const notificationTransactions = transactions.map(transaction => {
-              console.log(transaction.owner.isReviewed instanceof Boolean);
-              console.log(typeof transaction.owner.isReviewed === Boolean);
-              console.log(typeof transaction.owner.isReviewed === 'boolean');
               const type =
                 typeof transaction.owner.isReviewed === 'boolean'
                   ? 'acceptedBid'

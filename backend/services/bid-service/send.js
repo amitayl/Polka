@@ -38,7 +38,6 @@ function send(bidData) {
 }
 
 function addToDB(bid, db) {
-  console.log(bid);
   bid.owner.productId = new mongo.ObjectID(bid.owner.productId);
   bid.bidder.productId = new mongo.ObjectID(bid.bidder.productId);
 

@@ -1,5 +1,7 @@
 const DB_URL = 'mongodb://polka:polka@ds263109.mlab.com:63109/polka_db';
 const mongo = require('mongodb');
+const User = require('../classes/UserClass.js');
+const Product = require('../classes/ProductClass.js');
 
 const COLLECTIONS = {
   POLKA: 'polka',
@@ -23,13 +25,13 @@ function dbConnect() {
 }
 
 function cleanDB() {
-  console.log('cleaning DB');
   dbConnect().then(db => {
     // clean out DB
     db.collection(COLLECTIONS.BID).remove({});
     db.collection(COLLECTIONS.TRANSACTION).remove({});
     db.collection(COLLECTIONS.PRODUCT).remove({});
     db.collection(COLLECTIONS.USER).remove({}, (err, res) => {
+      
       const khen = {
         createdAt: Date.now(),
         productIds: [],
@@ -53,7 +55,6 @@ function cleanDB() {
         desiredSwapCategories: ['vintage'],
         desc: 'My own kidneys, you better give me something good',
         bidIds: [],
-        location: 'Ramat Gan',
         isLive: true
       };
 
@@ -80,7 +81,6 @@ function cleanDB() {
         desiredSwapCategories: ['vintage'],
         desc: 'a new galaxy phone, j7',
         bidIds: [],
-        location: 'Tel aviv',
         isLive: true
       };
 
@@ -93,7 +93,6 @@ function cleanDB() {
           product.ownerId = userId;
           db.collection(COLLECTIONS.PRODUCT).insertOne(product, (err, res) => {
             const productId = res.insertedId;
-            console.log('product inserted id', productId);
             db
               .collection(COLLECTIONS.USER)
               .updateOne(

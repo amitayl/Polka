@@ -1,13 +1,14 @@
 const DBService = require('./DBService');
 const mongo = require('mongodb');
 const UserService = require('./UserService.js');
+const Product = require('../classes/ProductClass.js');
+
 function pcl(obj) {
   var e = JSON.stringify(obj, null, 2);
   console.log(e);
 }
 
 function query(criteria = {}) {
-  console.log('start of product query')
   return new Promise((resolve, reject) => {
     return DBService.dbConnect().then(db => {
       db
@@ -16,7 +17,6 @@ function query(criteria = {}) {
       .toArray((err, products) => {
         if (err) reject(err);
         else resolve(products);
-        console.log('END of product query')
       });
     });
   });
@@ -24,6 +24,10 @@ function query(criteria = {}) {
 
 function add(product) {
   return new Promise((resolve, reject) => {
+    console.log(product);
+    product = new Product(product);
+    console.log(product);
+
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.PRODUCT)
@@ -97,7 +101,6 @@ function getOffersByProductId(id) {
       db.collection(DBService.COLLECTIONS.PRODUCT)
         .findOne({ _id: id })
         .then(prod => {
-          console.log ('prod' , prod)
           returnObj.prod = prod
         })
         .then(_ => {
@@ -188,7 +191,6 @@ function getByIds(productIds) {
         .collection(DBService.COLLECTIONS.PRODUCT)
         .find(mongoQuery, colsToGet)
         .toArray((err, products) => {
-          // console.log(products);
           if (err) reject(err);
           else resolve(products);
           db.close();

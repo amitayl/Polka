@@ -11,7 +11,6 @@
             <v-card-title>
               <div>
                 <span class="headline">{{product.title}}</span><br>
-                <span>{{product.location}}</span><br>
                 <span>{{product.desc}}</span>
               </div>
             </v-card-title>

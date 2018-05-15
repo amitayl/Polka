@@ -58,7 +58,6 @@ export default {
         ownerId: 1,
         title: 1,
         desc: 1,
-        location: 1,
         imgs: 1
       };
       return ProductService.query(queryObj, colsToGet).then(products => {
@@ -70,8 +69,6 @@ export default {
       return new Promise((resolve, reject) => {
         ProductService.add(product)
           .then(addedProduct => {
-            // addedProduct = addedProduct[0];
-
             ctx.commit(
               USER_MUTATIONS.PUSH_PRODUCT_ID,
               { productId: addedProduct._id },

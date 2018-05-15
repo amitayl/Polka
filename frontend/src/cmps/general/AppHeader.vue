@@ -29,7 +29,7 @@
                   <img :src="loggedInUser.img" :alt="loggedInUser.nickName">
                 </v-avatar>
               
-                <ul v-show="showUserMenu" class="user-menu elevation-4">
+                <ul v-show="showUserMenu" class="user-menu clean-list elevation-4">
                   <li><b>hello {{loggedInUser.nickName}}</b></li>
                   <li><v-btn flat @click="moveTo('profile/'+loggedInUser._id)">profile</v-btn></li>
                   <li><v-btn flat @click="logout()">logout</v-btn></li>
@@ -96,7 +96,6 @@ export default {
       if (this.loggedInUser) {
         NotificationService.query(this.loggedInUser._id).then(notifications => {
           this.notifications = notifications.reverse();
-          console.log('notifications', this.notifications);
         });
       }
     }
