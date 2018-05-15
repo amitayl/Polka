@@ -9,7 +9,7 @@ if(process.env.NODE_ENV !== 'development') {
 
 function getById(transactionId) {
     console.log('go to transaction ')
-    return axios.get((BASE_URL + '/transacion' + transactionId)).then(res => {
+    return axios.get(BASE_URL + '/transaction/' + transactionId).then(res => {
         let transaction = res.data;
         console.log('transaction', transaction);
         return transaction;

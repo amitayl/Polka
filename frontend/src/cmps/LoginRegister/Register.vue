@@ -60,9 +60,11 @@
 </template>
 
 <script>
-import { USER_ACTIONS } from '../store/UserStore.js';
+import GetPlace from '@/cmps/LoginRegister/GetPlace'
+// import GPlacesService from '@/services/GPlacesService.js';
+import { USER_ACTIONS } from '@/store/UserStore.js';
 import UploadImg from '@/cmps/product-upload/UploadImg';
-import EventBusService, { EVENTS } from '../services/EventBusService';
+import EventBusService, { EVENTS } from '@/services/EventBusService';
 
 export default {
   data() {
@@ -82,7 +84,7 @@ export default {
         img: 'https://bit.ly/2rlMMSN',
         nickName: 'John',
         desc: 'I am just a regular everyday normal guy (or girl)',
-        coords: null
+        loc: null
       }
     };
   },
@@ -107,10 +109,30 @@ export default {
     },
     addImg(urlPath) {
       this.userData.img = urlPath;
+    },
+    getPlace (loc){
+      this.userData.loc = loc
+       console.log('loc' , this.userData.loc);
     }
   },
   components: {
-    UploadImg
+    UploadImg,
+    GetPlace
   }
 };
 </script>
+
+<style>
+img {
+  width:50px;
+  height:50px;
+  
+  margin-left:0px;
+  text-align: left;
+}
+.user-img  {
+  margin:10px;
+  /* border:1px solid rgb(184, 218, 184); */
+   text-align: left;
+}
+</style>

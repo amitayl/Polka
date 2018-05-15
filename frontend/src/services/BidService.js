@@ -14,6 +14,7 @@ function acceptBid(bid) {
 }
 
 function declineBid(bid) {
+  console.log('requesting decline from frontend service')
   return axios.post(`${BASE_URL}/decline`, bid);
 }
 

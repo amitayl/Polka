@@ -58,6 +58,8 @@ function add(product) {
 
 function getProductDetailsById(productId) {
   productId = new mongo.ObjectID(productId);
+  
+  
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
@@ -67,6 +69,7 @@ function getProductDetailsById(productId) {
           else {
             UserService.getById(product.ownerId)
               .then(user => {
+                console.log ('user' , user)
                 resolve({ product, owner: user });
               })
               .catch(err => reject(err));
@@ -96,6 +99,7 @@ function getById(productId, colsToGet) {
 function getOffersByProductId(id) {
   let returnObj = {};
   id = new mongo.ObjectID(id);
+  
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db.collection(DBService.COLLECTIONS.PRODUCT)
@@ -112,12 +116,12 @@ function getOffersByProductId(id) {
               { $unwind: '$bidIds' },
               {
                 $lookup:
-                  {
-                    from: DBService.COLLECTIONS.BID,
-                    localField: "bidIds",
-                    foreignField: "_id",
-                    as: "bidsObjects"
-                  }
+                {
+                  from: DBService.COLLECTIONS.BID,
+                  localField: "bidIds",
+                  foreignField: "_id",
+                  as: "bidsObjects"
+                }
               },
               { $unwind: "$bidsObjects" },
               {

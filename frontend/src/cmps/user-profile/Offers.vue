@@ -57,6 +57,8 @@ export default {
         this.productOffersObj = productOffersObj;
         console.log('productOffersObjslllllllllllll', productOffersObj); 
       this.product = productOffersObj.prod;
+
+      
       console.log ('product' , this.product);
         this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
         let curr = this.$store.getters.getCurrProduct;
@@ -83,7 +85,17 @@ export default {
        console.log ('bidId' , bidId); 
        this.$emit ('emitSelected' , bidId);
        
+    },
+    methods :{
+      gatherProductForSelected(){
+
+      } ,
+
+      gatherProductForCurr(){
+
+      } ,
     }
+
      
     //  getProducts(){
 

@@ -1,4 +1,5 @@
 const BidService = require('../services/BidService.js');
+const TransactionService = require('../services/TransactionService.js');
 
 module.exports = app => {
   app.get('/bid', (req, res) => {
@@ -27,6 +28,7 @@ module.exports = app => {
   });
 
   app.post('/decline', (req, res)=> {
+    console.log()
     const bid = req.body;
 
     BidService.decline(bid)

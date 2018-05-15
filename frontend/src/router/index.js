@@ -5,8 +5,7 @@ Vue.use(Router);
 
 // views
 import Home from '@/views/Home.vue';
-import Login from '@/views/Login.vue';
-import Register from '@/views/Register.vue';
+import Login from '@/views/LoginRegister.vue';
 import UserProfile from '@/views/UserProfile.vue';
 // import PublicProfile from './views/PublicProfile.vue';
 import ProductUpload from '@/views/ProductUpload.vue';
@@ -37,11 +36,7 @@ export default new Router({
       component: Login,
       // beforeEnter: !navGuards.userOnlyRoute
     },
-    {
-      path: '/register',
-      name: 'register',
-      component: Register
-    },
+    
     // {
     //   path: '/profile',
     //   name: 'profile',
@@ -75,7 +70,7 @@ export default new Router({
       component: DecideTrade
     },
     {
-      path: '/transaction/',
+      path: '/transaction/:_id',
       component: Transaction
     },
     {
@@ -86,7 +81,7 @@ export default new Router({
     {
       path: '/msg/login-required',
       component: LoginRequired
-    }
+  }
   ]
 });
 

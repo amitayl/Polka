@@ -39,8 +39,7 @@
             </template>
 
             <template v-else>
-              <v-btn flat @click.native="moveTo('register')">sign up</v-btn>
-              <v-btn flat @click.native="moveTo('login')"> login</v-btn>
+              <v-btn flat @click.native="moveTo('login')">login / register</v-btn>
             </template>
 
         </v-toolbar-items>

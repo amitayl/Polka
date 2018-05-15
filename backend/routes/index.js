@@ -11,6 +11,9 @@ module.exports = app => {
     const addNotificationRoutes = require('./NotificationRoutes.js');
     addNotificationRoutes(app);
 
+    const addTransactionRoutesRoutes = require('./TransactionRoutes.js');
+    addTransactionRoutesRoutes(app);
+
     // const addTransactionRoutes = require('./TransactionRoutes.js');
     // addTransactionRoutes(app);
 }

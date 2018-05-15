@@ -5,6 +5,9 @@ if(process.env.NODE_ENV !== 'development') {
   BASE_URL = '';
 }
 
+
+
+
 function query(queryObj, colsToGet) {
   return axios
     .get(BASE_URL + '/product', {

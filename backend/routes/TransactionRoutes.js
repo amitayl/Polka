@@ -1,17 +1,21 @@
 const TransactionService = require('../services/TransactionService');
 
-app.get(`/transaction/:transactionId`, (req, res) => {
-  const transactionId = req.params.transactionId;
-  TransactionService.getById(transactionId)
-    .then(transaction => {
-      res.json(transaction);
-    })
-    .catch(err => res.status(500).send(err.message));
 
+module.exports = app => {
+  
+  app.get('/transaction/:transactionId', (req, res) => {
+    console.log ('day')
+    const transactionId = req.params.transactionId;
+    TransactionService.getById(transactionId)
+    .then(transactionObj => res.json(transactionObj))
+      // .catch(err => res.status(500).json(err));
+  });
+    
   app.post(`/transaction/`, (req, res) => {
     let transaction = req.body;
-    Transaction.service
+    TransactionService
       .addTransaction(transaction)
       .then(transaction => res.json(Transaction));
-  });
-});
+  })
+}
+

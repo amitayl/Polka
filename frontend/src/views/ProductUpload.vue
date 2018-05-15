@@ -17,7 +17,7 @@
         label="Tell us about it"
         required
       ></v-text-field>
-
+  
       <upload-img @uploadImg="addImg" :imgs="product.imgs"></upload-img>
 
       <categories-picker @selectedCategories="setSelectedCategories($event)"></categories-picker>

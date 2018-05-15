@@ -1,7 +1,10 @@
+
 const DBService = require('../DBService.js');
 const mongo = require('mongodb');
+const Bid = require('../../classes/BidClass.js');
 
 function decline(bid) {
+  console.log('declineing bid');
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       const bidId = new mongo.ObjectID(bid._id);

@@ -51,8 +51,7 @@ function cleanDB() {
         imgs: [
           'https://res.cloudinary.com/amielsosa/image/upload/v1526230505/qsyjjlnn0efhlkz0hfvz.png'
         ],
-        categories: ['toys'],
-        desiredSwapCategories: ['vintage'],
+        categories: ['fashion'],
         desc: 'My own kidneys, you better give me something good',
         bidIds: [],
         isLive: true
@@ -77,8 +76,7 @@ function cleanDB() {
         imgs: [
           'https://res.cloudinary.com/amielsosa/image/upload/v1526309411/wasusw7drx53apkcomo2.jpg'
         ],
-        categories: ['toys'],
-        desiredSwapCategories: ['vintage'],
+        categories: ['fashion'],
         desc: 'a new galaxy phone, j7',
         bidIds: [],
         isLive: true
@@ -106,7 +104,7 @@ function cleanDB() {
   });
 }
 
-// cleanDB();
+cleanDB();
 
 module.exports = {
   COLLECTIONS,

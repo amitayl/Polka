@@ -15,8 +15,8 @@
     </div>
 
     <div class="flex flex-column align-center">
-      <v-btn :small="true" class="accept-btn" @click.native="acceptBid()">accept V</v-btn>
-      <v-btn :small="true" class="decline-btn" @click.native="declineBid()">decline X</v-btn>
+      <v-btn :small="true" class="accept-btn" @click.native.stop="acceptBid()">accept V</v-btn>
+      <v-btn :small="true" class="decline-btn" @click.native.stop="declineBid()">decline X</v-btn>
     </div>
   </section>
 </template>
