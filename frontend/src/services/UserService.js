@@ -32,6 +32,16 @@ function add(userData) {
     });
 }
 
+function addReview (review){
+  return axios
+    .put(BASE_URL + '/review', review)
+    .then(res => res.data)
+    .catch(err => {
+      throw new Error('review did not send');
+    });
+}
+
+
 function remove(userId) {
   return axios
     .delete(BASE_URL + '/user',  {params: {userId}})

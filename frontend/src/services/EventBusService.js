@@ -1,5 +1,7 @@
 const EVENTS = {
-  DISPLAY_USER_MSG: 'displayUserMsg'
+  DISPLAY_USER_MSG: 'displayUserMsg',
+  RETURN_REMOVED_NOTIFICATION: 'returnRemovedNotification',
+  CLOSE_NOTIFICATIONS: 'closeNotifications',
 };
 Object.freeze(EVENTS);
 export { EVENTS };

@@ -19,6 +19,7 @@ export default {
       type: PRODUCT_MUTATIONS.SET_PRODUCTS,
       queryObj: {}
     });
+    console.log(this.products);
   },
   computed: {
     products() {

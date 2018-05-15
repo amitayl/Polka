@@ -8,7 +8,6 @@ module.exports = app => {
     const transactionId = req.params.transactionId;
     TransactionService.getById(transactionId)
     .then(transactionObj => res.json(transactionObj))
-    
       // .catch(err => res.status(500).json(err));
   });
     

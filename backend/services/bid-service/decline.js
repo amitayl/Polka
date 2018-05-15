@@ -4,6 +4,7 @@ const mongo = require('mongodb');
 const Bid = require('../../classes/BidClass.js');
 
 function decline(bid) {
+  console.log('declineing bid');
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       const bidId = new mongo.ObjectID(bid._id);
@@ -31,7 +32,7 @@ function decline(bid) {
 
 function removeNotificationFromOwner(bid, db) {
   const ownerId = new mongo.ObjectID(bid.owner.product.ownerId);
-  const bidId = new mongo.ObjectId(bid._id);
+  const bidId = new mongo.ObjectID(bid._id);
 
   return new Promise((resolve, reject) => {
     db.collection(DBService.COLLECTIONS.USER).updateOne(
@@ -48,12 +49,12 @@ function removeNotificationFromOwner(bid, db) {
 function createTransactionPushNotification(bid, db) {
   const transaction = {
     owner: {
-      _id: bid.owner.product.ownerId,
-      productId: bid.owner.product._id
+      _id: new mongo.ObjectID(bid.owner.product.ownerId),
+      productId: new mongo.ObjectID(bid.owner.product._id)
     },
     bidder: {
-      _id: bid.bidder.product.ownerId,
-      productId: bid.bidder.product._id
+      _id: new mongo.ObjectID(bid.bidder.product.ownerId),
+      productId: new mongo.ObjectID(bid.bidder.product._id)
     },
     isDeal: false
   };
@@ -64,7 +65,7 @@ function createTransactionPushNotification(bid, db) {
       .insertOne(transaction, (err, { insertedId }) => {
         if (err) reject();
         else {
-          const bidderId = new mongo.ObjectID(bid.bidder.product.ownerId);
+          const bidderId = transaction.bidder._id;
 
           pushNotification(bidderId, insertedId, db)
             .then(() => resolve())

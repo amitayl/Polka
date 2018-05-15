@@ -27,23 +27,29 @@ module.exports = app => {
       });
   });
 
-  app.delete('/bid', (req, res) => {
-    console.log ('moshe', req.body);
+  app.post('/decline', (req, res)=> {
+    console.log()
+    const bid = req.body;
+    console.log(bid);
+
+    BidService.decline(bid)
+      .then(() => {
+        res.json()
+      })
+      .catch(err => {
+        res.status(500).send({ err })
+      });
+  })
+
+  app.post('/accept', (req, res)=> {
     const bid = req.body;
 
-    BidService.remove(bid)
+    BidService.accept(bid)
       .then(() => {
-        console.log('bid declined SUCCESS');
-        TransactionService.add(bid,false)
-        .then (_ => {
-          console.log('added trans')
-          res.json()
-        })
+        res.json()
       })
-      // .catch(err => {
-      //   console.log('bid declined FAIL')
-      //   res.status(500).send({ err })
-      // });
-     
-  });
+      .catch(err => {
+        res.status(500).send({ err })
+      });
+  })
 };

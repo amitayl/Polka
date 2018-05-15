@@ -1,16 +1,42 @@
 const getNewBids = require('./notification-service/getNewBids.js');
-const getDeclinedBids = require('./notification-service/getDeclinedBids.js');
+const getRespondedBids = require('./notification-service/getRespondedBids.js');
+const DBService = require('./DBService.js');
+const mongo = require('mongodb');
 
 function query(loggedInUserId) {
-  return getNewBids(loggedInUserId).then(bids => {
-    console.log(bids);
-    getDeclinedBids(loggedInUserId).then(declinedBids => {
-      console.log(declinedBids);
+  return new Promise((resolve, reject) => {
+    getNewBids(loggedInUserId).then(bids => {
+      getRespondedBids(loggedInUserId).then(respondedBids => {
+        const notifications = [...bids];
+        if (respondedBids) notifications.push(...respondedBids);
+        
+        resolve(notifications);
+      });
     });
-    return bids;
+  });
+}
+
+function remove(notification) {
+  const bidderId = new mongo.ObjectID(notification.bid.bidder._id);
+  const transactionId = new mongo.ObjectId(notification.bid._id);
+
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.USER)
+        .updateOne(
+          { _id: bidderId },
+          { $pull: { notifications: { transactionId } } },
+          (err, res) => {
+            if (err) reject();
+            else resolve();
+          }
+        );
+    });
   });
 }
 
 module.exports = {
-  query
+  query,
+  remove
 };

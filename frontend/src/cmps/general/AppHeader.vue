@@ -13,18 +13,19 @@
             
             <template v-if="loggedInUser">
               <div class="flex align-stretch relative">
-                <v-btn flat @click="showNotifications = !showNotifications">messages</v-btn>
+                <v-btn flat @click="toggleNotifications()">messages</v-btn>
 
                 <notifications v-show="showNotifications" 
                                 :notifications="notifications"
-                                @deleteNotification="deleteFromUi($event)"></notifications>
+                                @deleteNotification="deleteNotification($event)"
+                                @removeNotificationFromUi="removeNotificationFromUi($event)"></notifications>
               </div>
               
 
               <v-btn flat @click="moveTo('upload')">upload</v-btn>
 
               <div class="flex align-center relative">
-                <v-avatar class="user-menu-icon" @click="showUserMenu = !showUserMenu">
+                <v-avatar class="user-menu-icon" @click="toggleUserMenu()">
                   <img :src="loggedInUser.img" :alt="loggedInUser.nickName">
                 </v-avatar>
               
@@ -53,13 +54,28 @@ import { USER_ACTIONS } from '@/store/UserStore.js';
 import SearchForm from './app-header/SearchForm.vue';
 import NotificationService from '@/services/NotificationService.js';
 import Notifications from './app-header/Notifications.vue';
+import EventBusService, { EVENTS } from '../../services/EventBusService';
 
 export default {
+  created() {
+    EventBusService.$on(EVENTS.RETURN_REMOVED_NOTIFICATION, () => {
+      const idx = this.lastRemovedNotification.idx;
+      const notification = this.lastRemovedNotification.notification;
+
+      setTimeout(() => {
+        this.notifications.splice(idx, 0, notification);
+      }, 300);
+    });
+    EventBusService.$on(EVENTS.CLOSE_NOTIFICATIONS, () => {
+      this.showNotifications = false;
+    });
+  },
   data() {
     return {
       notifications: null,
       showNotifications: false,
-      showUserMenu: false
+      showUserMenu: false,
+      lastRemovedNotification: null
     };
   },
   computed: {
@@ -77,12 +93,10 @@ export default {
   },
   watch: {
     loggedInUser() {
-      console.log(this.notifications);
       if (this.loggedInUser) {
-        console.log(this.notifications);
         NotificationService.query(this.loggedInUser._id).then(notifications => {
           this.notifications = notifications.reverse();
-          console.log(this.notifications);
+          console.log('notifications', this.notifications);
         });
       }
     }
@@ -96,6 +110,15 @@ export default {
         this.$router.push(nextRoute);
       }
     },
+    toggleUserMenu() {
+      this.showUserMenu = !this.showUserMenu
+      if (this.showNotifications) this.showNotifications = false;
+    },
+    toggleNotifications() {
+      this.showNotifications = !this.showNotifications;
+      if (this.showUserMenu) this.showUserMenu = false;
+      
+    },
     logout() {
       this.showUserMenu = false;
       this.showNotifications = false;
@@ -103,8 +126,15 @@ export default {
         this.$router.push('/login');
       });
     },
-    deleteFromUi(idx) {
+    removeNotificationFromUi(idx) {
+      this.lastRemovedNotification = {
+        idx,
+        notification: this.notifications.splice(idx, 1)[0]
+      };
+    },
+    deleteNotification({ idx, notification }) {
       this.notifications.splice(idx, 1);
+      NotificationService.remove(notification);
     }
   },
   components: {

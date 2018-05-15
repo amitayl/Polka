@@ -4,6 +4,7 @@ import '../node_modules/vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 
+Vue.component('star-rating', VueStarRating.default);
 // Vue.use(VueCloudinary, {
 //   "cloud_name": "<polka>",
 //   "api_key": "735122477923243",

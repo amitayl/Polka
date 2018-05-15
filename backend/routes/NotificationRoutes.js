@@ -12,4 +12,17 @@ module.exports = app => {
         res.status(500).send({ error: `couldnt get notifications, ${err}` })
       );
   });
+
+  app.delete('/notification', (req, res) => {
+    const notification = JSON.parse(req.query.notification);
+
+    NotificationService.remove(notification)
+      .then(() => {
+        res.json();
+      })
+      .catch(err =>
+        res.status(500).send({ error: `couldnt delete notification, ${err}` })
+      );
+  });
+
 };

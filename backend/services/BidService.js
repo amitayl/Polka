@@ -1,6 +1,7 @@
 const TransactionService = require('./TransactionService')
 const DBService = require('./DBService')
 const send = require('./bid-service/send.js');
+const accept = require('./bid-service/accept.js');
 const decline = require('./bid-service/decline.js');
 const isExists = require('./bid-service/isExists.js');
 const mongo = require('mongodb');
@@ -29,6 +30,7 @@ function remove(bid) {
 
 module.exports = {
   send,
+  accept,
   decline,
   isExists,
   remove

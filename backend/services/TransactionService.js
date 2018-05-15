@@ -17,56 +17,73 @@ function query() {
 
 function getById(transactionId) {
   console.log('get to backend');
-  let gogo = new mongo.ObjectID('5af9b461455f27166c38ad64');
-  let transaction_id = new mongo.ObjectID(transactionId);
+  // transactionId = new mongo.ObjectID(transactionId);
   let transactionObj = {};
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.TRANSACTION)
-        .findOne({ _id: transaction_id }, (err, transaction) => {
-          if (err) reject(err);
-          else {
-            console.log('transaction_id', transaction_id, 'transactionId', transactionId)
-            console.log('trans', transaction)
-            db
-              .collection(DBService.COLLECTIONS.PRODUCT)
-              .findOne({ _id: gogo }, (err, product) => {
-                if (err) reject(err)
-                console.log ('zuzu' , transaction.owner.productId);
-                console.log('product', product)
-                transactionObj.owner = {};
-              //  transactionObj.owner.prodImg = product.imgs[0];
-                transactionObj.owner.prodTitle = product.title;
-                db.collection(DBService.COLLECTIONS.USER)
-                  .findOne({ _id: transaction.owner._id }, (err, user) => {
-                    transactionObj.owner.img = user.imgs
-                    transactionObj.owner.nickName = user.nickName
+        .findOne({
+          _id: new mongo.ObjectID(transactionId)
+        })
+        .then(transaction => {
+          let owner = {}
+          let bidder = {}
 
-                    // db
-                    //   .collection(DBService.COLLECTIONS.PRODUCT)
-                    //   .findOne({ _id: transaction.bidder.productId }, (err, product) => {
-                    //     if (err) reject(err);
-                    //     console.log('product', product)
-                    //     transactionObj.bidder = {};
-                    //   //  transactionObj.bidder.prodImg = product.imgs[0];
-                    //     transactionObj.bidder.prodTitle = product.title;
-                    //     db.collection(DBService.COLLECTIONS.USER)
-                    //       .findOne({ _id: transaction.bidder._id }, (err, user) => {
-                    //         transactionObj.bidder.img = user.imgs
-                    //         transactionObj.bidder.nickName = user.nickName
-                    //         console.log('transObj', transactionObj)
-                            resolve(transactionObj)
-                    //       })
-
-                    //   });
-                  })
+          let prmOwner = new Promise((resolve, reject) => { 
+            db.collection(DBService.COLLECTIONS.PRODUCT)
+            .findOne({
+              _id: new mongo.ObjectId(transaction.owner.productId)
+            }).then(product => {
+              console.log('prod', product)
+              owner.prodTitle = product.title;
+              owner.prodImg = product.imgs[0];
+              db.collection(DBService.COLLECTIONS.USER)
+                .findOne({
+                  _id: new mongo.ObjectId(transaction.owner._id)
+                }).then(user => {
+                  owner._id = user._id
+                  owner.img = user.img
+                  owner.nickName = user.nickName
+                  resolve(owner);
+                  console.log('trans', transaction)
+                })
               })
-          }
-        });
-        db.close();
-    });
-  })
+            })
+
+              let prmBidder =  new Promise((resolve, reject) => {
+              db.collection(DBService.COLLECTIONS.PRODUCT)
+            .findOne({
+              _id: new mongo.ObjectId(transaction.bidder.productId)
+            }).then(product => {
+              console.log('prod', product)
+              bidder.prodTitle = product.title;
+              bidder.prodImg = product.imgs[0];
+              db.collection(DBService.COLLECTIONS.USER)
+                .findOne({
+                  _id: new mongo.ObjectId(transaction.bidder._id)
+                }).then(user => {
+                  bidder._id = user._id
+                  bidder.img = user.img
+                  bidder.nickName = user.nickName
+                  resolve(bidder);
+                  console.log('trans', transaction)
+                })
+
+              })
+            })
+           Promise.all([prmOwner,prmBidder]).then (transarray =>{
+             let transObj = {};
+             transObj.owner = transarray[0];
+             transObj.bidder = transarray[1];
+             resolve (transObj)
+           })
+              
+                
+            })
+        })
+    })
+  // })
 }
 
 function add(bid, isDeal) {
