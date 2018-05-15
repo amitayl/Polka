@@ -1,7 +1,12 @@
 @import './helpers.css';
 @import './normalize.css';
 
+body {
+  background-color: rgb(219, 217, 221);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 .container {
+
   max-width: 1050px;
   margin: 0 auto;
   width: 100%;
@@ -24,10 +29,9 @@
   margin-bottom: 0;
 }
 
-/* overriding vue material */
-img:not(.md-img).bid-product {
+.bid-product {
   height: 50px;
-  width: 80px;
+  width: 50px;
 }
 
 .close-btn {

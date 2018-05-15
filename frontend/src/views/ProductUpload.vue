@@ -112,10 +112,11 @@
 
 <script>
 // @ is an alias to /src
-import UploadImg from "@/cmps/product-upload/UploadImg";
+import UploadImg from '@/cmps/product-upload/UploadImg';
+import EventBusService, { EVENTS } from '../services/EventBusService';
 
 export default {
-  name: "ProductUpload",
+  name: 'ProductUpload',
   created() {
     this.product.ownerId = this.$store.getters.getLoggedInUser._id;
   },
@@ -123,14 +124,14 @@ export default {
     return {
       product: {
         createdAt: null,
-        title: "Sample product title",
+        title: 'Sample product title',
         imgs: [],
-        categories: ["toys"],
-        desiredSwapCategories: ["vintage"],
-        desc: "Sample description for a product",
+        categories: ['toys'],
+        desiredSwapCategories: ['vintage'],
+        desc: 'Sample description for a product',
         ownerId: null,
         bidIds: [],
-        location: "Haifa",
+        location: 'Haifa',
         isLive: true
       }
     };
@@ -187,13 +188,19 @@ export default {
       this.product.createdAt = Date.now();
 
       this.$store
-        .dispatch({ type: "addProduct", product: this.product })
-        .then(_ => this.$router.push("/"))
+        .dispatch({ type: 'addProduct', product: this.product })
+        .then(() => {
+          this.$router.push('/browseProducts');
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'product uploaded',
+            desc: 'nice man, let the bids flow'
+          });
+        })
         .catch(err => console.log({ err }));
     },
     addImg(urlPath) {
       this.product.imgs.push(urlPath);
-      console.log("img uploaded");
+      console.log('img uploaded');
     }
   },
   components: {
@@ -212,19 +219,11 @@ body {
 }
 
 .input {
-  width:50%;
+  width: 50%;
 }
-
-.md-card {
-    width: 320px;
-    margin: 4px;
-    display: inline-block;
-    vertical-align: top;
-  }
-
 .file-upload-form,
 .image-preview {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 img.preview {

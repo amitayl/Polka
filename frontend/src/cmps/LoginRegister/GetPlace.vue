@@ -3,8 +3,8 @@
 <template>
 <section class="place">
 <label >
-  Enter place:
-  <input ref="autocomplete"  placeholder="Search"   class="search-location"   onfocus="value = ''"  type="text" />
+  <input ref="autocomplete"  placeholder="City"   class=" text-box search-location"   onfocus="value = ''"  type="text" />
+ 
 </label>
 
 </section>
@@ -43,8 +43,7 @@ export default {
   },
   methods: {
     emit(){
-      console.log ('jojo');
-      this.$emit ('selectedPlace', loc)
+      this.$emit ('selectedPlace', this.loc)
     }
    
   }
@@ -53,18 +52,20 @@ export default {
 
 <style scoped>
 .text-box {
+  /* margin-left:10px; */
+  margin-bottom:20px;
   outline: 0;
-  height: 42px;
+  height: 30px;
   width: 240px;
-  font-size: 20px;
-  line-height: 42px;
+  font-size: 16px;
+  line-height: 30px;
   padding: 0 16px;
-  background-color: rgba(255, 255, 255, 0.8);
+   background-color: rgba(255, 255, 255, 0.8);
   color: #212121;
   border: 0;
-  float: left;
+ 
   -webkit-border-radius: 4px 0 0 4px;
-  border-radius: 10px 0px 0px 10px;
+ 
 }
 .text-box:focus {
   outline: 0;
@@ -75,11 +76,11 @@ export default {
   background: none;
   background-color: rgba(38, 50, 56, 0.8);
   float: left;
-  height: 42px;
+  height: 30px;
   width: 60px;
   padding: 0 10px;
   text-align: center;
-  line-height: 42px;
+  line-height: 30px;
   border: 0;
   color: #fff;
   font: normal normal normal 14px/1 FontAwesome;
@@ -104,15 +105,19 @@ button:focus {
 }
 
 .place {
+  font-size:18px;
   width: 100%;
+  margin-left: 0px;
+  text-align:left;
+  margin-right:180px;
 }
 label {
   width: 100%;
 }
 .search-location {
-  display: inline-block;
+  /* display: inline-block;
   /* width: 60vw; */
-  margin: 0 auto;
+  /* margin: 0 auto;
   margin-top: 5vw;
   font-size: 20px;
   font-weight: 400;
@@ -120,6 +125,6 @@ label {
   height: 30px;
   line-height: 30px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 10px; */
 }
 </style>

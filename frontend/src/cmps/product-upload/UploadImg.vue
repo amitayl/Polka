@@ -1,18 +1,24 @@
 
 <template>
+<section>
+  
+
+
+
     <div class="field-body">
       <div class="field">
         <div class="control">
-          <div class="file">
+          <div prepend-icon="attach_file"  class="file">
            <label class="file-label">
-                     <input   type="file" accept="image/*"  class="form-control" v-on:change="upload($event.target.files)" required/>
+              <input type="file" accept="image/*" 
+                     class="form-control" required
+                     v-on:change="upload($event.target.files)" />
             </label>
         </div>
       </div>
     </div>
-   
-    
-  </div> 
+  </div>
+  </section> 
 </template>
 
 <script>

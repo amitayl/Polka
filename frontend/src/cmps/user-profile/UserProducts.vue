@@ -1,7 +1,7 @@
 <template>
     <section class="user-products">
          <h1 class="title is-2 product" >My products </h1>
-         <product-list @emitSelected="emitSelected" :products="products"></product-list>
+         <product-list @emitSelected="emitSelected" v-if="products" :products="products"></product-list>
     </section>
 </template>
 
@@ -12,7 +12,7 @@ import ProductService from "@/services/ProductService";
 export default {
   data() {
     return {
-      products: [],
+      products: null,
       productIds:[]
     };
   },

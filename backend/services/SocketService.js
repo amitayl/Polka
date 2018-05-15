@@ -1,36 +1,27 @@
 const socketIo = require('socket.io');
 
-
-const connectedCount = 0;
-const allSockets = [];
+// const connectedCount = 0;
+// const allSockets = [];
 
 function init(http) {
   const io = socketIo(http);
+
   io.on('connection', socket => {
-    connectedCount++;
-    allSockets.push(socket);
+    console.log('connected to root io');
 
-    socket.on('disconnect', () => {
-      connectedCount--;
-      allSockets.splice(allSockets.findIndex(s => s === socket), 1);
-    });
+    socket.on('sendLoggedInUserId', loggedInUserId => {
+      const loggedInUserSocket = io.of('/' + loggedInUserId);
 
-    socket.on('chat newMessage', msg => {
-      if (socket.theTopic) {
-        io.to(socket.theTopic).emit('chat message', msg);
-      } else {
-        io.emit('chat message', msg);
-      }
-    });
+      const nsps = Object.keys(io.sockets.clients().server.nsps);
+      console.log('NSPS BIATCH', nsps);
 
-    socket.on('chat setTopic', topic => {
-      if (socket.theTopic) socket.leave(socket.theTopic);
-      socket.join(topic);
-      socket.theTopic = topic;
-    });
-
-    socket.on('chat sendStatus', statusTxt => {
-      socket.broadcast.emit('chat setStatusTxt', statusTxt);
+      // when bid is sent, emit the notification to the owner
+      loggedInUserSocket.on('bidSent', ownerId => {
+        console.log('emitting product bidded to', ownerId);
+        
+        const ownerSocket = io.of('/' + ownerId);
+        ownerSocket.emit('productBidded', { notification: 'blahblah' });
+      });
     });
   });
 }

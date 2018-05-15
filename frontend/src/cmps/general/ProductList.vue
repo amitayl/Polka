@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     emitSelected(id) {
-      console.log ('toto');
       this.$emit('emitSelected', id);
     }
   },
@@ -33,11 +32,36 @@ export default {
 
 <style scoped>
 .product-list-list {
-  margin: 0 auto;
-  width: fit-content;
+  /* margin: 0 auto; */
+  /* width: fit-content; */
   display: grid;
-  grid-template-columns: repeat(4, 250px);
+  grid-template-columns: repeat(1, 1fr);
   grid-template-rows: auto;
-  grid-gap: 20px;
+  grid-gap: 15px;
+  margin: 0 5vw;
+}
+
+@media (min-width: 450px) {
+  .product-list-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 750px) {
+  .product-list-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .product-list-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1300px) {
+  .product-list-list {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 </style>

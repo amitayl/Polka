@@ -33,7 +33,8 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      // beforeEnter: !navGuards.userOnlyRoute
     },
     
     // {
@@ -69,13 +70,13 @@ export default new Router({
       component: DecideTrade
     },
     {
-      path: '/transaction/',
+      path: '/transaction/:_id',
       component: Transaction
     },
     {
       path: '/admin',
       component: Admin,
-      beforeEnter: navGuards.adminOnlyRoute
+      // beforeEnter: navGuards.adminOnlyRoute
     },
     {
       path: '/msg/login-required',

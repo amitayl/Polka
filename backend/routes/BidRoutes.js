@@ -1,4 +1,5 @@
 const BidService = require('../services/BidService.js');
+const TransactionService = require('../services/TransactionService.js');
 
 module.exports = app => {
   app.get('/bid', (req, res) => {
@@ -27,16 +28,22 @@ module.exports = app => {
   });
 
   app.delete('/bid', (req, res) => {
-    const bid = JSON.parse(req.query.bid);
+    console.log ('moshe', req.body);
+    const bid = req.body;
 
-    BidService.decline(bid)
+    BidService.remove(bid)
       .then(() => {
         console.log('bid declined SUCCESS');
-        res.json()
+        TransactionService.add(bid,false)
+        .then (_ => {
+          console.log('added trans')
+          res.json()
+        })
       })
-      .catch(err => {
-        console.log('bid declined FAIL')
-        res.status(500).send({ err })
-      });
+      // .catch(err => {
+      //   console.log('bid declined FAIL')
+      //   res.status(500).send({ err })
+      // });
+     
   });
 };

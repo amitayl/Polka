@@ -5,7 +5,7 @@
         <div>Offers for </div>
         <img v-if="product" :src="product.imgs[0]">
         <!-- <product-preview :product="product"> </product-preview> -->
-        <button  class="button" @click="goBack">back</button>
+        <v-btn @click="goBack">back</v-btn>
          </div> 
       
         
@@ -21,7 +21,6 @@
         <br>
         <product-list @emitSelected="getBidId" v-if="offers.length" :products="offers"></product-list>
         <h1 v-if="!offers.length" >No offers</h1>
-        
     </section>
 </template>
 

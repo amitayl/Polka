@@ -73,3 +73,8 @@
     align-items: flex-end;
 }
 
+/* positions */
+
+.relative {
+    position: relative;
+}

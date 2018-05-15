@@ -10,12 +10,9 @@ function send(bidData) {
       isExists(bidData.owner.productId, bidData.bidder.productId).then(
         isExists => {
 
-          console.log(isExists);
-
           if (!isExists) {
             const newBid = new Bid(bidData);
             addToDB(newBid, db).then(bidFromDB => {
-              console.log(bidFromDB);
 
               const prms = [
                 linkToOwnerProduct(newBid, db),
@@ -24,19 +21,16 @@ function send(bidData) {
 
               Promise.all(prms)
                 .then(() => {
-                  console.log('link & push notification rejected');
                   resolve();
                   db.close();
                 })
                 .catch(() => {
-                  console.log('link & push notification rejected')
                   reject();
                   db.close();
                 });
             });
 
           } else {
-            console.log('bid allready exists');
             reject();
             db.close();
           }
@@ -68,10 +62,8 @@ function linkToOwnerProduct(bid, db) {
         (err, res) => {
           if (err) {
             reject(err);
-            console.log('rejected link to owner');
           } else {
             resolve();
-            console.log('resolved to owner');
           }
         }
       );
@@ -101,10 +93,8 @@ function pushNotificationToOwner(bid, db) {
               (err, addedBidNotification) => {
                 if (err) {
                   reject(err);
-                  console.log('rejected push notification');
                 } else {
                   resolve();
-                  console.log('resolved push notification');
                 }
               }
             );

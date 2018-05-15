@@ -1,13 +1,13 @@
 <template>
-  <section class="notifications-container elevation-4">
-      <ul>
-        <li v-if="notifications.length > 0" v-for="(notification, idx) in notifications" :key="idx">
-          <component :is="notification.type" 
-                      :data="notification.bid"
-                      @deleteNotification="$emit('deleteNotification', idx)"></component>
-        </li>
-      </ul>  
-  </section>
+    <section class="notifications" @click="stopPropogation">
+        <ul class="notifications-container elevation-2">
+          <li v-if="notifications.length > 0" v-for="(notification, idx) in notifications" :key="idx">
+            <component :is="notification.type" 
+                       :data="notification.bid"
+                       @deleteNotification="$emit('deleteNotification', idx)"></component>
+          </li>
+        </ul>   
+    </section>
 </template>
 
 <script>
@@ -46,9 +46,15 @@ export default {
   border-radius: 5px;
   height: 300px;
   width: 400px;
-  top: 80px;
-  transform: translateX(-50%);
-  left: 50%;
+  top: 100px;
+  right: -410px;
+}
+
+@media (min-width: 1100px) {
+  .notifications-container {
+    /* transform: translate(calc(-50% + 50px)); */
+    right: 0;
+  }
 }
 
 .notifications-container::-webkit-scrollbar-button {

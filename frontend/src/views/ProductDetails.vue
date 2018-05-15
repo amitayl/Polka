@@ -25,14 +25,14 @@
       <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
       <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4>
       <h4 class="title is-4">Trade location: {{ product.location }}</h4>
-      </div>
+    </div>
       
-      <button v-if="loggedInUser" @click="toBid()" 
-          class="bid-btn button"
-          :disabled="!isBidAble">Bid Now</button>
+      <v-btn v-if="loggedInUser" @click="toBid()" 
+          class="bid-btn"
+          :disabled="!isBidAble">Bid Now</v-btn>
 
-      <button v-else class="bid-btn button"
-          disabled="true">Login to bid</button>
+      <v-btn v-else class="bid-btn"
+          :disabled="true">Login to bid</v-btn>
         
     </div>
 
@@ -51,16 +51,17 @@ export default {
       .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
       .then(product => {
         this.product = product;
-        
 
         const loggedInUser = this.$store.getters.getLoggedInUser;
-        this.isBidAble = this.product.ownerId !== loggedInUser._id;
+        if (loggedInUser) {
+          this.isBidAble = this.product.ownerId !== loggedInUser._id;
+        }
       });
   },
   data() {
     return {
       product: null,
-      isBidAble: null,
+      isBidAble: null
     };
   },
   computed: {

@@ -1,22 +1,22 @@
 <template>
   <section class="accepted-bid bid">
     <div class="flex flex-column align-center">
-        <p class="md-body-1">Congradulations!
+        <p class="body-1">Congradulations!
             {{data.owner.nickName}}</p>
         <img class="bid-product">
-        <p class="md-caption">{{data.owner.product.title}}</p>
+        <p class="caption">{{data.owner.product.title}}</p>
     </div>
 
     --V->
 
     <div class="flex flex-column align-center">
-        <p class="md-body-1">for your</p>
+        <p class="body-1">for your</p>
         <img class="bid-product">
-        <p class="md-caption">{{data.bidder.product.title}}</p>
+        <p class="caption">{{data.bidder.product.title}}</p>
     </div>
 
     <div class="flex flex-column align-center">
-      <md-icon class="close-btn" @click="closeBid()">close</md-icon>
+      <v-avatar class="close-btn" @click="closeBid()">close</v-avatar>
     </div>
   </section>
 </template>

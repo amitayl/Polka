@@ -1,60 +1,45 @@
 <template>
     <section class="product-preview">
-            <!-- <img :src="product.imgs[0]" alt=""/>
-            <div class="info-container">
-                <div class="flex space-between info-heading-container">
-                    <h2 class="md-title">{{product.title}}</h2>
-                    <span class="md-subheading">{{product.location}}</span>
-                </div>
-                {{product.desc}}
-            </div> -->
+      <v-layout style="height: 100%">
+        <v-flex>
+          <v-card width="100%">
+            <v-card-media
+              height="200px"
+              :src="product.imgs[0]"
+            >
+            </v-card-media>
+            <v-card-title>
+              <div>
+                <span class="headline">{{product.title}}</span><br>
+                <span>{{product.location}}</span><br>
+                <span>{{product.desc}}</span>
+              </div>
+            </v-card-title>
 
-            <md-card class="md-card-example">
-      <md-card-area md-inset>
-        <md-card-media md-ratio="4:3">
-          <img :src="product.imgs[0]" >
-        </md-card-media>
-
-        <md-card-header>
-          <h2 class="md-title">{{product.title}}</h2>
-          <div class="md-subhead">
-            <md-icon>location_on</md-icon>
-            <span>{{product.location}}</span>
-          </div>
-        </md-card-header>
-             <p class="md-title">
-               Desired in exchange:
-               {{product.desiredSwapCategories[0]}} 
-              </p>
-      </md-card-area>
-
-      <md-card-actions>
-        <md-button class="md-primary">Make Offer</md-button>
-      </md-card-actions>
-    </md-card>
-
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn flat color="orange">Bid now</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </section>
 </template>
 
 <script>
 export default {
-    props: {
-        product: {
-            type: Object,
-            required: true
-        }
+  props: {
+    product: {
+      type: Object,
+      required: true
     }
+  }
 };
 </script>
 
 <style scoped>
-.md-card-actions.md-alignment-right {
-  justify-content:center;
-}
-
 .product-preview {
-  border: 1px solid  lightgray;
-  width: 250px;
+  border: 1px solid lightgray;
   height: 100%;
   max-height: 100%;
   text-align: left;

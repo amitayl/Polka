@@ -15,20 +15,18 @@ export { USER_MUTATIONS, USER_ACTIONS };
 import UserService from '../services/UserService.js';
 import StorageService from '../services/StorageService.js';
 
-let loggedInUser = StorageService.session.load('loggedInUser');
-loggedInUser = (loggedInUser)? loggedInUser : null;
-
 export default {
   state: {
-    loggedInUser,
-    selectedUser: {
-      id: '2',
-      name: 'yosi',
-      img: '@/imgs/selectedUser.jpg',
-      desc: ' Hello , I am a nice person who likes to travel',
-      email: 'yosi@gmail.com',
-      products: [{ id: 4, img: '' }, { id: 5, img: '' }]
-    }
+    loggedInUser: null,
+    selectedUser: null,
+    // selectedUser: {
+    //   id: '2',
+    //   name: 'yosi',
+    //   img: '@/imgs/selectedUser.jpg',
+    //   desc: ' Hello , I am a nice person who likes to travel',
+    //   email: 'yosi@gmail.com',
+    //   products: [{ id: 4, img: '' }, { id: 5, img: '' }]
+    // }
   },
   getters: {
     getLoggedInUser(state) {
@@ -58,16 +56,15 @@ export default {
       });
     },
     [USER_ACTIONS.CHECK_LOGIN](store, { loginData }) {
-      return UserService.checkLogin(loginData)
-        .then(loggedInUser => {
-          if (!loggedInUser) throw Error
-          else {
-            store.commit({
-              type: USER_MUTATIONS.SET_LOGGED_IN_USER,
-              user: loggedInUser
-            });
-          }
-        })
+      return UserService.checkLogin(loginData).then(loggedInUser => {
+        if (!loggedInUser) throw Error;
+        else {
+          store.commit({
+            type: USER_MUTATIONS.SET_LOGGED_IN_USER,
+            user: loggedInUser
+          });
+        }
+      });
     },
     [USER_ACTIONS.LOGOUT](store) {
       return UserService.logout().then(() => {

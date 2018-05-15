@@ -1,22 +1,17 @@
 <template>
     <section class="flex align-center">
-        <button class="hamburger"
-                @click="$emit('toggleSideMenu')">%</button>
-
-        <h2 @click="$emit('moveToHome')" class="md-display-1 logo">Polka</h2>
-
-        <form @submit.prevent="searchProducts()">
-            <select v-model="category">
+      <form @submit.prevent="searchProducts()">
+          <select v-model="category">
             <option v-for="(CATEGORY, idx) in PRODUCT_CATEGORIES" 
                     :key="idx" :value="CATEGORY">{{CATEGORY}}</option>
-            </select>
-            <input v-model="searchStr"
-                    ref="search"
-                    type="search" 
-                    class="search" 
-                    placeholder="Find some stuff"/>
-            <button type="submit">🔎</button> 
-        </form>
+          </select>
+          <input v-model="searchStr"
+                  ref="search"
+                  type="search" 
+                  class="search" 
+                  placeholder="Find some stuff"/>
+          <button type="submit">🔎</button> 
+      </form>
     </section>
 </template>
 
@@ -62,19 +57,14 @@ export default {
 </script>
 
 <style scoped>
-.hamburger {
-  position: relative;
-  z-index: 1;
-}
-.md-display-1.logo {
-  margin-right: 30px;
-}
 form {
   display: flex;
-  height: 50px;
+  height: 40px;
 }
 select {
   height: 100%;
+  background: whitesmoke;
+  padding: 0 10px;
 }
 .search {
   height: 100%;
@@ -88,10 +78,5 @@ select {
 button[type='submit'] {
   border: 1px solid lightgray;
   width: 50px;
-}
-@media (min-width: 1100px) {
-  .hamburger {
-    display: none;
-  }
 }
 </style>
