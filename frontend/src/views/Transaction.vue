@@ -1,132 +1,123 @@
 <template>
-  <div class="container" >
+  <section class="container">
     <div class="trans">
-      <div class="scroll" ><img class="scroll" src="http://clipartix.com/wp-content/uploads/2016/04/Blank-scroll-clipart-top-hd-images-for-free-image-0-2.png" >
-          <div class="date">
-            <p>Deal :#1</p> 
-            <p>{{time}}</p>
-       
-         </div>
-      <div class="center">
-        <div class="headline1">Trade summery</div>
-        <div class="trade-details flex space-between">
-          <transaction-user-card  v-if="transactionObj" :user="transactionObj.owner"></transaction-user-card>
-          <transaction-user-card v-if="transactionObj" :user="transactionObj.bidder"></transaction-user-card>
+      <div class="scroll">
+        <img class="scroll" 
+        src="http://clipartix.com/wp-content/uploads/2016/04/Blank-scroll-clipart-top-hd-images-for-free-image-0-2.png" >
+
+        <div class="date">
+          <p>Deal :#1</p> 
+          <p>{{time}}</p>
         </div>
-        
-      <!-- <h1 >Transaction</h1> -->
-  <!-- <button @click="upload">yosi</button> -->
 
-    </div>
-    </div>
-
-     <p  class="thanks"><strong>Thank you for trading with Polka! </strong></p>
-      <!-- <a href="#"     @click.stop="dialog=true"  class="thanks"> &nbsp &nbsp Please leave a review </a> -->
-
-      <a href="#"   data-toggle="modal" data-target="#myModal"    class="thanks"> &nbsp; &nbsp; Please leave a review </a>
-
-
-     <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-       <div class="modal-content">
-        
-          
-      
-      
-      <v-card>
-        <div class="layout-card">
-       <div class="title-star">Please choose a rating from 1-5 for you trade partner</div>
-          <star-rating v-bind:star-size="30"  @rating-selected ="setRating" ></star-rating>
-        
-          <v-container fluid>
-            <v-layout row>
-              <v-flex xs12>
-                 
-                <v-text-field
-               v-model = "review.details.txt"
-                  label="Please tell us about your experience with your trade partner"
-                  textarea
-                ></v-text-field>
-                 
-              </v-flex>
-            </v-layout>
-          </v-container>
-          <v-card-actions>
-            <v-btn color="green darken-1" flat data-dismiss="modal">Close</v-btn>
-            <v-btn color="green darken-1" flat data-dismiss="modal" @click.native="dialog=false , submitReview()">Save</v-btn>
-          </v-card-actions>
+        <div class="center">
+          <div class="headline1">Trade summery</div>
+          <div class="trade-details flex space-between">
+            <transaction-user-card  v-if="transactionObj" 
+              :user="transactionObj.owner"></transaction-user-card>
+            <transaction-user-card v-if="transactionObj" 
+              :user="transactionObj.bidder"></transaction-user-card>
           </div>
-          </v-card>
-        
-           
-           
-          
+        </div>
+
+        <p class="thanks"><strong>Thank you for trading with Polka! </strong></p>
+        <a href="#" @click="showModal = true" data-toggle="modal" data-target="#myModal"
+           class="thanks"> &nbsp; &nbsp; Please leave a review </a>
+      </div>
+
+      <transition name="fade">
+        <div v-show="showModal" class="modal-background" @click="showModal = false">
+          <div class="modal" @click.stop>
+            
+            <v-card>
+              <div class="layout-card">
+                <div class="title-star">Please choose a rating from 1-5 for you trade partner</div>
+                <star-rating v-bind:star-size="30"  @rating-selected ="setRating" ></star-rating>
+
+                <v-container fluid>
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-text-field
+                        v-model = "review.details.txt"
+                        label="Please tell us about your experience with your trade partner"
+                        textarea
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+
+                <v-card-actions>
+                  <v-btn color="green darken-1" flat 
+                    @click.native="showModal=false">Close</v-btn>
+                  <v-btn color="green darken-1" flat data-dismiss="modal" 
+                    @click.native="showModal=false ,submitReview()">Save</v-btn>
+                </v-card-actions>
+              </div>
+            </v-card>
+
           </div>
-    
-     
+        </div>   
+      </transition>  
+      
     </div>
-    </div>     
-  </div>
-</div>
-  
+  </section>
 </template>
 
 <script>
-import UserService from "@/services/UserService";
-import StarRating from "vue-star-rating";
-import TransactionUserCard from "@/cmps/Transaction/TransactionUserCard";
-import FillReview from "@/cmps/FillReview";
-import moment from "moment";
-import TransactionService from "@/services/TransactionService.js";
+import UserService from '@/services/UserService';
+import StarRating from 'vue-star-rating';
+import TransactionUserCard from '@/cmps/Transaction/TransactionUserCard';
+import FillReview from '@/cmps/FillReview';
+import moment from 'moment';
+import TransactionService from '@/services/TransactionService.js';
+
 export default {
   data() {
     return {
-      time: "",
+      time: '',
       transaction: {},
-
+      showModal: false,
       bidder: {},
       owner: {},
       isShowReview: true,
       transactionObj: null,
       review: {
-        getterId: "",
-      dialog: false,
+        getterId: '',
         details: {
-          senderId: "",
+          senderId: '',
           rating: 0,
-          txt: ""
+          txt: ''
         }
       }
     };
   },
   mounted() {
     const transactionId = this.$route.params._id;
-    this.time = moment().format("MMM Do YY");
+    this.time = moment().format('MMM Do YY');
     TransactionService.getById(transactionId).then(transObj => {
       this.transactionObj = transObj;
 
       const loggedInUserId = this.$store.getters.getLoggedInUser._id;
-      console.log("loggedInUserId", loggedInUserId);
 
       if (loggedInUserId === transObj.owner_id) {
-        this.review.getterId = transObj.owner._id;
-        this.review.details.senderId = transObj.bidder._id;
-      } else {
         this.review.getterId = transObj.bidder._id;
         this.review.details.senderId = transObj.owner._id;
+      } else {
+        this.review.getterId = transObj.owner._id;
+        this.review.details.senderId = transObj.bidder._id;
       }
     });
   },
   methods: {
     submitReview() {
-      console.log("submit", this.review);
-      UserService.addReview(this.review)
-      .then (_=> {this.$router.push('/browseProducts' )})
-      
+      console.log('submit', this.review);
+      UserService.addReview(this.review).then(_ => {
+        this.$router.push('/browseProducts');
+      });
     },
-   
+
     setRating(rating) {
-      console.log("ev", rating);
+      console.log('ev', rating);
       this.review.details.rating = rating;
     }
   },
@@ -143,7 +134,7 @@ export default {
 </script>
 <style scoped>
 .trans {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
   width: 900px;
   /* opacity: 0.5; */
@@ -176,7 +167,7 @@ img.scroll {
 }
 .thanks {
   display: inline-block;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 p {
   margin: auto 0px;
@@ -213,5 +204,26 @@ p {
   margin-top: 20px;
   color: rgb(48, 48, 92);
   text-align: left;
+}
+
+/* // NEW MODAL */
+
+.modal-background {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.modal {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
 }
 </style>

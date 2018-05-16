@@ -3,6 +3,7 @@ class User {
     this.createdAt = Date.now();
     this.productIds = [];
     this.notifications = [];
+    this.reviews = [];
 
     this.email = email;
     this.password = password;

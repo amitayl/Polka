@@ -105,40 +105,27 @@ function checkLogin(loginData) {
 }
 
 function addReview(review) {
-  console.log ('didi')
+  console.log({ review });
   return new Promise((resolve, reject) => {
     const userId = new mongo.ObjectID(review.getterId);
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.USER)
-        .findOne(
-          { _id: userId }, (err, user) => {
-            console.log ('user' , user)
+        .updateOne(
+          { _id: userId },
+          { $push: { reviews: review.details } },
+          (err, res) => {
             if (err) reject(err);
-            else{
-              console.log ('koko')
-              if (user.reviews)  user.reviews.push (review.details);
-                else {
-                  user.reviews =[];
-                  user.reviews.push (review.details);
-                 
-                }
-              db
-              .collection(DBService.COLLECTIONS.USER)
-              .update ({ _id: userId} , user)
-              .then (_ => resolve(user))
-            }
-          })
-            
-            db.close();
-          })
-    })
-
+            else resolve();
+          }
+        );
+      db.close();
+    });
+  });
 }
 
 function linkProductToOwner(ownerId, productId) {
   return new Promise((resolve, reject) => {
-
     ownerId = new mongo.ObjectID(ownerId);
     productId = new mongo.ObjectID(productId);
 
@@ -149,7 +136,7 @@ function linkProductToOwner(ownerId, productId) {
           { _id: ownerId },
           { $push: { productIds: productId } },
           (err, res) => {
-            if (err) reject(err)
+            if (err) reject(err);
             else resolve(res);
           }
         );
