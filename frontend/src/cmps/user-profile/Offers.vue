@@ -39,33 +39,32 @@ export default {
   },
   data() {
     return {
-      chosenProductId:[],
+      chosenProductId: [],
       detailsBids: [],
       productOffersObjs: [],
       productOffersObj: {},
       productIds: [],
       product: null,
       offers: []
-    }
+    };
   },
- 
+
   created() {
     //elad move to dispatch
     // this.sum = ProductService.getOffersByProduct('5ae9bc40c66def0488aff9ec');
     ProductService.getOffersByProductId(this.productId).then(
       productOffersObj => {
         this.productOffersObj = productOffersObj;
-        console.log('productOffersObjslllllllllllll', productOffersObj); 
-      this.product = productOffersObj.prod;
+        this.product = productOffersObj.prod;
 
-      
-      console.log ('product' , this.product);
-        this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
+        this.$store.commit({
+          type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT,
+          product: this.product
+        });
         let curr = this.$store.getters.getCurrProduct;
-        console.log ('curr' , curr);
-        this.detailsBids = productOffersObj.bids
-        if (this.detailsBids)  this.offers = productOffersObj.bids.map ( bid => bid.bidderProd)
-        console.log ('ggggggggggggggggggg' , this.offers);
+        this.detailsBids = productOffersObj.bids;
+        if (this.detailsBids)
+          this.offers = productOffersObj.bids.map(bid => bid.bidderProd);
       }
     );
   },
@@ -73,30 +72,28 @@ export default {
     goBack() {
       this.$emit('toggleOffers', null);
     },
-    emitSelected(productBidderId){
-      this.$emit('emitSelected', productBidderId,);
+    emitSelected(productBidderId) {
+      this.$emit('emitSelected', productBidderId);
     },
-    getBidId(id){
-      console.log ('id' , id);
-      
-      let chosenProduct = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id );
-      this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product: chosenProduct});
-      let bidId = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id ).bidderProdId;
-       console.log ('bidId' , bidId); 
-       this.$emit ('emitSelected' , bidId);
-       
+    getBidId(id) {
+      let chosenProduct = this.detailsBids.find(
+        detailsBid => detailsBid.bidderProdId === id
+      );
+      this.$store.commit({
+        type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT,
+        product: chosenProduct
+      });
+      let bidId = this.detailsBids.find(
+        detailsBid => detailsBid.bidderProdId === id
+      ).bidderProdId;
+      this.$emit('emitSelected', bidId);
     },
-    methods :{
-      gatherProductForSelected(){
+    methods: {
+      gatherProductForSelected() {},
 
-      } ,
-
-      gatherProductForCurr(){
-
-      } ,
+      gatherProductForCurr() {}
     }
 
-     
     //  getProducts(){
 
     //   ProductService.getOffersByProductIds(this.productIds).
@@ -116,21 +113,21 @@ export default {
 
 <style scoped>
 .button {
-  width:50px;
+  width: 50px;
 }
 img {
-  width:200px;
-  border-radius:1px solid rgb(182, 171, 171);
-  display:inline-block;
+  width: 200px;
+  border-radius: 1px solid rgb(182, 171, 171);
+  display: inline-block;
 }
 .product img {
   width: 100px;
   height: 100px;
 }
-.my-product{
-  margin:0 auto;
-  margin-left:200px;
-  color:green;
+.my-product {
+  margin: 0 auto;
+  margin-left: 200px;
+  color: green;
 }
 .public-profile {
   text-align: left;

@@ -31,7 +31,6 @@ function cleanDB() {
     db.collection(COLLECTIONS.TRANSACTION).remove({});
     db.collection(COLLECTIONS.PRODUCT).remove({});
     db.collection(COLLECTIONS.USER).remove({}, (err, res) => {
-      
       const khen = {
         createdAt: Date.now(),
         productIds: [],
@@ -41,7 +40,13 @@ function cleanDB() {
         img:
           'https://res.cloudinary.com/amielsosa/image/upload/v1526230457/idp7l2q6ozdskqe1o4v6.jpg',
         desc: 'i love nina',
-        location: null,
+        loc: {
+          name: 'Haifa',
+          coords: {
+            lat: 32.822155,
+            lng: 34.99702150000007
+          }
+        },
         nickName: 'khen'
       };
 
@@ -66,7 +71,13 @@ function cleanDB() {
         img:
           'https://res.cloudinary.com/amielsosa/image/upload/v1526230457/idp7l2q6ozdskqe1o4v6.jpg',
         desc: 'MY NAME S',
-        location: null,
+        loc: {
+          name: 'Haifa',
+          coords: {
+            lat: 32.822155,
+            lng: 34.99702150000007
+          }
+        },
         nickName: 'asaf'
       };
 
@@ -104,7 +115,7 @@ function cleanDB() {
   });
 }
 
-cleanDB();
+// cleanDB();
 
 module.exports = {
   COLLECTIONS,

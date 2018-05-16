@@ -4,32 +4,14 @@ module.exports = app => {
   app.get('/product', (req, res) => {
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
-    ProductService.query(queryObj, colsToGet)
+    const loggedInUserCoords = JSON.parse(req.query.loggedInUserCoords);
+    
+    ProductService.query(queryObj, colsToGet, loggedInUserCoords)
       .then(products => {
         res.json(products);
       })
       .catch(err => res.status(500).json(err));
   });
-
-  app.get('/t/', (req, res) => {
-    console.log ('day')
-    const queryObj = JSON.parse(req.query.queryObj);
-    const colsToGet = JSON.parse(req.query.colsToGet);
-    ProductService.query(queryObj, colsToGet)
-      .then(products => {
-        res.json(products);
-      })
-      // .catch(err => res.status(500).json(err));
-  });
-  // app.get(`/t`, (req, res) => {
-  //   console.log ('get to routes')
-  //   const transactionId = req.params.transactionId;
-  //   TransactionService.getById(transactionId)
-  //     .then(transaction => {
-  //       res.json(transaction);
-  //     })
-  //     .catch(err => res.status(500).send(err.message));
-  //   })
 
   app.get(`/product/:productIds`, (req, res) => {
     const productIds = req.params.productIds.split(',');

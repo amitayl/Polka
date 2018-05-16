@@ -5,7 +5,8 @@ const USER_MUTATIONS = {
 const USER_ACTIONS = {
   ADD_USER: 'addUser',
   CHECK_LOGIN: 'checkLogin',
-  LOGOUT: 'logout'
+  LOGOUT: 'logout',
+  LOGIN_SESSION_USER: 'loginSessionUser'
 };
 Object.freeze(USER_MUTATIONS);
 Object.freeze(USER_ACTIONS);
@@ -18,15 +19,7 @@ import StorageService from '../services/StorageService.js';
 export default {
   state: {
     loggedInUser: null,
-    selectedUser: null,
-    // selectedUser: {
-    //   id: '2',
-    //   name: 'yosi',
-    //   img: '@/imgs/selectedUser.jpg',
-    //   desc: ' Hello , I am a nice person who likes to travel',
-    //   email: 'yosi@gmail.com',
-    //   products: [{ id: 4, img: '' }, { id: 5, img: '' }]
-    // }
+    selectedUser: null
   },
   getters: {
     getLoggedInUser(state) {
@@ -69,6 +62,23 @@ export default {
     [USER_ACTIONS.LOGOUT](store) {
       return UserService.logout().then(() => {
         store.commit({ type: USER_MUTATIONS.SET_LOGGED_IN_USER, user: null });
+      });
+    },
+    [USER_ACTIONS.LOGIN_SESSION_USER](store) {
+      let loggedInUser = null;
+      let userCredentials = StorageService.session.load('userCredentials');
+
+      return new Promise((resolve, reject) => {
+        if (userCredentials) {
+          store
+            .dispatch({
+              type: USER_ACTIONS.CHECK_LOGIN,
+              loginData: userCredentials
+            })
+            .then(() => {
+              resolve();
+            });
+        }
       });
     }
   }

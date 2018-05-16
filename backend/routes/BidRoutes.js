@@ -28,7 +28,6 @@ module.exports = app => {
   });
 
   app.post('/decline', (req, res)=> {
-    console.log()
     const bid = req.body;
 
     BidService.decline(bid)

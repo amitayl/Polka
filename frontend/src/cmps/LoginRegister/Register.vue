@@ -32,6 +32,10 @@
         min="8"
         required
       ></v-text-field>
+
+      <v-divider></v-divider>
+
+      <upload-img @uploadImg="addImg" :imgs="[userData.img]" :round="true"></upload-img>
       
       <v-text-field
         v-model="userData.nickName"
@@ -48,8 +52,8 @@
         required
       ></v-text-field>
 
-      <upload-img @uploadImg="addImg" :imgs="[userData.img]" :round="true"></upload-img>
-
+      <get-place @selectedPlace="setPlace($event)"></get-place>
+      
       <div class="flex">
         <v-spacer></v-spacer>
         <v-btn type="submit">sign up</v-btn>
@@ -60,7 +64,7 @@
 </template>
 
 <script>
-import GetPlace from '@/cmps/LoginRegister/GetPlace'
+import GetPlace from '@/cmps/LoginRegister/GetPlace';
 // import GPlacesService from '@/services/GPlacesService.js';
 import { USER_ACTIONS } from '@/store/UserStore.js';
 import UploadImg from '@/cmps/product-upload/UploadImg';
@@ -110,9 +114,8 @@ export default {
     addImg(urlPath) {
       this.userData.img = urlPath;
     },
-    getPlace (loc){
-      this.userData.loc = loc
-       console.log('loc' , this.userData.loc);
+    setPlace(loc) {
+      this.userData.loc = loc;
     }
   },
   components: {
@@ -124,15 +127,15 @@ export default {
 
 <style>
 img {
-  width:50px;
-  height:50px;
-  
-  margin-left:0px;
+  width: 50px;
+  height: 50px;
+
+  margin-left: 0px;
   text-align: left;
 }
-.user-img  {
-  margin:10px;
+.user-img {
+  margin: 10px;
   /* border:1px solid rgb(184, 218, 184); */
-   text-align: left;
+  text-align: left;
 }
 </style>

@@ -1,4 +1,4 @@
-  const PRODUCT_MUTATIONS = {
+const PRODUCT_MUTATIONS = {
   SET_PRODUCTS: 'setProducts',
   SET_PRODUCT_FILTER: 'setProductFilter',
   ADD_PRODUCT: 'addProduct',
@@ -10,7 +10,6 @@ const PRODUCT_ACTIONS = {
   SET_PRODUCTS_TO_SHOW: 'getProductsToShow',
   ADD_PRODUCT: 'addProduct',
   GET_PRODUCT_BY_ID: 'getProductById'
-
 };
 Object.freeze(PRODUCT_MUTATIONS);
 Object.freeze(PRODUCT_ACTIONS);
@@ -21,6 +20,7 @@ import ProductService from '../services/ProductService.js';
 import UserService from '../services/UserService.js';
 import StorageService from '../services/StorageService.js';
 import { USER_MUTATIONS } from './UserStore.js';
+import UtilService from '../services/utilService.js';
 
 export default {
   state: {
@@ -48,20 +48,39 @@ export default {
       return state.products;
     },
     getCurrProduct(state) {
-      return state.currProduct
+      return state.currProduct;
     }
   },
   actions: {
-    [PRODUCT_ACTIONS.SET_PRODUCTS](store, { queryObj }) {
+    [PRODUCT_ACTIONS.SET_PRODUCTS](ctx, { queryObj }) {
       const colsToGet = {
-        _id: 1,
         ownerId: 1,
         title: 1,
         desc: 1,
         imgs: 1
       };
-      return ProductService.query(queryObj, colsToGet).then(products => {
-        store.commit({ type: PRODUCT_MUTATIONS.SET_PRODUCTS, products });
+
+      const loggedInUserCoords = ctx.rootGetters.getLoggedInUser.loc.coords;
+      return ProductService.query(queryObj, colsToGet, loggedInUserCoords).then(products => {
+        // calculate distance from current user
+        // add it and remove userLoc
+
+        products.forEach(product => {
+          const [productLat, productLng, userLat, userLng] = [
+            product.ownerLoc.coords.lat,
+            product.ownerLoc.coords.lng,
+            loggedInUserCoords.lat,
+            loggedInUserCoords.lng
+          ];
+
+          product.distanceInKM = UtilService.calcDistance(productLat, productLng, userLat, userLng);
+          delete product.ownerLoc;
+        });
+
+        ctx.commit({
+          type: PRODUCT_MUTATIONS.SET_PRODUCTS,
+          products
+        });
       });
     },
 

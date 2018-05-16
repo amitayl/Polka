@@ -180,7 +180,6 @@ export default {
     },
     addImg(urlPath) {
       this.product.imgs.push(urlPath);
-      console.log('img uploaded');
     }
   },
   components: {

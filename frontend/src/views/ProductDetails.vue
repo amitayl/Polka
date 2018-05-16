@@ -51,7 +51,6 @@ export default {
       .dispatch({ type: PRODUCT_ACTIONS.GET_PRODUCT_BY_ID, productId })
       .then(product => {
         this.product = product;
-        console.log(this.product);
 
         const loggedInUser = this.$store.getters.getLoggedInUser;
         if (loggedInUser) {

@@ -63,14 +63,12 @@ function createTransactionPushNotification(bid, db) {
     isDeal: true
   };
 
-  console.log('before creating transaciton')
   return new Promise((resolve, reject) => {
     db
       .collection(DBService.COLLECTIONS.TRANSACTION)
       .insertOne(transaction, (err, { insertedId }) => {
         if (err) reject();
         else {
-          console.log('AFTER creating transaciton')
           const bidderId = new mongo.ObjectID(bid.bidder.product.ownerId);
 
           pushNotification(bidderId, insertedId, db)

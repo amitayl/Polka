@@ -21,7 +21,8 @@
     </div>
 
      <p  class="thanks"><strong>Thank you for trading with Polka! </strong></p>
-      <a href="#"     @click.stop="dialog=true"  class="thanks"> &nbsp &nbsp Please leave a review </a>
+      <a href="#" @click.stop="dialog=true" class="thanks"> Please leave a review </a>
+<!-- // &nbsp &nbsp -->
 
     <v-app id="inspire">
     <!-- <v-layout row justify-center>  -->
@@ -97,7 +98,6 @@ export default {
       this.transactionObj = transObj;
 
       const loggedInUserId = this.$store.getters.getLoggedInUser._id;
-      console.log("loggedInUserId", loggedInUserId);
 
       if (loggedInUserId === transObj.owner_id) {
         this.review.getterId = transObj.owner._id;
@@ -110,12 +110,10 @@ export default {
   },
   methods: {
     submitReview() {
-      console.log("submit", this.review);
       UserService.addReview(this.review);
     },
    
     setRating(rating) {
-      console.log("ev", rating);
       this.review.details.rating = rating;
     }
   },

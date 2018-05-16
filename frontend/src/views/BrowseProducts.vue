@@ -8,17 +8,24 @@
 
 <script>
 import ProductService from '../services/ProductService.js';
-import { PRODUCT_MUTATIONS, PRODUCT_ACTIONS } from '../store/ProductStore.js';
+import { PRODUCT_MUTATIONS } from '../store/ProductStore.js';
+import { USER_ACTIONS } from '../store/UserStore';
 // import CategoriesSubNav from '@/cmps/browse-products/CategoriesSubNav.vue';
 import ProductSort from '@/cmps/browse-products/ProductSort.vue';
 import ProductList from '@/cmps/general/ProductList.vue';
 
 export default {
   created() {
-    this.$store.dispatch({
-      type: PRODUCT_MUTATIONS.SET_PRODUCTS,
-      queryObj: {}
-    });
+    this.$store
+      .dispatch({
+        type: USER_ACTIONS.LOGIN_SESSION_USER
+      })
+      .then(() => {
+        this.$store.dispatch({
+          type: PRODUCT_MUTATIONS.SET_PRODUCTS,
+          queryObj: {}
+        });
+      });
   },
   computed: {
     products() {

@@ -24,7 +24,7 @@
 
               <v-btn flat @click="moveTo('upload')">upload</v-btn>
 
-              <div class="flex align-center relative">
+              <div class="flex align-center relative margin-left">
                 <v-avatar class="user-menu-icon" @click="toggleUserMenu()">
                   <img :src="loggedInUser.img" :alt="loggedInUser.nickName">
                 </v-avatar>
@@ -65,6 +65,7 @@ export default {
         this.notifications.splice(idx, 0, notification);
       }, 300);
     });
+    
     EventBusService.$on(EVENTS.CLOSE_NOTIFICATIONS, () => {
       this.showNotifications = false;
     });
@@ -177,5 +178,8 @@ export default {
 }
 .user-menu li {
   padding: 5px;
+}
+.margin-left {
+  margin-left: 18px;
 }
 </style>

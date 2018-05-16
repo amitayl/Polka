@@ -38,7 +38,6 @@ function add(userData) {
               .insertOne(newUser, (err, res) => {
                 if (err) reject(err);
                 else {
-                  console.log(res.ops[0]);
                   resolve(res.ops[0]);
                 }
                 db.close();
