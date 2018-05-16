@@ -50,6 +50,7 @@ function getProductById(productId) {
 // }
 
 function getOffersByProductId(productId) {
+  console.log ('mama');
   return axios
     .get(BASE_URL + '/product/getOffers/' + productId)
     .then(res => {

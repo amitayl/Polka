@@ -2,25 +2,44 @@
 <template>
     <section class="offers">
         <div class="flex space-between align-center">
-        <div>Offers for </div>
-        <img v-if="product" :src="product.imgs[0]">
-        <!-- <product-preview :product="product"> </product-preview> -->
+        
+        <v-card>
+          <v-container fluid grid-list-lg>
+          <v-layout row wrap>
+                    <v-flex xs4 row>
+                  <div class="headline">Your offers for this</div>
+                  </v-flex>
+                  <v-flex x12 >
+                <v-card >
+                  <img v-if="product" :src="product.imgs[0]">
+                </v-card>
+                </v-flex>
+         </v-layout>
+        </v-container>
+        </v-card>
+        
+           <!-- <v-card color="white" class="grey--text">
+                <v-container fluid grid-list-lg>
+                  <v-layout row>
+                    
+                     <v-flex xs7>
+                      <div>
+                        <div>{{user.prodTitle}}</div>
+                      </div>
+                    </v-flex>
+                       <img class="koko"  :src="user.prodImg">
+                  </v-layout>
+                </v-container>
+              </v-card>
+        </div> -->
+        
         <v-btn @click="goBack">back</v-btn>
          </div> 
-      
-        
-        <!-- <div class="my-product">  
-        
-       
-        <hr>
-        <! <div class="product flex" >
-            <img :src="product.imgs[0]">
-            <p>{{product.title}}</p>
-        </div> -->
         <br>
         <br>
-        <product-list @emitSelected="getBidId" v-if="offers.length" :products="offers"></product-list>
+        <product-list @emitSelected="getBidId" v-if="offers" :products="offers"></product-list>
         <h1 v-if="!offers.length" >No offers</h1>
+    
     </section>
 </template>
 
@@ -46,19 +65,17 @@ export default {
       productIds: [],
       product: null,
       offers: []
-    }
+    };
   },
- 
+
   created() {
     //elad move to dispatch
-    // this.sum = ProductService.getOffersByProduct('5ae9bc40c66def0488aff9ec');
+   
     ProductService.getOffersByProductId(this.productId).then(
       productOffersObj => {
         this.productOffersObj = productOffersObj;
-        console.log('productOffersObjslllllllllllll', productOffersObj); 
+        console.log('productOffersObjslllllllllllll', productOffersObj);
       this.product = productOffersObj.prod;
-
-      
       console.log ('product' , this.product);
         this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
         let curr = this.$store.getters.getCurrProduct;
@@ -71,66 +88,46 @@ export default {
   },
   methods: {
     goBack() {
-      this.$emit('toggleOffers', null);
+      this.$emit("toggleOffers", null);
     },
-    emitSelected(productBidderId){
-      this.$emit('emitSelected', productBidderId,);
+    emitSelected(productBidderId) {
+      this.$emit("emitSelected", productBidderId);
     },
-    getBidId(id){
-      console.log ('id' , id);
-      
+    getBidId(id) {
+      console.log("id", id);
       let chosenProduct = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id );
       this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product: chosenProduct});
       let bidId = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id ).bidderProdId;
-       console.log ('bidId' , bidId); 
+       console.log ('bidId' , bidId);
        this.$emit ('emitSelected' , bidId);
-       
     },
-    methods :{
-      gatherProductForSelected(){
 
-      } ,
-
-      gatherProductForCurr(){
-
-      } ,
-    }
-
-     
-    //  getProducts(){
-
-    //   ProductService.getOffersByProductIds(this.productIds).
-    //   then (productOffersObjs=>{
-    //       this.productOffersObjs = productOffersObjs;
-    //       console.log ('productOffersObjslllllllllllll' , productOffersObjs);
-    //   })
-    // },
   },
 
   components: {
     ProductList,
-    ProductPreview
+    // ProductPreview
   }
 };
 </script>
 
 <style scoped>
 .button {
-  width:50px;
+  width: 50px;
 }
 img {
-  width:200px;
-  border-radius:1px solid rgb(182, 171, 171);
-  display:inline-block;
+  width: 200px;
+  border-radius: 1px solid rgb(182, 171, 171);
+  display: inline-block;
 }
 .product img {
   width: 100px;
   height: 100px;
 }
-.my-product{
-  margin:0 auto;
-  margin-left:200px;
-  color:green;
+.my-product {
+  margin: 0 auto;
+  margin-left: 200px;
+  color: green;
 }
 .public-profile {
   text-align: left;
@@ -140,7 +137,7 @@ img {
 }
 
 .user-title {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .user-img-wrapper {

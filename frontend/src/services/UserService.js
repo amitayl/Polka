@@ -12,6 +12,7 @@ function query(queryObj, colsToGet) {
 }
 
 function getUserById(userId) {
+  console.log ( 'getUserById' , userId);
   return axios.get(_getUserUrl(userId)).then(res => {
     let user = res.data;
     console.log ('user' , user);
@@ -33,11 +34,12 @@ function add(userData) {
 }
 
 function addReview (review){
+  console.log ("get to front");
   return axios
     .put(BASE_URL + '/review', review)
     .then(res => res.data)
     .catch(err => {
-      throw new Error('review did not send');
+      throw new Error('review did not sent');
     });
 }
 
@@ -82,4 +84,5 @@ export default {
   add,
   checkLogin,
   logout,
+  addReview
 };

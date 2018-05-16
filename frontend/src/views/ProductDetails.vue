@@ -2,7 +2,7 @@
   <section v-if="product" class="contain flex space-between product-details">
 
     <div class="product-imgs flex flex-column"> 
-      <img class="primary-img product-img" :src="product.imgs[0]"> 
+      <!-- <img class="primary-img product-img" :src="product.imgs[0]">  -->
       <div class="small-imgs flex space-between">
           <img v-for="(img, idx) in product.imgs" v-if="idx !== 0" 
                :key="img" :src="img" class="product-img small-img">
@@ -23,7 +23,7 @@
       <br>
       <h2 class="product-title title is-2">{{product.title}}</h2>
       <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
-      <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4>
+      <!-- <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4> -->
       <h4 class="title is-4">Trade location: {{ product.location }}</h4>
     </div>
       

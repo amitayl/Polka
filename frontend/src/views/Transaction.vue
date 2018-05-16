@@ -21,42 +21,51 @@
     </div>
 
      <p  class="thanks"><strong>Thank you for trading with Polka! </strong></p>
-      <a href="#"     @click.stop="dialog=true"  class="thanks"> &nbsp &nbsp Please leave a review </a>
+      <!-- <a href="#"     @click.stop="dialog=true"  class="thanks"> &nbsp &nbsp Please leave a review </a> -->
 
-    <v-app id="inspire">
-    <!-- <v-layout row justify-center>  -->
-    <v-dialog class="inline" v-model="dialog" persistent max-width="500px">
-        <v-card>
-          <v-toolbar color="indigo" dark>
-            <v-toolbar-title class="title">Reviews</v-toolbar-title>
-          </v-toolbar>
-          <div class="form">
-            
-          <div class="title-star">Please choose a rating from 1-5 for you trade partne</div>
+      <a href="#"   data-toggle="modal" data-target="#myModal"    class="thanks"> &nbsp &nbsp Please leave a review </a>
+
+
+     <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+       <div class="modal-content">
+        
+          
+      
+      
+      <v-card>
+        <div class="layout-card">
+       <div class="title-star">Please choose a rating from 1-5 for you trade partner</div>
           <star-rating v-bind:star-size="30"  @rating-selected ="setRating" ></star-rating>
+        
           <v-container fluid>
             <v-layout row>
               <v-flex xs12>
+                 
                 <v-text-field
                v-model = "review.details.txt"
-                  label="Please tell us about your experience with nick"
+                  label="Please tell us about your experience with your trade partner"
                   textarea
                 ></v-text-field>
+                 
               </v-flex>
             </v-layout>
           </v-container>
           <v-card-actions>
-            <v-btn color="green darken-1" flat @click.native="dialog=false">Close</v-btn>
-            <v-btn color="green darken-1" flat  @click.native="dialog=false , submitReview()">Save</v-btn>
+            <v-btn color="green darken-1" flat data-dismiss="modal">Close</v-btn>
+            <v-btn color="green darken-1" flat data-dismiss="modal" @click.native="dialog=false , submitReview()">Save</v-btn>
           </v-card-actions>
+          </div>
+          </v-card>
+        
+           
+           
           
-        </div>
-      </v-card>
-    </v-dialog>
-   </v-app> 
-    <!-- <fill-review v-if="isShowReview"></fill-review> -->
+          </div>
     
-    <!-- </v-app>   -->
+     
+    </div>
+    </div>     
   </div>
 </div>
   
@@ -79,9 +88,9 @@ export default {
       owner: {},
       isShowReview: true,
       transactionObj: null,
-      dialog: false,
       review: {
         getterId: "",
+      dialog: false,
         details: {
           senderId: "",
           rating: 0,
@@ -111,7 +120,9 @@ export default {
   methods: {
     submitReview() {
       console.log("submit", this.review);
-      UserService.addReview(this.review);
+      UserService.addReview(this.review)
+      .then (_=> this.$router.push('/browseProducts' ))
+      
     },
    
     setRating(rating) {
@@ -183,6 +194,9 @@ p {
   position: absolute;
   top: 50px;
   right: 50px;
+}
+.layout-card {
+  margin: 30px;
 }
 
 .hidden {

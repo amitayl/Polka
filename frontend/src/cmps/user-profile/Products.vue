@@ -1,9 +1,11 @@
 
 <template>
     <section class="products">
-      <user-products v-if="!isShowOffers"  @emitSelected="toggleOffers"></user-products>
-      <offers v-if="isShowOffers" :productId="productId" 
-      @emitSelected="goToBid"  @toggleOffers="toggleOffers"></offers>
+      <user-products v-if="!isShowOffers"  @emitSelected="toggleOffers"></user-products> 
+       <!-- <offers v-if="isShowOffers"  
+       ></offers> -->
+      <offers v-if="isShowOffers" :productId="productId"  
+      @emitSelected="goToBid"  @toggleOffers="toggleOffers"></offers> 
     </section>
 </template>
 
@@ -23,15 +25,10 @@ export default {
   },
 
   created() {
-    this.productIds = this.$store.getters.getLoggedInUser.productIds;
-    ProductService.getProductsByIds(this.productIds).then(products => {
-      if (!Array.isArray(products)) this.products = [products];
-      else this.products = products;
-    });
   },
   methods: {
     toggleOffers(id) {
-      console.log('id');
+      console.log('id' , id);
       if (id) {
         this.isShowOffers = true;
         this.productId = id;

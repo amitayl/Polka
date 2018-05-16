@@ -46,10 +46,18 @@ module.exports = app => {
     const userId = req.params.userId;
     UserService.getById(userId)
       .then(user => {
+        console.log ('bla bla');
         delete user.password;
         res.json(user);
       })
       .catch(err => res.status(500).send(err.message));
+  });
+
+  app.put('/review', (req, res) => {
+    const review = req.body;
+    UserService.addReview(review)
+      .then(addedReview => res.json(addedReview))
+      .catch(err => res.status(403).send({ error: `Register failed, ${err}` }));
   });
 
   app.post('/logout', (req, res) => {

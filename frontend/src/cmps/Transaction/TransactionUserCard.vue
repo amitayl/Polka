@@ -27,7 +27,7 @@ export default {
     }
   },
   creted (){
-      console.log ('ttt' , user )
+      console.log ('user' , user )
   }
 };
 </script>

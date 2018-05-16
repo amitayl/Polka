@@ -174,6 +174,7 @@ function getOffersByProductId(id) {
 
 
 function getByIds(productIds) {
+  console.log ('moshe')
   const mongoQuery = { $or: [] };
   mongoQuery.$or = productIds.map(productId => {
     productId = new mongo.ObjectID(productId);

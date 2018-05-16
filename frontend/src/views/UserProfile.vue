@@ -13,8 +13,8 @@
     </div> -->
 
     <div>
-      <v-toolbar
-        color="white"
+      <v-toolbar v-if="isUserEqualLoggidIn"
+        color="grey"
         dark
         tabs
       >
@@ -27,7 +27,7 @@
           <v-tab
             v-for="(str, idx) in ['profile', 'bids', 'products']"
             :key="str"
-            @click.native="frameIdx = idx"
+            @click.native="frameIdx = idx , printframeIdx "
           >
             {{str}}
           </v-tab>
@@ -35,8 +35,10 @@
       </v-toolbar>
     </div>
       
-    <public-profile v-if="frameIdx === 0" :user="profileUser"></public-profile> 
-    <products v-else-if="frameIdx === 2"></products>
+     <public-profile v-if="frameIdx == 0" :user="profileUser"></public-profile>  
+    <products v-if="frameIdx == 2"></products> 
+     <!-- <public-profile  :user="profileUser"></public-profile>  -->
+    
   </section>
 </template>
 
@@ -48,11 +50,12 @@ import Products from '@/cmps/user-profile/Products.vue';
 export default {
   data() {
     return {
+      frameIdx: 0,
       loggedInUser: {},
       profileUser: {},
       isUserEqualLoggidIn: false,
       // selectedRadio: 'profile',
-      frameIdx: 0
+      
     };
   },
   methods: {
@@ -61,18 +64,39 @@ export default {
     // },
   },
   created() {
+    
+
+    console.log ('frameIdx' , this.frameIdx)
     const userId = this.$route.params._id;
+
     this.loggedInUser = this.$store.getters.getLoggedInUser;
-    if (this.loggedInUser._id === userId) {
+    console.log ('this.loggedInUserkk' , this.loggedInUser);
+    if (this.loggedInUser && (this.loggedInUser._id === userId)) {
       this.profileUser = this.loggedInUser;
       this.isUserEqualLoggidIn = true;
     } else {
       UserService.getUserById(userId).then(user => {
+        console.log ('mosje')
         this.profileUser = user;
-      });
+      }).catch (err => console.log('no user'))
+
       this.isUserEqualLoggidIn = false;
     }
   },
+  methods: {
+    printframeIdx () {
+      console.log (this.frameIdx)
+    }
+
+  },
+  computed:{
+  //  loggedInUser (){
+  //    return this.$store.getters.getLoggedInUser; 
+  //  }
+      
+
+      
+},
 
   components: {
     PublicProfile,
