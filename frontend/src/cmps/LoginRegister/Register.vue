@@ -1,7 +1,7 @@
 <template>
   <div class="register">
 
-    <v-form class="add-user-form" @submit.prevent="addUser()">
+    <v-form class="grey-form" @submit.prevent="addUser()">
       <v-text-field
         v-model="userData.email"
         :rules="emailRules"
@@ -32,6 +32,10 @@
         min="8"
         required
       ></v-text-field>
+
+      <v-divider></v-divider>
+
+      <upload-img @uploadImg="addImg" :imgs="[userData.img]" :round="true"></upload-img>
       
       <v-text-field
         v-model="userData.nickName"
@@ -47,11 +51,9 @@
         label="Tell us about yourself"
         required
       ></v-text-field>
-      
-      <get-place @selectedPlace="getPlace"></get-place>
-      <upload-img @uploadImg="addImg"></upload-img>
-    <div class="user-img"><img v-if="userData.img" :src="userData.img"></div>
 
+      <get-place @selectedPlace="setPlace($event)"></get-place>
+      
       <div class="flex">
         <v-spacer></v-spacer>
         <v-btn type="submit">sign up</v-btn>
@@ -62,7 +64,7 @@
 </template>
 
 <script>
-import GetPlace from '@/cmps/LoginRegister/GetPlace'
+import GetPlace from '@/cmps/LoginRegister/GetPlace';
 // import GPlacesService from '@/services/GPlacesService.js';
 import { USER_ACTIONS } from '@/store/UserStore.js';
 import UploadImg from '@/cmps/product-upload/UploadImg';
@@ -112,9 +114,8 @@ export default {
     addImg(urlPath) {
       this.userData.img = urlPath;
     },
-    getPlace (loc){
-      this.userData.loc = loc
-       console.log('loc' , this.userData.loc);
+    setPlace(loc) {
+      this.userData.loc = loc;
     }
   },
   components: {
@@ -125,22 +126,16 @@ export default {
 </script>
 
 <style>
-.add-user-form {
-  margin: 0 auto;
-  width: 500px;
-  padding: 20px;
-  background: whitesmoke;
-}
 img {
-  width:50px;
-  height:50px;
-  
-  margin-left:0px;
+  width: 50px;
+  height: 50px;
+
+  margin-left: 0px;
   text-align: left;
 }
-.user-img  {
-  margin:10px;
+.user-img {
+  margin: 10px;
   /* border:1px solid rgb(184, 218, 184); */
-   text-align: left;
+  text-align: left;
 }
 </style>

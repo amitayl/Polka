@@ -1,19 +1,17 @@
 import axios from 'axios';
 let BASE_URL = 'http://127.0.0.1:3000';
 
-if(process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== 'development') {
   BASE_URL = '';
 }
 
-
-
-
-function query(queryObj, colsToGet) {
+function query(queryObj, colsToGet, loggedInUserCoords) {
   return axios
     .get(BASE_URL + '/product', {
       params: {
         queryObj,
-        colsToGet
+        colsToGet,
+        loggedInUserCoords
       }
     })
     .then(res => res.data);
@@ -54,8 +52,8 @@ function getOffersByProductId(productId) {
   return axios
     .get(BASE_URL + '/product/getOffers/' + productId)
     .then(res => {
-      console.log ('res.data' , res.data)
-      return res.data
+      console.log('res.data', res.data);
+      return res.data;
     })
     .catch(err => console.log('Error:', err));
 }

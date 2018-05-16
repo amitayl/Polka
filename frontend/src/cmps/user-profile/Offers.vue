@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      chosenProductId:[],
+      chosenProductId: [],
       detailsBids: [],
       productOffersObjs: [],
       productOffersObj: {},
@@ -74,15 +74,16 @@ export default {
     ProductService.getOffersByProductId(this.productId).then(
       productOffersObj => {
         this.productOffersObj = productOffersObj;
-        console.log('productOffersObjslllllllllllll', productOffersObj);
-      this.product = productOffersObj.prod;
-      console.log ('product' , this.product);
-        this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT, product: this.product});
+        this.product = productOffersObj.prod;
+
+        this.$store.commit({
+          type: PRODUCT_MUTATIONS.UPDATE_CURR_PRODUCT,
+          product: this.product
+        });
         let curr = this.$store.getters.getCurrProduct;
-        console.log ('curr' , curr);
-        this.detailsBids = productOffersObj.bids
-        if (this.detailsBids)  this.offers = productOffersObj.bids.map ( bid => bid.bidderProd)
-        console.log ('ggggggggggggggggggg' , this.offers);
+        this.detailsBids = productOffersObj.bids;
+        if (this.detailsBids)
+          this.offers = productOffersObj.bids.map(bid => bid.bidderProd);
       }
     );
   },

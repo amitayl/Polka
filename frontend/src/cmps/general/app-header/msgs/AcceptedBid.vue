@@ -29,9 +29,6 @@ export default {
       required: true
     }
   },
-  created() {
-    console.log(this.data);
-  },
   methods: {
     moveTo(path) {
       EventBusService.$emit(EVENTS.CLOSE_NOTIFICATIONS)

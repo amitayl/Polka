@@ -1,5 +1,7 @@
 const DB_URL = 'mongodb://polka:polka@ds263109.mlab.com:63109/polka_db';
 const mongo = require('mongodb');
+const User = require('../classes/UserClass.js');
+const Product = require('../classes/ProductClass.js');
 
 const COLLECTIONS = {
   POLKA: 'polka',
@@ -23,7 +25,6 @@ function dbConnect() {
 }
 
 function cleanDB() {
-  console.log('cleaning DB');
   dbConnect().then(db => {
     // clean out DB
     db.collection(COLLECTIONS.BID).remove({});
@@ -39,7 +40,13 @@ function cleanDB() {
         img:
           'https://res.cloudinary.com/amielsosa/image/upload/v1526230457/idp7l2q6ozdskqe1o4v6.jpg',
         desc: 'i love nina',
-        location: null,
+        loc: {
+          name: 'Haifa',
+          coords: {
+            lat: 32.822155,
+            lng: 34.99702150000007
+          }
+        },
         nickName: 'khen'
       };
 
@@ -49,11 +56,9 @@ function cleanDB() {
         imgs: [
           'https://res.cloudinary.com/amielsosa/image/upload/v1526230505/qsyjjlnn0efhlkz0hfvz.png'
         ],
-        categories: ['toys'],
-        desiredSwapCategories: ['vintage'],
+        categories: ['fashion'],
         desc: 'My own kidneys, you better give me something good',
         bidIds: [],
-        location: 'Ramat Gan',
         isLive: true
       };
 
@@ -66,7 +71,13 @@ function cleanDB() {
         img:
           'https://res.cloudinary.com/amielsosa/image/upload/v1526230457/idp7l2q6ozdskqe1o4v6.jpg',
         desc: 'MY NAME S',
-        location: null,
+        loc: {
+          name: 'Haifa',
+          coords: {
+            lat: 32.822155,
+            lng: 34.99702150000007
+          }
+        },
         nickName: 'asaf'
       };
 
@@ -76,11 +87,9 @@ function cleanDB() {
         imgs: [
           'https://res.cloudinary.com/amielsosa/image/upload/v1526309411/wasusw7drx53apkcomo2.jpg'
         ],
-        categories: ['toys'],
-        desiredSwapCategories: ['vintage'],
+        categories: ['fashion'],
         desc: 'a new galaxy phone, j7',
         bidIds: [],
-        location: 'Tel aviv',
         isLive: true
       };
 
@@ -93,7 +102,6 @@ function cleanDB() {
           product.ownerId = userId;
           db.collection(COLLECTIONS.PRODUCT).insertOne(product, (err, res) => {
             const productId = res.insertedId;
-            console.log('product inserted id', productId);
             db
               .collection(COLLECTIONS.USER)
               .updateOne(

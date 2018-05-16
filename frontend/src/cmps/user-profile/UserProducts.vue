@@ -7,13 +7,13 @@
 
 <script>
 import ProductList from '@/cmps/general/ProductList';
-import ProductService from "@/services/ProductService";
+import ProductService from '@/services/ProductService';
 
 export default {
   data() {
     return {
       products: null,
-      productIds:[]
+      productIds: []
     };
   },
 
@@ -23,14 +23,13 @@ export default {
       if (!Array.isArray(products)) this.products = [products];
       else {
         this.products = products;
-        console.log ('products' , products);
       }
     });
   },
   methods: {
-      emitSelected(id){
-          this.$emit('emitSelected' , id)
-      }
+    emitSelected(id) {
+      this.$emit('emitSelected', id);
+    }
     //  getProducts(){
     //   ProductService.getOffersByProductIds(this.productIds).
     //   then (productOffersObjs=>{
@@ -40,7 +39,7 @@ export default {
     // },
   },
 
-  components:{
+  components: {
     ProductList
   }
 };

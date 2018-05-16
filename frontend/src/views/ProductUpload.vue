@@ -1,119 +1,41 @@
 <template>
   <section class="product-upload">
-    <form @submit.prevent="addProduct">
-    <div class="field is-horizontal">
-  <div class="field-label is-normal">
-    <label class="label">Item title</label>
-  </div>
+    <v-form ref="add-product-form" class="grey-form" @submit.prevent="addProduct()">
+
+      <v-text-field
+        v-model="product.title"
+        :rules="rules.notEmpty"
+        label="Title"
+        autofocus
+        required
+      ></v-text-field>
+
+      <v-text-field
+        v-model="product.desc"
+        :rules="rules.notEmpty"
+        :textarea="true"
+        label="Tell us about it"
+        required
+      ></v-text-field>
   
-  <div class="field-body">
-    <div class="field">
-      <div class="control">
-        <input class="input" v-model="product.title" type="text" placeholder="Add your product title" required>
-        <upload-img @uploadImg="addImg"></upload-img>
-          <div v-if="product.imgs">
-          <img :src="product.imgs[0]" height="100" width="100">
-          <img :src="product.imgs[1]" height="100" width="100">
-          <img :src="product.imgs[2]" height="100" width="100">
-          <img :src="product.imgs[3]" height="100" width="100">
-          <img :src="product.imgs[4]" height="100" width="100">
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <upload-img @uploadImg="addImg" :imgs="product.imgs"></upload-img>
 
-<div class="field is-horizontal">
-  <div class="field-label is-normal">
-    <label class="label">Categories</label>
-  </div>
-  <div class="field-body">
-    <div class="field is-narrow">
-      <div class="control">
-          <input type="checkbox"  value="toys" v-model="product.categories" >
-          <label for="toys"> Toys </label>
-          <input type="checkbox"  value="car" v-model="product.categories">
-          <label for="car"> Car related </label>
-          <input type="checkbox"  value="vintage" v-model="product.categories">
-          <label for="vintage"> Vintage items</label>
-      </div>
-      </div>
-    </div>
-  </div>
+      <categories-picker @selectedCategories="setSelectedCategories($event)"></categories-picker>
 
-<div class="field is-horizontal">
-  <div class="field-label is-normal">
-    <label class="label">Description</label>
-  </div>
-  <div class="field-body">
-    <div class="field is-narrow">
-      <div class="control">
-        <textarea v-model="product.desc" required class="textarea" placeholder="Add a few details about your item"></textarea>
+      <div class="flex">
+        <v-spacer></v-spacer>
+        <v-btn type="submit">upload</v-btn>
       </div>
-    </div>
-  </div>
-</div>
 
-<div class="field is-horizontal">
-  <div class="field-label is-normal">
-    <label class="label">In exchange for:</label>
-  </div>
-  <div class="field-body">
-    <div class="field is-narrow">
-      <div class="control">
-         <input type="checkbox" value="electronics" v-model="product.desiredSwapCategories">
-          <label for="electronics"> Electronics </label>
-          <input type="checkbox" value="car" v-model="product.desiredSwapCategories">
-          <label for="car"> Car related </label>
-          <input type="checkbox" value="vintage" v-model="product.desiredSwapCategories">
-          <label for="vintage"> Vintage items</label>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="field is-horizontal">
-  <div class="field-label is-normal">
-    <label class="label">Trade location:</label>
-  </div>
-  <div class="field-body">
-    <div class="field is-narrow">
-      <div class="control">
-        <div class="select is-fullwidth">
-          <select required v-model="product.location">
-            <option disabled value="">Please select location</option>
-            <option>Tel aviv</option>
-            <option>Haifa</option>
-            <option>Ramat Gan</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="field is-horizontal">
-  <div class="field-label">
-    <!-- Left empty for spacing -->
-  </div>
-  <div class="field-body">
-    <div class="field">
-      <div class="control">
-        <button type="submit" class="button is-primary">
-          Upload Product
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-</form>
+    </v-form>
   </section>
 </template>
 
 <script>
 // @ is an alias to /src
-import UploadImg from '@/cmps/product-upload/UploadImg';
-import EventBusService, { EVENTS } from '../services/EventBusService';
+import UploadImg from '@/cmps/product-upload/UploadImg.vue';
+import CategoriesPicker from '@/cmps/general/CategoriesPicker.vue';
+import EventBusService, { EVENTS } from '../services/EventBusService.js';
 
 export default {
   name: 'ProductUpload',
@@ -123,28 +45,25 @@ export default {
   data() {
     return {
       product: {
-        createdAt: null,
-        title: 'Sample product title',
+        title: '',
+        desc: '',
         imgs: [],
-        categories: ['toys'],
-        desiredSwapCategories: ['vintage'],
-        desc: 'Sample description for a product',
+        categories: [],
         ownerId: null,
-        bidIds: [],
-        location: 'Haifa',
-        isLive: true
+      },
+      rules: {
+        notEmpty: [input => input.length > 0]
       }
     };
   },
-
   methods: {
     previewImage(event) {
       // Reference to the DOM input element
-      var input = event.target;
+      let input = event.target;
       // Ensure that you have a file before attempting to read it
       if (input.files && input.files[0]) {
         // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader();
+        let reader = new FileReader();
         // Define a callback function to run, when FileReader finishes its job
         reader.onload = e => {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
@@ -155,56 +74,59 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-
     onFileChanged(ev) {
       this.product.imgs.push(ev.target.value);
     },
-    // previewImage: function(event) {
-    //   // Reference to the DOM input element
-    //   var input = event.target;
-    //   // Ensure that you have a file before attempting to read it
-    //   if (input.files && input.files[0]) {
-    //     // create a new FileReader to read this image and convert to base64 format
-    //     var reader = new FileReader();
-    //     // Define a callback function to run, when FileReader finishes its job
-    //     reader.onload = e => {
-    //       // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-    //       // Read image as base64 and set to imageData
-    //       this.imageData = e.target.result;
-
-    //       console.log('this.imageData', e.target.result);
-    //     };
-    //     // Start the reader job - read file as a data url (base64 format)
-    //     reader.readAsDataURL(input.files[0]);
-    //   }
-    // },
-
-    // onFileChanged(ev) {
-    //   console.log(ev);
-    //   console.log(ev.target.value);
-    //   this.product.imgs.push(ev.target.value);
-    // },
+    setSelectedCategories(categories) {
+      this.product.categories = categories;
+    },
     addProduct() {
-      this.product.createdAt = Date.now();
+      if (!validateForm(this)) return;
 
       this.$store
         .dispatch({ type: 'addProduct', product: this.product })
         .then(() => {
           this.$router.push('/browseProducts');
           EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
-            title: 'product uploaded',
-            desc: 'nice man, let the bids flow'
+            title: 'ever heard of',
+            desc: 'a boy that traded up from a pin to a house?'
           });
         })
         .catch(err => console.log({ err }));
+
+      function validateForm(that) {
+        const isTxtInputsValid = that.$refs['add-product-form'].validate();
+        if (!isTxtInputsValid) {
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'please fill out',
+            desc: 'the text inputs in the form',
+            success: false
+          });
+          return false;
+        } else if (that.product.imgs.length < 1) {
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'please pick',
+            desc: 'atleast one product picture',
+            success: false
+          });
+          return false;
+        } else if (that.product.categories.length < 1) {
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'please pick',
+            desc: 'atleast one category that describes your product',
+            success: false
+          });
+          return false;
+        } else return true;
+      }
     },
     addImg(urlPath) {
       this.product.imgs.push(urlPath);
-      console.log('img uploaded');
     }
   },
   components: {
-    UploadImg
+    UploadImg,
+    CategoriesPicker
   }
 };
 </script>

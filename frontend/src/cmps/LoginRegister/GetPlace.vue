@@ -1,13 +1,10 @@
-
-
 <template>
-<section class="place">
-<label >
-  <input ref="autocomplete"  placeholder="City"   class=" text-box search-location"   onfocus="value = ''"  type="text" />
- 
-</label>
-
-</section>
+  <section class="place">
+    <label>
+      <input ref="autocomplete" placeholder="Where do you wanna trade?" 
+             class=" text-box search-location" onfocus="value = ''" type="text" />
+    </label>
+  </section>
 </template>
 
 <script>
@@ -20,32 +17,28 @@ export default {
           lat: null,
           lng: null
         }
-      }
+      },
+      autocomplete: null
     };
   },
   mounted() {
     this.autocomplete = new google.maps.places.Autocomplete(
       this.$refs.autocomplete,
-      { types: ["geocode"] }
+      { types: ['geocode'] }
     );
     this.autocomplete.addListener('place_changed', () => {
       let place = this.autocomplete.getPlace();
       let ac = place.address_components;
       this.loc.coords.lat = place.geometry.location.lat();
-      this.loc.coords.lat = place.geometry.location.lng();
-      this.loc.name = ac[0]["short_name"];
-      
-      console.log(
-        `The user picked ${this.loc.name} with the coordinates`
-      );
+      this.loc.coords.lng = place.geometry.location.lng();
+      this.loc.name = ac[0]['short_name'];
       this.emit();
     });
   },
   methods: {
-    emit(){
-      this.$emit ('selectedPlace', this.loc)
+    emit() {
+      this.$emit('selectedPlace', this.loc);
     }
-   
   }
 };
 </script>
@@ -53,19 +46,17 @@ export default {
 <style scoped>
 .text-box {
   /* margin-left:10px; */
-  margin-bottom:20px;
+  margin-bottom: 20px;
   outline: 0;
   height: 30px;
   width: 240px;
   font-size: 16px;
   line-height: 30px;
   padding: 0 16px;
-   background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   color: #212121;
   border: 0;
- 
   -webkit-border-radius: 4px 0 0 4px;
- 
 }
 .text-box:focus {
   outline: 0;
@@ -105,11 +96,11 @@ button:focus {
 }
 
 .place {
-  font-size:18px;
+  font-size: 18px;
   width: 100%;
   margin-left: 0px;
-  text-align:left;
-  margin-right:180px;
+  text-align: left;
+  margin-right: 180px;
 }
 label {
   width: 100%;

@@ -271,7 +271,7 @@ export default {
 form {
   /* padding-top: 5px; */
   border-radius: 20px;
-  outline: 0;
+  /* outline: 0; */
   float: left;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
@@ -281,7 +281,7 @@ form {
 }
 
 form > .textbox {
-  outline: 0;
+  /* outline: 0; */
   height: 42px;
   width: 300px;
   font-size: 20px;
@@ -296,12 +296,12 @@ form > .textbox {
 }
 
 form > .textbox:focus {
-  outline: 0;
+  /* outline: 0; */
   background-color: #fff;
 }
 
 form > .button {
-  outline: 0;
+  /* outline: 0; */
   background: none;
   background-color: rgba(38, 50, 56, 0.8);
   float: left;
@@ -331,6 +331,6 @@ button:hover {
 }
 
 button:focus {
-  outline: 0;
+  /* outline: 0; */
 }
 </style>

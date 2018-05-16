@@ -1,29 +1,72 @@
 const DBService = require('./DBService');
 const mongo = require('mongodb');
 const UserService = require('./UserService.js');
+const Product = require('../classes/ProductClass.js');
+
 function pcl(obj) {
   var e = JSON.stringify(obj, null, 2);
   console.log(e);
 }
 
-function query(criteria = {}) {
-  console.log('start of product query')
+function query(criteria = {}, colsToGet, loggedInUserCoords) {
   return new Promise((resolve, reject) => {
     return DBService.dbConnect().then(db => {
+      criteria.isLive = true;
+
+      const pipeline = [
+        { $match: criteria },
+        { $project: colsToGet},
+        {
+          $lookup: {
+            from: DBService.COLLECTIONS.USER,
+            localField: 'ownerId',
+            foreignField: '_id',
+            as: 'owner'
+          }
+        }
+      ];
+
       db
-      .collection(DBService.COLLECTIONS.PRODUCT)
-      .find(criteria)
-      .toArray((err, products) => {
-        if (err) reject(err);
-        else resolve(products);
-        console.log('END of product query')
-      });
+        .collection(DBService.COLLECTIONS.PRODUCT)
+        .aggregate(pipeline)
+        .toArray((err, products) => {
+          products.forEach(product => {
+            product.ownerLoc = product.owner[0].loc;
+            delete product.owner;
+          });
+
+          if (err) reject(err);
+          else resolve(products);
+        });
     });
   });
 }
 
+/* function query(criteria = {}) {
+  return new Promise((resolve, reject) => {
+    return DBService.dbConnect().then(db => {
+      // get products
+      criteria.isLive = true;
+
+      db
+        .collection(DBService.COLLECTIONS.PRODUCT)
+        .find(criteria)
+        .toArray((err, products) => {
+          // then find owner and get loc
+
+          console.log(products);
+          if (err) reject(err);
+          else resolve(products);
+          // then insert to products
+        });
+    });
+  });
+}
+ */
 function add(product) {
   return new Promise((resolve, reject) => {
+    product = new Product(product);
+
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.PRODUCT)
@@ -54,8 +97,7 @@ function add(product) {
 
 function getProductDetailsById(productId) {
   productId = new mongo.ObjectID(productId);
-  
-  
+
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
@@ -65,7 +107,6 @@ function getProductDetailsById(productId) {
           else {
             UserService.getById(product.ownerId)
               .then(user => {
-                console.log ('user' , user)
                 resolve({ product, owner: user });
               })
               .catch(err => reject(err));
@@ -95,14 +136,14 @@ function getById(productId, colsToGet) {
 function getOffersByProductId(id) {
   let returnObj = {};
   id = new mongo.ObjectID(id);
-  
+
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
-      db.collection(DBService.COLLECTIONS.PRODUCT)
+      db
+        .collection(DBService.COLLECTIONS.PRODUCT)
         .findOne({ _id: id })
         .then(prod => {
-          console.log ('prod' , prod)
-          returnObj.prod = prod
+          returnObj.prod = prod;
         })
         .then(_ => {
           db
@@ -112,66 +153,64 @@ function getOffersByProductId(id) {
               { $project: { _id: 0, bidIds: 1 } },
               { $unwind: '$bidIds' },
               {
-                $lookup:
-                {
+                $lookup: {
                   from: DBService.COLLECTIONS.BID,
-                  localField: "bidIds",
-                  foreignField: "_id",
-                  as: "bidsObjects"
+                  localField: 'bidIds',
+                  foreignField: '_id',
+                  as: 'bidsObjects'
                 }
               },
-              { $unwind: "$bidsObjects" },
+              { $unwind: '$bidsObjects' },
               {
                 $group: {
-                  _id: "$_id",
-                  bidIds: { "$push": "$bidIds" },
-                  bidsObjects: { "$push": "$bidsObjects" },
+                  _id: '$_id',
+                  bidIds: { $push: '$bidIds' },
+                  bidsObjects: { $push: '$bidsObjects' }
                 }
               }
             ])
             .toArray()
-            .then( x => x[0])
+            .then(x => x[0])
             .then(productWithBids => {
-             if (productWithBids){
-              var prms = productWithBids.bidsObjects
-                .map(bid => {
-                  return db.collection(DBService.COLLECTIONS.PRODUCT)
+              if (productWithBids) {
+                var prms = productWithBids.bidsObjects.map(bid => {
+                  return db
+                    .collection(DBService.COLLECTIONS.PRODUCT)
                     .findOne({
                       _id: new mongo.ObjectId(bid.bidder.productId)
                     })
                     .then(bidderProd => {
-                      return db.collection(DBService.COLLECTIONS.USER)
-                      .findOne({
-                        _id: new mongo.ObjectId(bidderProd.ownerId)
-                      }).then (bidder =>{
-                        return {
-                          bidderName: bidder.nickName,
-                          bidderImg: bidder.img,
-                          bidId: bid._id,
-                          bidderProdId: bid.bidder.productId, 
-                          bidderProd,
-                          ownerProdId: bid.owner.productId,
-                        }
-                      })
-
-                    })
-                }
-                )
-              return Promise.all(prms)
+                      return db
+                        .collection(DBService.COLLECTIONS.USER)
+                        .findOne({
+                          _id: new mongo.ObjectId(bidderProd.ownerId)
+                        })
+                        .then(bidder => {
+                          return {
+                            bidderName: bidder.nickName,
+                            bidderImg: bidder.img,
+                            bidId: bid._id,
+                            bidderProdId: bid.bidder.productId,
+                            bidderProd,
+                            ownerProdId: bid.owner.productId
+                          };
+                        });
+                    });
+                });
+                return Promise.all(prms);
+              } else {
+                console.log('lo mazliah');
               }
-              else {console.log ('lo mazliah') }
             })
-            .then( x => {
+            .then(x => {
               pcl(x);
-              returnObj.bids = x
-              resolve(returnObj)
-            })
-        })
-
-    })
-  })
+              returnObj.bids = x;
+              resolve(returnObj);
+            });
+        });
+    });
+  });
 }
-
 
 function getByIds(productIds) {
   console.log ('moshe')
@@ -193,7 +232,6 @@ function getByIds(productIds) {
         .collection(DBService.COLLECTIONS.PRODUCT)
         .find(mongoQuery, colsToGet)
         .toArray((err, products) => {
-          // console.log(products);
           if (err) reject(err);
           else resolve(products);
           db.close();

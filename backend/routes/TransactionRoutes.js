@@ -4,7 +4,6 @@ const TransactionService = require('../services/TransactionService');
 module.exports = app => {
   
   app.get('/transaction/:transactionId', (req, res) => {
-    console.log ('day')
     const transactionId = req.params.transactionId;
     TransactionService.getById(transactionId)
     .then(transactionObj => res.json(transactionObj))

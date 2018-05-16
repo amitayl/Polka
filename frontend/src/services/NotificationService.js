@@ -12,7 +12,6 @@ function query(loggedInUserId) {
 }
 
 function remove(notification) {
-  console.log('removing notification', notification);
   return axios.delete(`${BASE_URL}/notification`, { params: { notification } });
 }
 

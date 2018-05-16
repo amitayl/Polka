@@ -28,7 +28,6 @@ export default {
   },
   methods: {
     toggleOffers(id) {
-      console.log('id' , id);
       if (id) {
         this.isShowOffers = true;
         this.productId = id;

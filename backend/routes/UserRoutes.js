@@ -53,7 +53,7 @@ module.exports = app => {
       .catch(err => res.status(500).send(err.message));
   });
 
-  app.put('/review', (req, res) => {
+  app.put ('/review', (req, res) => {
     const review = req.body;
     UserService.addReview(review)
       .then(addedReview => res.json(addedReview))

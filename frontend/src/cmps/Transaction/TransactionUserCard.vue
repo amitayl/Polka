@@ -26,9 +26,6 @@ export default {
       required: true
     }
   },
-  creted (){
-      console.log ('user' , user )
-  }
 };
 </script>
 

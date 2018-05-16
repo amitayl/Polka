@@ -1,5 +1,5 @@
 class User {
-  constructor({ email, password, img, desc, location, nickName }) {
+  constructor({ email, password, img, desc, loc, nickName }) {
     this.createdAt = Date.now();
     this.productIds = [];
     this.notifications = [];
@@ -8,7 +8,7 @@ class User {
     this.password = password;
     this.img = img;
     this.desc = desc;
-    this.location = location;
+    this.loc = loc;
     this.nickName = nickName;
   }
 }

@@ -2,7 +2,6 @@ const DBService = require('../DBService.js');
 const mongo = require('mongodb');
 
 function accept(bid) {
-  console.log(bid);
 
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
@@ -64,14 +63,12 @@ function createTransactionPushNotification(bid, db) {
     isDeal: true
   };
 
-  console.log('before creating transaciton')
   return new Promise((resolve, reject) => {
     db
       .collection(DBService.COLLECTIONS.TRANSACTION)
       .insertOne(transaction, (err, { insertedId }) => {
         if (err) reject();
         else {
-          console.log('AFTER creating transaciton')
           const bidderId = new mongo.ObjectID(bid.bidder.product.ownerId);
 
           pushNotification(bidderId, insertedId, db)
@@ -149,7 +146,6 @@ function removeProductsFromShelfs(bid, db) {
 
 function removeProductsIdsFromUsers(bid, db) {
   return new Promise((resolve, reject) => {
-    console.log('BEFORE removing products');
     const ownerId = new mongo.ObjectID(bid.owner.product.ownerId);
     const ownerProductId = new mongo.ObjectID(bid.owner.product._id);
 
@@ -165,7 +161,6 @@ function removeProductsIdsFromUsers(bid, db) {
           }
         );
     });
-    console.log('AFTER removing owner product');
     
     const bidderId = new mongo.ObjectID(bid.bidder.product.ownerId);
     const bidderProductId = new mongo.ObjectID(bid.bidder.product._id);
@@ -182,7 +177,6 @@ function removeProductsIdsFromUsers(bid, db) {
         }
       );
     });
-    console.log('AFTER removing bidder product');
   });
 
   Promise.all([prmOwnerUpdate, prmBidderUpdate])

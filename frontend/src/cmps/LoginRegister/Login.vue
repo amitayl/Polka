@@ -1,7 +1,7 @@
 <template>
   <section class="login">
 
-    <v-form class="login-form" @submit.prevent="checkLogin()">
+    <v-form class="grey-form" @submit.prevent="checkLogin()">
       <v-text-field
         v-model="loginData.email"
         :rules="emailRules"
@@ -102,13 +102,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.login-form {
-  margin: 0 auto;
-  width: 500px;
-  padding: 20px;
-  background: whitesmoke;
-}
-</style>
-

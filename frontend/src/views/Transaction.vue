@@ -23,7 +23,7 @@
      <p  class="thanks"><strong>Thank you for trading with Polka! </strong></p>
       <!-- <a href="#"     @click.stop="dialog=true"  class="thanks"> &nbsp &nbsp Please leave a review </a> -->
 
-      <a href="#"   data-toggle="modal" data-target="#myModal"    class="thanks"> &nbsp &nbsp Please leave a review </a>
+      <a href="#"   data-toggle="modal" data-target="#myModal"    class="thanks"> &nbsp; &nbsp; Please leave a review </a>
 
 
      <div class="modal fade" id="myModal" role="dialog">
@@ -121,7 +121,7 @@ export default {
     submitReview() {
       console.log("submit", this.review);
       UserService.addReview(this.review)
-      .then (_=> this.$router.push('/browseProducts' ))
+      .then (_=> {this.$router.push('/browseProducts' )})
       
     },
    

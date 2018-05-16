@@ -16,9 +16,6 @@ function query() {
 }
 
 function getById(transactionId) {
-  console.log('get to backend');
-  // transactionId = new mongo.ObjectID(transactionId);
-  let transactionObj = {};
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
@@ -35,7 +32,6 @@ function getById(transactionId) {
             .findOne({
               _id: new mongo.ObjectId(transaction.owner.productId)
             }).then(product => {
-              console.log('prod', product)
               owner.prodTitle = product.title;
               owner.prodImg = product.imgs[0];
               db.collection(DBService.COLLECTIONS.USER)
@@ -46,7 +42,6 @@ function getById(transactionId) {
                   owner.img = user.img
                   owner.nickName = user.nickName
                   resolve(owner);
-                  console.log('trans', transaction)
                 })
               })
             })
@@ -56,7 +51,6 @@ function getById(transactionId) {
             .findOne({
               _id: new mongo.ObjectId(transaction.bidder.productId)
             }).then(product => {
-              console.log('prod', product)
               bidder.prodTitle = product.title;
               bidder.prodImg = product.imgs[0];
               db.collection(DBService.COLLECTIONS.USER)
@@ -67,7 +61,6 @@ function getById(transactionId) {
                   bidder.img = user.img
                   bidder.nickName = user.nickName
                   resolve(bidder);
-                  console.log('trans', transaction)
                 })
 
               })
@@ -87,7 +80,6 @@ function getById(transactionId) {
 }
 
 function add(bid, isDeal) {
-  console.log('add')
   // transactionId = new mongo.ObjectID(transactionId);
   let transaction = bid;
   transaction.isDeal = isDeal;
@@ -100,7 +92,6 @@ function add(bid, isDeal) {
         .insertOne(transaction, (err, result) => {
           if (err) reject('err', err);
           else {
-            console.log('transinsert')
             resolve();
           }
         })

@@ -27,7 +27,11 @@ function _getUserUrl(userId) {
 function add(userData) {
   return axios
     .post(BASE_URL + '/user', userData)
-    .then(res => res.data)
+    .then(res => {
+      const userCredentials = {email: userData.email, password: userData.password};
+      StorageService.session.store('userCredentials', userCredentials);
+      return res.data
+    })
     .catch(err => {
       throw new Error('Register Failed');
     });

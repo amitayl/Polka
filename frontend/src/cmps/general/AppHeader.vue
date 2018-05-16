@@ -24,12 +24,12 @@
 
               <v-btn flat @click="moveTo('upload')">upload</v-btn>
 
-              <div class="flex align-center relative">
+              <div class="flex align-center relative margin-left">
                 <v-avatar class="user-menu-icon" @click="toggleUserMenu()">
                   <img :src="loggedInUser.img" :alt="loggedInUser.nickName">
                 </v-avatar>
               
-                <ul v-show="showUserMenu" class="user-menu elevation-4">
+                <ul v-show="showUserMenu" class="user-menu clean-list elevation-4">
                   <li><b>hello {{loggedInUser.nickName}}</b></li>
                   <li><v-btn flat @click="moveTo('profile/'+loggedInUser._id)">profile</v-btn></li>
                   <li><v-btn flat @click="logout()">logout</v-btn></li>
@@ -39,8 +39,7 @@
             </template>
 
             <template v-else>
-              <v-btn flat @click.native="moveTo('register')">sign up</v-btn>
-              <v-btn flat @click.native="moveTo('login')"> login</v-btn>
+              <v-btn flat @click.native="moveTo('login')">login / register</v-btn>
             </template>
 
         </v-toolbar-items>
@@ -66,6 +65,7 @@ export default {
         this.notifications.splice(idx, 0, notification);
       }, 300);
     });
+    
     EventBusService.$on(EVENTS.CLOSE_NOTIFICATIONS, () => {
       this.showNotifications = false;
     });
@@ -96,7 +96,6 @@ export default {
       if (this.loggedInUser) {
         NotificationService.query(this.loggedInUser._id).then(notifications => {
           this.notifications = notifications.reverse();
-          console.log('notifications', this.notifications);
         });
       }
     }
@@ -179,5 +178,8 @@ export default {
 }
 .user-menu li {
   padding: 5px;
+}
+.margin-left {
+  margin-left: 18px;
 }
 </style>

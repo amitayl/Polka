@@ -1,9 +1,9 @@
 <template>
     <section class="flex align-center">
       <form @submit.prevent="searchProducts()">
-          <select v-model="category">
-            <option v-for="(CATEGORY, idx) in PRODUCT_CATEGORIES" 
-                    :key="idx" :value="CATEGORY">{{CATEGORY}}</option>
+          <select v-model="selectedCategory" @change="searchProducts()" @focus="selectedCategory=null">
+            <option v-for="category in categories" 
+                    :key="category.title" :value="category.value">{{category.title}}</option>
           </select>
           <input v-model="searchStr"
                   ref="search"
@@ -16,14 +16,42 @@
 </template>
 
 <script>
-import { PRODUCT_CATEGORIES } from '@/const.js';
-import { PRODUCT_ACTIONS } from '@/store/ProductStore.js';
+import { PRODUCT_ACTIONS, PRODUCT_MUTATIONS } from '@/store/ProductStore.js';
 
 export default {
   data() {
     return {
-      category: 'all',
-      PRODUCT_CATEGORIES,
+      selectedCategory: 'all',
+      categories: [
+        {
+          title: 'all',
+          value: 'all'
+        },
+        {
+          title: 'art',
+          value: 'art'
+        },
+        {
+          title: 'electronics',
+          value: 'electronics'
+        },
+        {
+          title: 'fashion',
+          value: 'fashion'
+        },
+        {
+          title: 'home & Garden',
+          value: 'home'
+        },
+        {
+          title: 'music',
+          value: 'music'
+        },
+        {
+          title: 'sports',
+          value: 'sport'
+        }
+      ],
       searchStr: null
     };
   },
@@ -32,6 +60,10 @@ export default {
   },
   methods: {
     searchProducts() {
+      this.$store.commit({
+        type: PRODUCT_MUTATIONS.SET_PRODUCTS,
+        products: null
+      });
       this.$router.push('/browseProducts');
 
       const inDescOrTitle = this.searchStr
@@ -42,15 +74,19 @@ export default {
             ]
           }
         : {};
+
       const ofCategory =
-        this.category !== 'all'
+        this.selectedCategory !== 'all'
           ? {
-              categories: { $in: [this.category] }
+              categories: { $in: [this.selectedCategory] }
             }
           : {};
 
       const queryObj = { $and: [inDescOrTitle, ofCategory] };
-      this.$store.dispatch({ type: PRODUCT_ACTIONS.SET_PRODUCTS, queryObj });
+      this.$store.dispatch({
+        type: PRODUCT_ACTIONS.SET_PRODUCTS,
+        queryObj: JSON.stringify(queryObj)
+      });
     }
   }
 };
