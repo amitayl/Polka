@@ -7,6 +7,7 @@ if(process.env.NODE_ENV !== 'development') {
 
 import StorageService from './StorageService.js';
 
+
 function query(queryObj, colsToGet) {
   return axios.get(BASE_URL + '/users').then(res => res.data);
 }
@@ -75,6 +76,7 @@ function logout() {
     .post(`${BASE_URL}/logout`)
     .then(res => {
       delete sessionStorage.loggedInUser;
+      StorageService.session.store('userCredentials', null);
     })
     .catch(err => {
       throw new Error('Logout Failed');

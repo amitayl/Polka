@@ -105,7 +105,7 @@ export default {
 }
 .title {
   width: 140px;
-  height: 42px;
+  height: 41px;
   overflow: hidden;
 }
 .desc {

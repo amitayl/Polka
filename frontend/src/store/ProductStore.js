@@ -20,7 +20,6 @@ import ProductService from '../services/ProductService.js';
 import UserService from '../services/UserService.js';
 import StorageService from '../services/StorageService.js';
 import { USER_MUTATIONS } from './UserStore.js';
-import UtilService from '../services/utilService.js';
 
 export default {
   state: {
@@ -60,28 +59,30 @@ export default {
         imgs: 1
       };
 
-      const loggedInUserCoords = ctx.rootGetters.getLoggedInUser.loc.coords;
-      return ProductService.query(queryObj, colsToGet, loggedInUserCoords).then(products => {
-        // calculate distance from current user
-        // add it and remove userLoc
+      let userCoords;
+      const loggedInUser = ctx.rootGetters.getLoggedInUser;
+      if (loggedInUser) {
+        userCoords = loggedInUser.loc.coords
+        return getProducts();
+      }
+      else {
+        return navigator.geolocation.getCurrentPosition(loc=>{
+          userCoords = {
+            lat: loc.coords.latitude,
+            lng: loc.coords.longitude
+          }
+          return getProducts();
+        })
+      }
 
-        products.forEach(product => {
-          const [productLat, productLng, userLat, userLng] = [
-            product.ownerLoc.coords.lat,
-            product.ownerLoc.coords.lng,
-            loggedInUserCoords.lat,
-            loggedInUserCoords.lng
-          ];
-
-          product.distanceInKM = UtilService.calcDistance(productLat, productLng, userLat, userLng);
-          delete product.ownerLoc;
+      function getProducts() {
+        return ProductService.query(queryObj, colsToGet, userCoords).then(products => {
+          ctx.commit({
+            type: PRODUCT_MUTATIONS.SET_PRODUCTS,
+            products
+          });
         });
-
-        ctx.commit({
-          type: PRODUCT_MUTATIONS.SET_PRODUCTS,
-          products
-        });
-      });
+      }
     },
 
     [PRODUCT_ACTIONS.ADD_PRODUCT](ctx, { product }) {

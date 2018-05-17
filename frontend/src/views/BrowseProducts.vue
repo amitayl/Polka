@@ -1,7 +1,7 @@
 <template>
   <div class="browse-products">
     <!-- <categories-sub-nav></categories-sub-nav> -->
-    <product-sort></product-sort>
+    <!-- <product-sort></product-sort> -->
     <product-list @emitSelected="routeDetails" v-if="products" :products="products"></product-list>
   </div>
 </template>
@@ -11,7 +11,7 @@ import ProductService from '../services/ProductService.js';
 import { PRODUCT_MUTATIONS } from '../store/ProductStore.js';
 import { USER_ACTIONS } from '../store/UserStore';
 // import CategoriesSubNav from '@/cmps/browse-products/CategoriesSubNav.vue';
-import ProductSort from '@/cmps/browse-products/ProductSort.vue';
+// import ProductSort from '@/cmps/browse-products/ProductSort.vue';
 import ProductList from '@/cmps/general/ProductList.vue';
 
 export default {
@@ -24,7 +24,7 @@ export default {
         this.$store.dispatch({
           type: PRODUCT_MUTATIONS.SET_PRODUCTS,
           queryObj: {}
-        });
+        })/* .then(()=>{console.log(this.products)}); */
       });
   },
   computed: {
@@ -34,7 +34,7 @@ export default {
   },
   components: {
     // CategoriesSubNav,
-    ProductSort,
+    // ProductSort,
     ProductList
   },
   methods: {
@@ -44,3 +44,6 @@ export default {
   }
 };
 </script>
+
+<style>
+</style>
