@@ -43,8 +43,9 @@ module.exports = app => {
     const bid = req.body;
 
     BidService.accept(bid)
-      .then(() => {
-        res.json()
+      .then(transactionId => {
+        console.log ('transactionIdinaccept' , transactionId)
+        res.json(transactionId);
       })
       .catch(err => {
         res.status(500).send({ err })

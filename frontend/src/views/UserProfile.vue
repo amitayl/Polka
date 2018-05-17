@@ -1,7 +1,7 @@
 <template>
 <section class="container">
     <!-- <div v-if="true" class="nav-profile  has-addons is-grouped"> 
-      <label :class="{active: selectedRadio==='profile'   }" >
+      <label :class="{active  : selectedRadio==='profile'   }" >
         Public Profile<input type="radio" @click="changeComponent"  value="profile" hidden>
       </label>
       <label class="button" :class="{active: selectedRadio==='bids'  }" >
@@ -25,7 +25,7 @@
           color="transparent"
         >
           <v-tab
-            v-for="(str, idx) in ['profile', 'bids', 'products']"
+            v-for="(str, idx) in ['profile', 'products']"
             :key="str"
             @click.native="frameIdx = idx , printframeIdx "
           >
@@ -36,7 +36,7 @@
     </div>
       
      <public-profile v-if="frameIdx == 0" :user="profileUser"></public-profile>  
-    <products v-if="frameIdx == 2"></products> 
+    <products v-if="frameIdx == 1"></products> 
      <!-- <public-profile  :user="profileUser"></public-profile>  -->
     
   </section>
@@ -75,11 +75,13 @@ export default {
       this.profileUser = this.loggedInUser;
       this.isUserEqualLoggidIn = true;
     } else {
+      console.log ('momo');
       UserService.getUserById(userId).then(user => {
-        console.log ('mosje')
         this.profileUser = user;
+        
+        
       }).catch (err => console.log('no user'))
-
+      
       this.isUserEqualLoggidIn = false;
     }
   },

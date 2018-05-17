@@ -28,6 +28,7 @@ function getProductById(productId) {
   return axios.get(BASE_URL + '/productDetails/' + productId).then(res => {
     let product = res.data.product;
     product.ownerImg = res.data.owner.img;
+    product.ownerNickName = res.data.owner.nickName;
     product.ownerId = res.data.owner._id;
 
     return product;

@@ -42,11 +42,10 @@ module.exports = app => {
       .catch(err => res.status(403).send(err));
   });
 
-  app.get(`/user/:userI1d`, (req, res) => {
+  app.get(`/user/:userId`, (req, res) => {
     const userId = req.params.userId;
     UserService.getById(userId)
       .then(user => {
-        console.log ('bla bla');
         delete user.password;
         res.json(user);
       })

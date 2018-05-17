@@ -14,12 +14,13 @@ function accept(bid) {
         removeBidFromBids(bidId, db),
         removeBidfromOwnerBidIds(ownerProductId, bidId, db),
         removeProductsFromShelfs(bid, db),
-        removeProductsIdsFromUsers(bid, db)
+        // removeProductsIdsFromUsers(bid, db)
       ];
 
       Promise.all(prms)
-        .then(() => {
-          resolve();
+        .then((values) => {
+          console.log ('values' , values);
+          resolve(values[1]);
           db.close();
         })
         .catch(() => {
@@ -72,9 +73,12 @@ function createTransactionPushNotification(bid, db) {
           const bidderId = new mongo.ObjectID(bid.bidder.product.ownerId);
 
           pushNotification(bidderId, insertedId, db)
-            .then(() => resolve())
+            .then(() => {resolve(insertedId)
+              console.log ('insertedId' , insertedId);
+            })  
+              
             .catch(() => reject());
-          resolve();
+         
         }
       });
   });
@@ -177,11 +181,12 @@ function removeProductsIdsFromUsers(bid, db) {
         }
       );
     });
-  });
+  
 
   Promise.all([prmOwnerUpdate, prmBidderUpdate])
     .then(() => resolve())
     .catch(() => reject());
+  });
 }
 
 module.exports = accept;

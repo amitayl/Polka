@@ -15,7 +15,7 @@ function getUserById(userId) {
   console.log ( 'getUserById' , userId);
   return axios.get(_getUserUrl(userId)).then(res => {
     let user = res.data;
-    console.log ('user' , user);
+    console.log ('userkkk' , user);
     return user;
   });
 }

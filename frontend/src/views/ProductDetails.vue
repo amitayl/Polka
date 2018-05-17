@@ -2,7 +2,8 @@
   <section v-if="product" class="contain flex space-between product-details">
 
     <div class="product-imgs flex flex-column"> 
-      <!-- <img class="primary-img product-img" :src="product.imgs[0]">  -->
+      <div class="primary-img product-img" 
+       :style="{'backgroundImage': `url(${product.imgs[0]})`}"></div>
       <div class="small-imgs flex space-between">
           <img v-for="(img, idx) in product.imgs" v-if="idx !== 0" 
                :key="img" :src="img" class="product-img small-img">
@@ -10,23 +11,30 @@
     </div>
 
     <div class="non-part-imgs">
-      <h2 class="product-title title is-2">{{product.userName}}</h2>
-      <div class= "user-img-line flex align-center">
+   
+   <v-card>
+
+      <div class="lolo">
+        <h2 class="product-title title is-2">{{product.userName}}</h2>
+        <div class= "user-img-line flex align-center">
         <router-link :to="'/profile/'+product.ownerId">
           <div>
             <img class="owner-img" :src="product.ownerImg">
           </div>
-        </router-link>
-      </div>
+        </router-link>   
+          <h2 class="nick-name" display-2>{{product.ownerNickName}}</h2>
+    </div>
     
     <div>
       <br>
-      <h2 class="product-title title is-2">{{product.title}}</h2>
-      <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
+      <h2 display-3>{{product.title}}</h2>
+      <br>
+      <h4 class="prod" display-2 >{{product.desc}}</h4> 
        <!-- <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4> -->
-      <h4 class="title is-4">Trade location: {{ product.location }}</h4>
+      <!-- <h4 class="title is-4">Trade location: {{ product.location }}</h4> -->
     </div>
-      
+    </div>
+   </v-card>   
       <v-btn v-if="loggedInUser" @click="toBid()" 
           class="bid-btn"
           :disabled="!isBidAble">Bid Now</v-btn>
@@ -86,24 +94,31 @@ div {
   height: 300px;
 }
 .product-img {
+  background-position: center; 
+  background-size: cover;
   border: 3px solid rgb(162, 167, 177);
 }
 .product-details {
-  color: red;
+  
+}
+.nick-name {
+  color: rgb(174, 218, 174);
+  margin-left:20px;
+}
+.lolo {
+  padding: 10px;
 }
 .non-part-imgs {
-  width: 45%;
+  width: 48%;
   text-align: left;
 }
 .product-imgs {
-  width: 45%;
+  width: 48%;
 }
 .product-title {
-  margin-left: 20px;
-  color: rgb(174, 218, 174);
 }
 .product-desc {
-  color: rgb(99, 128, 99);
+  line-height: 20px; 
 }
 .product-imgs .small-img {
   width: 20%;
@@ -194,4 +209,5 @@ img {
 .align-end {
   align-items: flex-end;
 }
+
 </style>

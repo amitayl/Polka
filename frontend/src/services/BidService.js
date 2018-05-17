@@ -10,7 +10,11 @@ function sendBid(bidData) {
 }
 
 function acceptBid(bid) {
-  return axios.post(`${BASE_URL}/accept`, bid);
+  return axios.post(`${BASE_URL}/accept`, bid)
+  .then (res=>{
+    console.log ('resdata' , res.data);
+    return res.data
+  })
 }
 
 function declineBid(bid) {

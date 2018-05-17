@@ -72,6 +72,7 @@ function remove(userId) {
 
 function getById(userId, colsToGet) {
   userId = new mongo.ObjectID(userId);
+  
 
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
@@ -79,7 +80,8 @@ function getById(userId, colsToGet) {
         .collection(DBService.COLLECTIONS.USER)
         .findOne({ _id: userId }, colsToGet, (err, user) => {
           if (err) reject(err);
-          else resolve(user);
+          else  resolve(user);
+      
           db.close();
         });
     });

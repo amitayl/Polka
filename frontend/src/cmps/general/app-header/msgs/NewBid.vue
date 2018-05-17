@@ -6,8 +6,6 @@
         <p class="caption">{{data.owner.product.title}}</p>
     </div>
 
-    --->
-
     <div class="flex flex-column align-center">
         <p class="body-1">for his</p>
         <img :src="data.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
@@ -39,7 +37,12 @@ export default {
     acceptBid() {
       this.$emit('removeNotificationFromUi');
 
-      BidService.acceptBid(this.data).catch(() => {
+      BidService.acceptBid(this.data).then(transactionId=>{
+        console.log ('aaaa');
+       this.$router.push('/transaction/'+transactionId);
+
+      })
+      .catch(() => {
         EventBusService.$emit(EVENTS.RETURN_REMOVED_NOTIFICATION);
 
         EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {

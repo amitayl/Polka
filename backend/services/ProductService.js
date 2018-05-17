@@ -9,6 +9,7 @@ function pcl(obj) {
 }
 
 function query(criteria = {}, colsToGet, loggedInUserCoords) {
+  console.log ('asaf is strange')
   return new Promise((resolve, reject) => {
     return DBService.dbConnect().then(db => {
       criteria.isLive = true;
