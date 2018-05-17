@@ -4,9 +4,11 @@ module.exports = app => {
   app.get('/product', (req, res) => {
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
-    const loggedInUserCoords = JSON.parse(req.query.loggedInUserCoords);
+
+    let userCoords = req.query.userCoords;
+    if (userCoords) userCoords = JSON.parse(userCoords);
     
-    ProductService.query(queryObj, colsToGet, loggedInUserCoords)
+    ProductService.query(queryObj, colsToGet, userCoords)
       .then(products => {
         res.json(products);
       })

@@ -1,7 +1,6 @@
 <template>
     <section>
-
-      <v-toolbar :class="{ 'margin-bottom': isBrowseProducts }" :clipped-left="true" :height="64">
+      <v-toolbar class="margin-bottom" :clipped-left="true" :height="64">
             
         <i class="far fa-handshake fa-3x logo-icon"></i> 
         <v-toolbar-title @click.native="moveTo('')" class="display-1 logo">Polka</v-toolbar-title>
@@ -25,9 +24,11 @@
               <v-btn flat @click="moveTo('upload')">upload</v-btn>
 
               <div class="flex align-center relative margin-left">
-                <v-avatar class="user-menu-icon" @click="toggleUserMenu()">
-                  <img :src="loggedInUser.img" :alt="loggedInUser.nickName">
-                </v-avatar>
+                <div class="user-menu-icon" 
+                     @click="toggleUserMenu()"
+                     :style="{ 'backgroundImage': `url(${loggedInUser.img})` }">
+                  <!-- <img :src="loggedInUser.img" :alt="loggedInUser.nickName"> -->
+                </div>
               
                 <ul v-show="showUserMenu" class="user-menu clean-list elevation-4">
                   <li><b>hello {{loggedInUser.nickName}}</b></li>
@@ -81,10 +82,6 @@ export default {
   computed: {
     loggedInUser() {
       return this.$store.getters.getLoggedInUser;
-    },
-    isBrowseProducts() {
-      const route = this.$route.path;
-      return route !== '/browseProducts';
     },
     isHomePage() {
       const route = this.$route.path;
@@ -162,8 +159,17 @@ export default {
 .margin-bottom {
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
+
+.user-menu-icon {
+  height: 48px;
+  width: 48px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
 .user-menu-icon:hover {
   cursor: pointer;
 }

@@ -78,7 +78,7 @@ export default {
             .then(() => {
               resolve();
             });
-        }
+        } else resolve();
       });
     }
   }

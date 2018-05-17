@@ -2,8 +2,12 @@
   <section v-if="product" class="contain flex space-between product-details">
 
     <div class="product-imgs flex flex-column"> 
+<<<<<<< HEAD
       <div class="primary-img product-img" 
        :style="{'backgroundImage': `url(${product.imgs[0]})`}"></div>
+=======
+      <img class="primary-img product-img" :src="product.imgs[0]"> 
+>>>>>>> 8dbe9eff0979b62c1937da5749f1f00fae0d5255
       <div class="small-imgs flex space-between">
           <img v-for="(img, idx) in product.imgs" v-if="idx !== 0" 
                :key="img" :src="img" class="product-img small-img">

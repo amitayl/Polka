@@ -5,15 +5,12 @@ if (process.env.NODE_ENV !== 'development') {
   BASE_URL = '';
 }
 
-function query(queryObj, colsToGet, loggedInUserCoords) {
+function query(queryObj, colsToGet, userCoords) {
+  const params = { queryObj, colsToGet }
+  if (userCoords) params.userCoords = userCoords;
+
   return axios
-    .get(BASE_URL + '/product', {
-      params: {
-        queryObj,
-        colsToGet,
-        loggedInUserCoords
-      }
-    })
+    .get(BASE_URL + '/product', {params})
     .then(res => res.data);
 }
 

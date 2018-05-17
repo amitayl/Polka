@@ -24,97 +24,24 @@ function dbConnect() {
   return prmConnect;
 }
 
-function cleanDB() {
+/* function cleanDB() {
   dbConnect().then(db => {
-    // clean out DB
+    db
+      .collection(COLLECTIONS.USER)
+      .update({}, { $set: { notifications: [], reviews: [] } });
+    db
+      .collection(COLLECTIONS.PRODUCT)
+      .update({}, { $set: { isLive: true, bidIds: [], viewCount: 0 } }, err);
+
+      // for each product reinsert the product id
+      
+
     db.collection(COLLECTIONS.BID).remove({});
     db.collection(COLLECTIONS.TRANSACTION).remove({});
-    db.collection(COLLECTIONS.PRODUCT).remove({});
-    db.collection(COLLECTIONS.USER).remove({}, (err, res) => {
-      const khen = {
-        createdAt: Date.now(),
-        productIds: [],
-        notifications: [],
-        email: 'khen@gmail.com',
-        password: '1234',
-        img:
-          'https://res.cloudinary.com/amielsosa/image/upload/v1526230457/idp7l2q6ozdskqe1o4v6.jpg',
-        desc: 'i love nina',
-        loc: {
-          name: 'Haifa',
-          coords: {
-            lat: 32.822155,
-            lng: 34.99702150000007
-          }
-        },
-        nickName: 'khen'
-      };
-
-      const khenProduct = {
-        createdAt: Date.now(),
-        title: 'Kidney',
-        imgs: [
-          'https://res.cloudinary.com/amielsosa/image/upload/v1526230505/qsyjjlnn0efhlkz0hfvz.png'
-        ],
-        categories: ['fashion'],
-        desc: 'My own kidneys, you better give me something good',
-        bidIds: [],
-        isLive: true
-      };
-
-      const asaf = {
-        createdAt: Date.now(),
-        productIds: [],
-        notifications: [],
-        email: 'asafshpigler@gmail.com',
-        password: '1234',
-        img:
-          'https://res.cloudinary.com/amielsosa/image/upload/v1526230457/idp7l2q6ozdskqe1o4v6.jpg',
-        desc: 'MY NAME S',
-        loc: {
-          name: 'Haifa',
-          coords: {
-            lat: 32.822155,
-            lng: 34.99702150000007
-          }
-        },
-        nickName: 'asaf'
-      };
-
-      const asafProduct = {
-        createdAt: Date.now(),
-        title: 'Galaxy',
-        imgs: [
-          'https://res.cloudinary.com/amielsosa/image/upload/v1526309411/wasusw7drx53apkcomo2.jpg'
-        ],
-        categories: ['fashion'],
-        desc: 'a new galaxy phone, j7',
-        bidIds: [],
-        isLive: true
-      };
-
-      addUserAndHisProduct(khen, khenProduct);
-      addUserAndHisProduct(asaf, asafProduct);
-
-      function addUserAndHisProduct(user, product) {
-        db.collection(COLLECTIONS.USER).insertOne(user, (err, res) => {
-          const userId = res.insertedId;
-          product.ownerId = userId;
-          db.collection(COLLECTIONS.PRODUCT).insertOne(product, (err, res) => {
-            const productId = res.insertedId;
-            db
-              .collection(COLLECTIONS.USER)
-              .updateOne(
-                { _id: new mongo.ObjectID(userId) },
-                { $push: { productIds: productId } }
-              );
-          });
-        });
-      }
-    });
   });
-}
+}*/
 
+// cleaning of notifications & isLive didn't work properly
 // cleanDB();
 
 module.exports = {

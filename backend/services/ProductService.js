@@ -1,6 +1,7 @@
 const DBService = require('./DBService');
 const mongo = require('mongodb');
 const UserService = require('./UserService.js');
+const UtilService = require('./utilService.js');
 const Product = require('../classes/ProductClass.js');
 
 function pcl(obj) {
@@ -8,15 +9,21 @@ function pcl(obj) {
   console.log(e);
 }
 
+<<<<<<< HEAD
 function query(criteria = {}, colsToGet, loggedInUserCoords) {
   console.log ('asaf is strange')
+=======
+function query(criteria = {}, colsToGet, userCoords) {
+>>>>>>> 8dbe9eff0979b62c1937da5749f1f00fae0d5255
   return new Promise((resolve, reject) => {
     return DBService.dbConnect().then(db => {
+      // get only live products
       criteria.isLive = true;
 
+      // get products by criteria, attach owner
       const pipeline = [
         { $match: criteria },
-        { $project: colsToGet},
+        { $project: colsToGet },
         {
           $lookup: {
             from: DBService.COLLECTIONS.USER,
@@ -31,6 +38,69 @@ function query(criteria = {}, colsToGet, loggedInUserCoords) {
         .collection(DBService.COLLECTIONS.PRODUCT)
         .aggregate(pipeline)
         .toArray((err, products) => {
+          
+          console.log('AFTER mongoQuery', products);
+          if (userCoords) {
+            products.forEach(product => {
+              const ownerLoc = product.owner[0].loc;
+              delete product.owner;
+
+              const [productLat, productLng, userLat, userLng] = [
+                ownerLoc.coords.lat,
+                ownerLoc.coords.lng,
+                userCoords.lat,
+                userCoords.lng
+              ];
+  
+              product.distanceInKM = UtilService.calcDistance(
+                productLat,
+                productLng,
+                userLat,
+                userLng
+              );
+            });
+  
+            // sort by distance
+            products.sort((productA, productB) => {
+              if (productA.distanceInKM === productB.distanceInKM) return 0
+              else if (productA.distanceInKM > productB.distanceInKM) return 1
+              else return -1;
+            });
+          }
+
+          if (err) reject(err);
+          else resolve(products);
+        });
+    });
+  });
+}
+
+/* function query(criteria = {}, colsToGet, loggedInUserCoords) {
+  return new Promise((resolve, reject) => {
+    return DBService.dbConnect().then(db => {
+      // get only live products
+      criteria.isLive = true;
+
+      // get products by criteria, attach owner
+      const pipeline = [
+        { $match: criteria },
+        { $project: colsToGet },
+        {
+          $lookup: {
+            from: DBService.COLLECTIONS.USER,
+            localField: 'ownerId',
+            foreignField: '_id',
+            as: 'owner'
+          }
+        }
+      ];
+
+      db
+        .collection(DBService.COLLECTIONS.PRODUCT)
+        .aggregate(pipeline)
+        .toArray((err, products) => {
+
+          // for each product attach owner location & remove owner
           products.forEach(product => {
             product.ownerLoc = product.owner[0].loc;
             delete product.owner;
@@ -41,29 +111,8 @@ function query(criteria = {}, colsToGet, loggedInUserCoords) {
         });
     });
   });
-}
+} */
 
-/* function query(criteria = {}) {
-  return new Promise((resolve, reject) => {
-    return DBService.dbConnect().then(db => {
-      // get products
-      criteria.isLive = true;
-
-      db
-        .collection(DBService.COLLECTIONS.PRODUCT)
-        .find(criteria)
-        .toArray((err, products) => {
-          // then find owner and get loc
-
-          console.log(products);
-          if (err) reject(err);
-          else resolve(products);
-          // then insert to products
-        });
-    });
-  });
-}
- */
 function add(product) {
   return new Promise((resolve, reject) => {
     product = new Product(product);
@@ -214,7 +263,7 @@ function getOffersByProductId(id) {
 }
 
 function getByIds(productIds) {
-  console.log ('moshe')
+  console.log('moshe');
   const mongoQuery = { $or: [] };
   mongoQuery.$or = productIds.map(productId => {
     productId = new mongo.ObjectID(productId);
