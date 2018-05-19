@@ -20,7 +20,6 @@
             
             <v-card-title>
               <span>{{loggedInUserProduct.title}}</span>
-
             </v-card-title>
 
           </v-card>
@@ -39,12 +38,10 @@
 </template>
 
 <script>
-// import io from 'socket.io-client';
 import ProductService from '../services/ProductService.js';
 import BidService from '../services/BidService.js';
 import UserService from '../services/UserService';
 import EventBusService, { EVENTS } from '../services/EventBusService.js';
-// import { SOCKET_MUTATIONS } from '../store/SocketStore';
 
 export default {
   created() {
@@ -114,7 +111,7 @@ export default {
           // ProductService.getProductById(bidData.owner.productId).then(
           //   product => {
 
-          //     console.log(this.$socket, this.$store.getters.socket);
+          //     (this.$socket, this.$store.getters.socket);
           //     this.$socket.emit('bidSent', product.ownerId);
           //     this.$store.getters.socket.emit('bidSent', product.ownerId);
           //     // emit the owner Id

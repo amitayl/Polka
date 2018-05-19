@@ -1,7 +1,7 @@
 <template>
-    <section class="flex align-center">
-      <form @submit.prevent="searchProducts()">
-          <select v-model="selectedCategory" @change="searchProducts()" @focus="selectedCategory=null">
+    <section class="search-form flex align-center">
+      <form class="search-form-form" @submit.prevent="searchProducts()">
+          <select class="search-form-category" v-model="selectedCategory" @change="searchProducts()" @focus="selectedCategory=null">
             <option v-for="category in categories" 
                     :key="category.title" :value="category.value">{{category.title}}</option>
           </select>
@@ -9,7 +9,7 @@
                   ref="search"
                   type="search" 
                   class="search" 
-                  placeholder="Find some stuff"/>
+                  placeholder="Lets trade"/>
           <button type="submit">🔎</button> 
       </form>
     </section>
@@ -96,11 +96,19 @@ export default {
 form {
   display: flex;
   height: 40px;
+  background-color: white;
+  border-radius: 20px;
 }
-select {
+.search-form-category {
   height: 100%;
-  background: whitesmoke;
+  width: 100px;
   padding: 0 10px;
+  border: 1px solid lightgray;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.search-form-category:hover {
+  cursor: pointer;
 }
 .search {
   height: 100%;
@@ -114,5 +122,7 @@ select {
 button[type='submit'] {
   border: 1px solid lightgray;
   width: 50px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 </style>

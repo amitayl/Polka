@@ -4,11 +4,13 @@ module.exports = app => {
   app.get('/product', (req, res) => {
     const queryObj = JSON.parse(req.query.queryObj);
     const colsToGet = JSON.parse(req.query.colsToGet);
+    const sortBy = JSON.parse(req.query.sortBy);
+    const limit = JSON.parse(req.query.limit);
 
     let userCoords = req.query.userCoords;
     if (userCoords) userCoords = JSON.parse(userCoords);
-    
-    ProductService.query(queryObj, colsToGet, userCoords)
+
+    ProductService.query(queryObj, colsToGet, userCoords, sortBy, limit)
       .then(products => {
         res.json(products);
       })
@@ -43,7 +45,6 @@ module.exports = app => {
   });
 
   app.get(`/product/getOffers/:productId`, (req, res) => {
-    console.log ('kaka');
     const productId = req.params.productId;
     ProductService.getOffersByProductId(productId)
       .then(products => {
@@ -51,7 +52,6 @@ module.exports = app => {
       })
       .catch(err => res.status(500).send(err.message));
   });
-  // Add product
 
   app.post('/product', (req, res) => {
     const product = req.body;
@@ -61,4 +61,24 @@ module.exports = app => {
       })
       .catch(err => res.status(500).send('Could not add product'));
   });
+
+  app.post('/product-views-increment/', (req, res) => {
+    const productId = req.body.productId;
+
+    ProductService.incrementViews(productId)
+    .then(() => {
+      res.json();
+    })
+    .catch(err => res.status(500).send('Could not increment views'));
+  })
+
+  app.put('/product', (req, res) => {
+    const product = req.body.product;
+
+    ProductService.update(product)
+    .then(() => {
+      res.json();
+    })
+    .catch(err => res.status(500).send('Could not update product'));
+  })
 };

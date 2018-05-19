@@ -46,7 +46,7 @@ export default {
   },
   methods:{
     setRating(rating){
-      console.log ('ev' , ev);
+       ('ev' , ev);
     }
   },
   components:{

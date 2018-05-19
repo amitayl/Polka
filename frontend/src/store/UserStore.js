@@ -40,12 +40,14 @@ export default {
   },
   actions: {
     [USER_ACTIONS.ADD_USER](store, { userData }) {
-      return UserService.add(userData).then(addedUser => {
-        store.commit({
-          type: USER_MUTATIONS.SET_LOGGED_IN_USER,
-          user: addedUser
-        });
-        return addedUser;
+      ('sending register to frontend userSerivce', userData)
+      return UserService.add(userData)
+        .then(addedUser => {
+          store.commit({
+            type: USER_MUTATIONS.SET_LOGGED_IN_USER,
+            user: addedUser
+          });
+          return addedUser;
       });
     },
     [USER_ACTIONS.CHECK_LOGIN](store, { loginData }) {

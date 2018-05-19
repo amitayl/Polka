@@ -6,7 +6,7 @@
         <p class="caption">{{data.bidder.product.title}}</p>
     </div>
 
-    --X->
+    <v-icon :size="50">block</v-icon>
 
     <div class="flex flex-column align-center">
         <p class="body-1">for his</p>
@@ -14,7 +14,7 @@
         <p class="caption">{{data.owner.product.title}}</p>
     </div>
 
-    <v-icon color="white" class="close-btn" @click="$emit('deleteNotification')">close</v-icon>
+    <v-icon color="white" :size="20" class="close-btn" @click="$emit('deleteNotification')">close</v-icon>
   </section>
 </template>
 

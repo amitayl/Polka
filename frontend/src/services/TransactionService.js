@@ -6,47 +6,43 @@ if(process.env.NODE_ENV !== 'development') {
     BASE_URL = '';
   }
 
-
 function getById(transactionId) {
-    console.log('go to transaction ')
-    return axios.get(BASE_URL + '/transaction/' + transactionId).then(res => {
-        let transaction = res.data;
-        console.log('transaction', transaction);
-        return transaction;
-    });
+    return axios.get(BASE_URL + '/transaction/' + transactionId).then(res => res.data);
 }
-function addTransaction (isDeal){
+
+function addTransaction(isDeal) {
     let transaction = gatherTransaction(isDeal);
-    return axios.post((BASE_URL + '/transaction'  ,  transaction)).then(res => {
+    return axios.post((BASE_URL + '/transaction', transaction)).then(res => {
         let fullTransaction = res.data;
-        console.log('transaction', fullTransaction);
+        ('transaction', fullTransaction);
         return fullTransaction;
     });
-        
-
-}
-function gatherTransaction(isDeal){
-        let selectedProduct = this.$store.getters.getSelectedProduct;
-        let currProduct =  this.$store.getters.getCurrProduct;
-        let loggedInUser =  this.$store.getters.getLoggedInUser;
-        let transaction  = {
-            owner : { id :loggedInUser._id,
-                productId: currProduct_id,
-
-            },
-            bidder: {id: selectedProduct.bidderProd.ownerId,
-                productId : selectedProduct.bidderProd._id,
-            },
-            isDeal,
-
-        }
-        return transaction
 }
 
+function gatherTransaction(isDeal) {
+    let selectedProduct = this.$store.getters.getSelectedProduct;
+    let currProduct =  this.$store.getters.getCurrProduct;
+    let loggedInUser =  this.$store.getters.getLoggedInUser;
+    let transaction  = {
+        owner : { id :loggedInUser._id,
+            productId: currProduct_id,
 
+        },
+        bidder: {id: selectedProduct.bidderProd.ownerId,
+            productId : selectedProduct.bidderProd._id,
+        },
+        isDeal,
+
+    }
+    return transaction
+}
+
+function getDealsByUserId(userId) {
+    return axios.get(BASE_URL + '/dealsByUserId/' + userId).then(res => res.data);
+}
 
 export default {
     getById,
-    addTransaction
-   
+    addTransaction,
+    getDealsByUserId
 }

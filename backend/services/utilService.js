@@ -1,3 +1,7 @@
+function isEmptyObj(obj) {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+}
+
 function calcDistance(lat1, lon1, lat2, lon2) {
   var R = 6371; // km
   var dLat = _toRad(lat2 - lat1);
@@ -18,4 +22,7 @@ function calcDistance(lat1, lon1, lat2, lon2) {
   }
 }
 
-module.exports = {calcDistance};
+module.exports = {
+  isEmptyObj,
+  calcDistance
+};

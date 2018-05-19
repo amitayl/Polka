@@ -3,9 +3,12 @@ const UserService = require('../services/UserService');
 module.exports = app => {
   app.post('/user', (req, res) => {
     const userData = req.body;
+    
     UserService.add(userData)
       .then(addedUser => res.json(addedUser))
-      .catch(err => res.status(403).send({ error: `Register failed, ${err}` }));
+      .catch(err => {
+        res.status(403).send(err)
+      });
   });
 
   app.get('/users', (req, res) => {
@@ -42,11 +45,11 @@ module.exports = app => {
       .catch(err => res.status(403).send(err));
   });
 
-  app.get(`/user/:userI1d`, (req, res) => {
+  app.get(`/user/:userId`, (req, res) => {
     const userId = req.params.userId;
+
     UserService.getById(userId)
       .then(user => {
-        console.log ('bla bla');
         delete user.password;
         res.json(user);
       })

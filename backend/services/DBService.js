@@ -24,22 +24,36 @@ function dbConnect() {
   return prmConnect;
 }
 
-/* function cleanDB() {
+function cleanDB() {
   dbConnect().then(db => {
+    ('cleaning db')
     db
       .collection(COLLECTIONS.USER)
-      .update({}, { $set: { notifications: [], reviews: [] } });
+      .updateMany({}, { $set: { notifications: [], reviews: [], productIds: [] } }, () => {
+        // for each product reinsert the product id the his owner
+        db.collection(COLLECTIONS.PRODUCT).find({}).toArray((err, products) => {
+          products.forEach((product, idx) => {
+            const ownerId = new mongo.ObjectID(product.ownerId);
+            const productId = new mongo.ObjectID(product._id);
+
+            db.collection(COLLECTIONS.USER).updateOne(
+              { _id: ownerId }, 
+              { $push: { productIds: productId } })
+          });
+        }) 
+      });
+
+
     db
       .collection(COLLECTIONS.PRODUCT)
-      .update({}, { $set: { isLive: true, bidIds: [], viewCount: 0 } }, err);
-
-      // for each product reinsert the product id
-      
+      .updateMany({}, { $set: { isLive: true, bidIds: [] } });
 
     db.collection(COLLECTIONS.BID).remove({});
     db.collection(COLLECTIONS.TRANSACTION).remove({});
+
+    
   });
-}*/
+}
 
 // cleaning of notifications & isLive didn't work properly
 // cleanDB();

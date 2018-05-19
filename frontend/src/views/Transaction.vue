@@ -25,40 +25,34 @@
            class="thanks"> &nbsp; &nbsp; Please leave a review </a>
       </div>
 
-      <transition name="fade">
-        <div v-show="showModal" class="modal-background" @click="showModal = false">
-          <div class="modal" @click.stop>
-            
-            <v-card>
-              <div class="layout-card">
-                <div class="title-star">Please choose a rating from 1-5 for you trade partner</div>
-                <star-rating v-bind:star-size="30"  @rating-selected ="setRating" ></star-rating>
+      <modal v-show="showModal" @hideModal="showModal = false">          
+        <v-card>
+          <div class="layout-card">
+            <div class="title-star">Please choose a rating from 1-5 for you trade partner</div>
+            <star-rating v-bind:star-size="30"  @rating-selected ="setRating" ></star-rating>
 
-                <v-container fluid>
-                  <v-layout row>
-                    <v-flex xs12>
-                      <v-text-field
-                        v-model = "review.details.txt"
-                        label="Please tell us about your experience with your trade partner"
-                        textarea
-                      ></v-text-field>
-                    </v-flex>
-                  </v-layout>
-                </v-container>
+            <v-container fluid>
+              <v-layout row>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model = "review.details.txt"
+                    label="Please tell us about your experience with your trade partner"
+                    textarea
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
 
-                <v-card-actions>
-                  <v-btn color="green darken-1" flat 
-                    @click.native="showModal=false">Close</v-btn>
-                  <v-btn color="green darken-1" flat data-dismiss="modal" 
-                    @click.native="showModal=false ,submitReview()">Save</v-btn>
-                </v-card-actions>
-              </div>
-            </v-card>
-
+            <v-card-actions>
+              <v-btn color="green darken-1" flat 
+                @click.native="showModal=false">Close</v-btn>
+              <v-btn color="green darken-1" flat data-dismiss="modal" 
+                @click.native="showModal=false ,submitReview()">Save</v-btn>
+            </v-card-actions>
           </div>
-        </div>   
-      </transition>  
-      
+        </v-card>
+      </modal>
+
     </div>
   </section>
 </template>
@@ -70,6 +64,7 @@ import TransactionUserCard from '@/cmps/Transaction/TransactionUserCard';
 import FillReview from '@/cmps/FillReview';
 import moment from 'moment';
 import TransactionService from '@/services/TransactionService.js';
+import Modal from '@/cmps/general/Modal.vue';
 
 export default {
   data() {
@@ -110,14 +105,12 @@ export default {
   },
   methods: {
     submitReview() {
-      console.log('submit', this.review);
       UserService.addReview(this.review).then(_ => {
         this.$router.push('/browseProducts');
       });
     },
 
     setRating(rating) {
-      console.log('ev', rating);
       this.review.details.rating = rating;
     }
   },
@@ -128,7 +121,8 @@ export default {
   },
   components: {
     FillReview,
-    TransactionUserCard
+    TransactionUserCard,
+    Modal
   }
 };
 </script>
@@ -204,26 +198,5 @@ p {
   margin-top: 20px;
   color: rgb(48, 48, 92);
   text-align: left;
-}
-
-/* // NEW MODAL */
-
-.modal-background {
-  position: absolute;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, .5);
-}
-
-.modal {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
 }
 </style>

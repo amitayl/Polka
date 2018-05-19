@@ -13,6 +13,18 @@ module.exports = app => {
       );
   });
 
+  /* app.get('/accepted-bid', (req, res) => {
+    const userId = req.query.userId;
+
+    NotificationService.getAcceptedBids(userId)
+      .then(acceptedBids => {
+        res.json(acceptedBids);
+      })
+      .catch(err =>
+        res.status(500).send({ error: `couldnt get acceptedBids, ${err}` })
+      );
+  }); */
+
   app.delete('/notification', (req, res) => {
     const notification = JSON.parse(req.query.notification);
 
@@ -22,6 +34,19 @@ module.exports = app => {
       })
       .catch(err =>
         res.status(500).send({ error: `couldnt delete notification, ${err}` })
+      );
+  });
+
+  app.put('/notification-viewed', (req, res) => {
+    const notificationsToUpdate = req.body.notificationsToUpdate;
+    const loggedInUserId = req.body.loggedInUserId;
+
+    NotificationService.setViewed(notificationsToUpdate, loggedInUserId)
+      .then(() => {
+        res.json();
+      })
+      .catch(err =>
+        res.status(500).send({ error: `couldnt update notifications isViewed, ${err}` })
       );
   });
 

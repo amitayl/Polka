@@ -1,13 +1,13 @@
 <template>
   <section class="notifications-container elevation-4">
-      <ul>
-        <li v-if="notifications.length > 0" v-for="(notification, idx) in notifications" :key="idx">
-          <component :is="notification.type" 
-                      :data="notification.bid"
-                      @removeNotificationFromUi="$emit('removeNotificationFromUi', idx)"
-                      @deleteNotification="$emit('deleteNotification', {idx, notification})"></component>
-        </li>
-      </ul>  
+    <ul>
+      <li v-if="notifications.length > 0" v-for="(notification, idx) in notifications" :key="idx">
+        <component :is="notification.type" 
+                    :data="notification.bid"
+                    @removeNotificationFromUi="$emit('removeNotificationFromUi', idx)"
+                    @deleteNotification="$emit('deleteNotification', {idx, notification})"></component>
+      </li>
+    </ul>  
   </section>
 </template>
 
@@ -48,18 +48,12 @@ export default {
   height: 300px;
   width: 400px;
   top: 80px;
-  transform: translateX(-50%);
   left: 50%;
+  transform: translateX(-50%);
 }
 
 .notifications-container::-webkit-scrollbar-button {
   display: none;
-  height: 13px;
-  border-radius: 0px;
-  background-color: #aaa;
-}
-.notifications-container::-webkit-scrollbar-button:hover {
-  background-color: #aaa;
 }
 .notifications-container::-webkit-scrollbar-thumb {
   background-color: #d8d8d8;

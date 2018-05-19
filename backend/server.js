@@ -35,5 +35,5 @@ http.listen(PORT, () => {
   console.log('listening on *:'+PORT);
 });
 
-// const socketService = require('./services/SocketService.js');
-// socketService.init(http);
+const socketService = require('./services/SocketService.js');
+socketService.init(http);

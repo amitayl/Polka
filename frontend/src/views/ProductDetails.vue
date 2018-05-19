@@ -1,47 +1,97 @@
 <template>
-  <section v-if="product" class="contain flex space-between product-details">
+  <section class="product-details" v-if="product">
 
-    <div class="product-imgs flex flex-column"> 
-      <img class="primary-img product-img" :src="product.imgs[0]"> 
-      <div class="small-imgs flex space-between">
-          <img v-for="(img, idx) in product.imgs" v-if="idx !== 0" 
-               :key="img" :src="img" class="product-img small-img">
+    <!-- <div >  -->
+      <!-- <div class="primary-img"  -->
+           <!-- :style="{'backgroundImage': `url(${product.imgs[this.selectedImgIdx]})`}"></div> -->
+      <!-- <div class="small-img-container flex">
+          <img v-for="(img, idx) in product.imgs" 
+               :key="img" :src="img" 
+               class="small-img"
+               :class="{selected: selectedImgIdx === idx}"
+               @click="selectedImgIdx = idx">
       </div>
-    </div>
+    </div> -->
 
-    <div class="non-part-imgs">
-      <h2 class="product-title title is-2">{{product.userName}}</h2>
-      <div class= "user-img-line flex align-center">
-        <router-link :to="'/profile/'+product.ownerId">
-          <div>
-            <img class="owner-img" :src="product.ownerImg">
-          </div>
-        </router-link>
-      </div>
-    
-    <div>
-      <br>
-      <h2 class="product-title title is-2">{{product.title}}</h2>
-      <h4 class="product-desc title is-4" >{{product.desc}}</h4> 
-       <!-- <h4 class="title is-4">Things I want: {{ product.desiredSwapCategories[0] }}</h4> -->
-      <h4 class="title is-4">Trade location: {{ product.location }}</h4>
-    </div>
+    <v-carousel class="product-imgs" hide-controls :hide-delimiters="product.imgs.length === 1">
+      <v-carousel-item v-for="(img ,idx) in product.imgs" :src="img" :key="idx"></v-carousel-item>
+    </v-carousel>
       
-      <v-btn v-if="loggedInUser" @click="toBid()" 
-          class="bid-btn"
-          :disabled="!isBidAble">Bid Now</v-btn>
+    <div class="non-part-imgs">
+      <div class="product-desc-container">
 
-      <v-btn v-else class="bid-btn"
-          :disabled="true">Login to bid</v-btn>
-        
+        <template v-if="editMode">
+          <v-form>
+            <v-text-field
+              v-model="product.title"
+              label="Title"
+              autofocus
+            ></v-text-field>
+
+            <v-text-field
+              v-model="product.desc"
+              textarea
+              label="Description"
+            ></v-text-field>
+          </v-form>
+        </template>
+
+        <template v-else>
+          <h1 class="display-1 mb-2">{{product.title}}</h1>
+          <h4 class="title mb-4">{{product.desc}}</h4> 
+        </template>
+
+        <h4 class="title">
+          <v-icon :size="40">location_on</v-icon>  
+          {{product.owner.loc.name}}
+        </h4>
+      </div>
+
+      <hr class="mt-4 mb-4"/>
+
+      <div class="owner-desc-container">
+        <div class="owner-profile-name-container flex align-center mb-2">
+          <router-link :to="'/profile/'+product.owner._id">
+
+            <div class="user-menu-icon" 
+                 :style="{ 'backgroundImage': `url(${product.owner.img})` }">
+            </div>
+
+          </router-link>
+          <h2 class="user-name title ml-2">{{product.owner.nickName}}</h2>
+        </div>
+        <h3 class="title">{{product.owner.desc}}</h3>
+      </div>
+
     </div>
+    
+    <div class="btn-container">
+      <v-btn v-if="!loggedInUser" 
+             @click.native="showModal = true">
+              Login to bid
+      </v-btn>
+      <v-btn v-else-if="!isViewerAlsoOwner" 
+             @click="toBid()"> 
+              Bid Now
+      </v-btn>
+      <v-btn v-else-if="!editMode" @click.native="editMode= true">edit</v-btn>
+      <v-btn v-else @click.native="updateProductDetails()">save</v-btn>
+    </div>
+
+    <modal v-show="showModal" @hideModal="showModal = false">
+      <login></login>
+    </modal>
 
   </section>
 </template>
 
 <script>
 import { PRODUCT_ACTIONS } from '../store/ProductStore.js';
-import BidService from '../services/BidService';
+import ProductService from '@/services/ProductService.js';
+import BidService from '@/services/BidService.js';
+import EventBusService, { EVENTS } from '@/services/EventBusService.js';
+import Modal from '@/cmps/general/Modal.vue';
+import Login from '@/cmps/LoginRegister/Login.vue';
 
 export default {
   created() {
@@ -52,16 +102,21 @@ export default {
       .then(product => {
         this.product = product;
 
-        const loggedInUser = this.$store.getters.getLoggedInUser;
-        if (loggedInUser) {
-          this.isBidAble = this.product.ownerId !== loggedInUser._id;
+        if (this.loggedInUser) {
+          this.isViewerAlsoOwner = this.product.owner._id === this.loggedInUser._id;
+        }
+        if (!this.isViewerAlsoOwner) {
+          ProductService.incrementViews(productId)
         }
       });
   },
   data() {
     return {
       product: null,
-      isBidAble: null
+      isViewerAlsoOwner: null,
+      selectedImgIdx: 0,
+      showModal: false,
+      editMode: false
     };
   },
   computed: {
@@ -70,128 +125,106 @@ export default {
     }
   },
   methods: {
+    moveTo(path) {
+      this.$router.push(path);
+    },
     toBid() {
       this.$router.push(`/bid/${this.$route.params._id}`);
+    },
+    updateProductDetails() {
+      ProductService.updateProductDetails(this.product)
+        .then(()=> {
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'Update Saved',
+            desc: 'thank you for putting the effot',
+          })
+        })
+        .catch(() => {
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'houston we have a problem',
+            desc: 'sorry but your update didn\'t stick',
+            success: false
+          });
+        });
+        
+      this.editMode = false;
     }
+  },
+  watch: {
+    loggedInUser() {
+      if (this.loggedInUser) {
+        this.showModal = false;
+        this.isViewerAlsoOwner = this.product.owner._id === this.loggedInUser._id;
+      }
+    }
+  },
+  components: {
+    Modal,
+    Login
   }
 };
 </script>
 
 <style scoped>
-div {
-  margin-top: 20px;
-}
-.primary-img {
-  width: 400px;
-  height: 300px;
-}
-.product-img {
-  border: 3px solid rgb(162, 167, 177);
-}
 .product-details {
-  color: red;
-}
-.non-part-imgs {
-  width: 45%;
+  display: flex;
+  flex-direction: column;
   text-align: left;
 }
 .product-imgs {
-  width: 45%;
+  height: 300px;
 }
-.product-title {
-  margin-left: 20px;
-  color: rgb(174, 218, 174);
-}
-.product-desc {
-  color: rgb(99, 128, 99);
-}
-.product-imgs .small-img {
-  width: 20%;
-  height: 50px;
-}
-.contain {
-  max-width: 1050px;
-  margin: 0 auto;
+.primary-img {
+  border-bottom: 1px solid lightgray;
   width: 100%;
-  padding-right: 20px;
-  padding-left: 20px;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
 }
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-img {
-  animation-name: fadein;
-  animation-duration: 2s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.owner-img {
-  width: 100px;
+.user-icon {
+  height: 48px;
+  width: 48px;
+  background-size: cover;
+  background-position: center;
   border-radius: 50%;
 }
-.user-img-line {
-  padding-top: 0px;
-  margin-top: 0px;
+.non-part-imgs {
+  flex-grow: 1;
+  margin: 10px;
 }
-.bid-btn {
-  float: right;
+.user-name {
+  text-transform: capitalize;
 }
-.flex {
-  display: flex;
+.btn-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(0,0,0,.2);
 }
+.btn {
+  margin: 0;
+  width: 100%;
+  background: white;
+}
+@media (min-width: 750px) {
+  .product-details {
+    flex-direction: row;
+    height: calc(100vh - 104px);
+    margin: 20px;
+  }
 
-.inline-flex {
-  display: inline-flex;
-}
+  .product-imgs {
+    margin-right: 20px;
+    min-width: 300px;
+    max-width: 500px;
+    height: inherit;
+  }
 
-.justify-center {
-  justify-content: center;
-}
-
-.justify-start {
-  justify-content: flex-start;
-}
-
-.justify-end {
-  justify-content: flex-end;
-}
-
-.align-center {
-  align-items: center;
-}
-
-.space-around {
-  justify-content: space-around;
-}
-.space-between {
-  justify-content: space-between;
-}
-.space-evenly {
-  justify-content: space-evenly;
-}
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.flex-full {
-  flex: 1;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.align-start {
-  align-items: flex-start;
-}
-
-.align-end {
-  align-items: flex-end;
+  .btn-container {
+    width: initial;
+    right: 20px;
+    bottom: 20px;
+  }
 }
 </style>

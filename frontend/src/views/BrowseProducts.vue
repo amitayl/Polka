@@ -21,10 +21,14 @@ export default {
         type: USER_ACTIONS.LOGIN_SESSION_USER
       })
       .then(() => {
+        const loggedInUser = this.$store.getters.getLoggedInUser;
+        if (loggedInUser) {
+          this.$socket.emit('joinSocketById', loggedInUser._id);
+        }
         this.$store.dispatch({
           type: PRODUCT_MUTATIONS.SET_PRODUCTS,
           queryObj: {}
-        })/* .then(()=>{console.log(this.products)}); */
+        })/* .then(()=>{(this.products)}); */
       });
   },
   computed: {

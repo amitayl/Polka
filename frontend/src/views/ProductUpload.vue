@@ -18,7 +18,8 @@
         required
       ></v-text-field>
   
-      <upload-img @uploadImg="addImg" :imgs="product.imgs"></upload-img>
+      <upload-img :showCounter="true" :showClose="true" 
+                  @uploadImg="addImg" :imgs="product.imgs"></upload-img>
 
       <categories-picker @selectedCategories="setSelectedCategories($event)"></categories-picker>
 
@@ -32,10 +33,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import UploadImg from '@/cmps/product-upload/UploadImg.vue';
 import CategoriesPicker from '@/cmps/general/CategoriesPicker.vue';
-import EventBusService, { EVENTS } from '../services/EventBusService.js';
+import EventBusService, { EVENTS } from '@/services/EventBusService.js';
 
 export default {
   name: 'ProductUpload',
@@ -79,6 +79,7 @@ export default {
     },
     setSelectedCategories(categories) {
       this.product.categories = categories;
+      (this.product.categories);
     },
     addProduct() {
       if (!validateForm(this)) return;
@@ -92,7 +93,7 @@ export default {
             desc: 'a boy that traded up from a pin to a house?'
           });
         })
-        .catch(err => console.log({ err }));
+        .catch(err => ({ err }));
 
       function validateForm(that) {
         const isTxtInputsValid = that.$refs['add-product-form'].validate();
@@ -136,6 +137,10 @@ body {
   margin: 0 auto;
 }
 
+form {
+  margin: 0 auto;
+}
+
 .control {
   width: 500px;
 }
@@ -153,5 +158,8 @@ img.preview {
   background-color: white;
   border: 1px solid #ddd;
   padding: 5px;
+}
+.categories-picker {
+  margin: 20px 0 10px;
 }
 </style>

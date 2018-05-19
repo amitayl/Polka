@@ -3,6 +3,7 @@ const mongo = require('mongodb');
 const Bid = require('../../classes/BidClass.js');
 const { Promise } = require('es6-promise');
 const isExists = require('./isExists.js');
+const { emitGetNotifications } = require('../SocketService.js');
 
 function send(bidData) {
   return new Promise((resolve, reject) => {
@@ -82,7 +83,7 @@ function pushNotificationToOwner(bid, db) {
         { ownerId: 1 },
         (err, { ownerId }) => {
           // push a notification to that owner
-          const bidNotification = { type: 'newBid', bidId: bid._id };
+          const bidNotification = { bidId: bid._id, isViewed: false, type: 'newBid' };
           ownerId = new mongo.ObjectID(ownerId);
 
           db
@@ -94,6 +95,7 @@ function pushNotificationToOwner(bid, db) {
                 if (err) {
                   reject(err);
                 } else {
+                  emitGetNotifications(ownerId);
                   resolve();
                 }
               }

@@ -7,22 +7,12 @@ if(process.env.NODE_ENV !== 'development') {
 
 import StorageService from './StorageService.js';
 
-
 function query(queryObj, colsToGet) {
   return axios.get(BASE_URL + '/users').then(res => res.data);
 }
 
 function getUserById(userId) {
-  console.log ( 'getUserById' , userId);
-  return axios.get(_getUserUrl(userId)).then(res => {
-    let user = res.data;
-    console.log ('user' , user);
-    return user;
-  });
-}
-
-function _getUserUrl(userId) {
-  return `${BASE_URL}/user/${userId}`;
+  return axios.get(`${BASE_URL}/user/${userId}`).then(res => res.data);
 }
 
 function add(userData) {
@@ -33,13 +23,9 @@ function add(userData) {
       StorageService.session.store('userCredentials', userCredentials);
       return res.data
     })
-    .catch(err => {
-      throw new Error('Register Failed');
-    });
 }
 
 function addReview (review){
-  console.log ("get to front");
   return axios
     .put(BASE_URL + '/review', review)
     .then(res => res.data)

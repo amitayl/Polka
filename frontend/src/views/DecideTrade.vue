@@ -34,12 +34,6 @@ export default {
       userImg: selectedProduct.bidderImg,
       productImg: selectedProduct.bidderProd.imgs[0]
     };
-    // console.log ('1' , this.owner.userImg )
-    // console.log ('2' , this.owner.productImg)
-    // console.log ('3' , this.bidder.userImg )
-    // console.log ('4' , this.bidder.productImg )
-
-    // console.log ('idsStr' ,idsStr );
   },
   data() {
     return {

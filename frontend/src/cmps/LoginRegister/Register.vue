@@ -17,8 +17,7 @@
         :append-icon-cb="() => (visiblePass = !visiblePass)"
         :type="visiblePass? 'text' : 'password'"
         label="Enter your password"
-        hint="At least 8 characters"
-        min="8"
+        hint="create as weak a password as you like"
         required
       ></v-text-field>
 
@@ -28,8 +27,6 @@
         :append-icon-cb="() => (visibleConfirmPass = !visibleConfirmPass)"
         :type="visibleConfirmPass? 'text' : 'password'"
         label="Enter your password"
-        hint="At least 8 characters"
-        min="8"
         required
       ></v-text-field>
 
@@ -40,7 +37,6 @@
       <v-text-field
         v-model="userData.nickName"
         :rules="[()=>true]"
-        min="4"
         label="Nickname"
         required
       ></v-text-field>
@@ -65,7 +61,6 @@
 
 <script>
 import GetPlace from '@/cmps/LoginRegister/GetPlace';
-// import GPlacesService from '@/services/GPlacesService.js';
 import { USER_ACTIONS } from '@/store/UserStore.js';
 import UploadImg from '@/cmps/product-upload/UploadImg';
 import EventBusService, { EVENTS } from '@/services/EventBusService';
@@ -76,9 +71,9 @@ export default {
       visiblePass: false,
       visibleConfirmPass: false,
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v =>
-          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+        email => !!email || 'E-mail is required',
+        email =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) ||
           'E-mail must be valid'
       ],
       userData: {
@@ -96,19 +91,40 @@ export default {
     addUser() {
       const userData = this.userData;
 
-      if (userData.password !== userData.confirmPassword) {
+      const isUserFormFilled = userData.email && 
+                               userData.password &&
+                               userData.confirmPassword &&
+                               userData.img && userData.img !== 'https://bit.ly/2rlMMSN';
+                               userData.nickName &&
+                               userData.desc &&
+                               userData.loc
+
+      if (!isUserFormFilled) {
+        EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+          title: 'Wait a minute',
+          desc: 'please fill out the entire form',
+          success: false
+        });
+      } else if (userData.password !== userData.confirmPassword) {
         EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
           title: 'whoops',
           desc: 'passwords should match',
           success: false
         });
       } else {
+
         delete userData.confirmPassword;
         this.$store
           .dispatch({ type: USER_ACTIONS.ADD_USER, userData })
           .then(user => {
             this.$router.push('/browseProducts');
-          });
+          }).catch(err => {
+            EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+              title: 'whoops',
+              desc: err.response.data,
+              success: false
+            });
+          })
       }
     },
     addImg(urlPath) {

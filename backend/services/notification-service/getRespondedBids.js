@@ -2,7 +2,7 @@ const DBService = require('../DBService.js');
 const mongo = require('mongodb');
 const UserService = require('../UserService.js');
 
-function getDeclinedBids(loggedInUserId) {
+function getRespondedBids(loggedInUserId) {
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       loggedInUserId = new mongo.ObjectID(loggedInUserId);
@@ -16,19 +16,19 @@ function getDeclinedBids(loggedInUserId) {
                 typeof transaction.owner.isReviewed === 'boolean'
                   ? 'acceptedBid'
                   : 'declinedBid';
-              return { type, bid: transaction };
+              return { type, bid: transaction, isViewed: transaction.isViewed };
             });
 
             resolve(notificationTransactions);
             db.close();
           })
           .catch(err => {
-            console.log('couldnt replace product ids with data', err);
+            ('couldnt replace product ids with data', err);
             db.close();
           })
 
           .catch(err => {
-            console.log('couldnt get user transactions', err);
+            ('couldnt get user transactions', err);
           });
       });
     });
@@ -68,7 +68,17 @@ function _getTransactions(loggedInUserId, db) {
     db
       .collection(DBService.COLLECTIONS.USER)
       .aggregate(pipeline, (err, res) => {
+        
+        const notifications = res[0].notifications;
         const transactions = res[0].transactions;
+
+        notifications.forEach(notification => {
+          transactions.forEach(transaction => {
+            if (notification.transactionId === transaction._id);
+            transaction.isViewed = notification.isViewed;
+          });
+        });
+
         resolve(transactions);
       });
   });
@@ -128,4 +138,4 @@ function _replaceProductIdsWithData(transactions, db) {
   });
 }
 
-module.exports = getDeclinedBids;
+module.exports = getRespondedBids;

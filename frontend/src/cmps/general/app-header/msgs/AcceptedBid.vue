@@ -1,20 +1,20 @@
 <template>
   <section class="accepted-bid bid" @click="moveTo('/transaction/'+data._id)">
     <div class="flex flex-column align-center">
-        <p class="body-1">Congradulations on your new</p>
+        <p class="body-1">Nice, you got</p>
         <img class="bid-product" :src="data.owner.product.imgs[0]">
         <p class="caption">{{data.owner.product.title}}</p>
     </div>
 
-    --V->
+    <i class="far fa-handshake fa-3x"></i> 
 
     <div class="flex flex-column align-center">
-        <p class="body-1">you traded it for</p>
+        <p class="body-1">you traded</p>
         <img class="bid-product" :src="data.bidder.product.imgs[0]">
         <p class="caption">{{data.bidder.product.title}}</p>
     </div>
 
-    <v-icon color="white" class="close-btn" @click="$emit('deleteNotification')">close</v-icon>
+    <v-icon color="white" :size="20" class="close-btn" @click.stop="$emit('deleteNotification')">close</v-icon>
   </section>
 </template>
 
@@ -45,5 +45,8 @@ export default {
 .accepted-bid:hover {
   cursor: pointer;
   background-color: rgb(174, 250, 188);
+}
+.accepted-bid {
+  align-items: center;
 }
 </style>

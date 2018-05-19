@@ -1,12 +1,20 @@
 <template>
-  <section class="categories-picker flex">
+  <section class="categories-picker flex flex-wrap justify-center">
       <label v-for="category in categories" 
-             :key="category.title">
-          {{category.title}}
-          <div class="category-img" 
+             :key="category.title" 
+             class="category relative"
+             @click="category.selected = !category.selected"
+             @mouseover="category.showTooltip = true"
+             @mouseout="category.showTooltip = false"
+             :class="{'selected': category.selected}">
+          <!-- {{category.title}} -->
 
-               :style="{backgroundImage: 'url(' + getImgUrl(category.img) + ')'}"></div>
-          <input type="checkbox" :value="category.value" v-model="selectedCategories">
+          <i class="fas" :class="{['fa-'+category.className] : true}"></i>
+
+          <p class="tooltip body-1" v-show="category.showTooltip">{{category.title}}</p>
+
+          <input type="checkbox" v-show="false" @click.stop
+                 :value="category.value" v-model="selectedCategories">
       </label>
   </section>
 </template>
@@ -19,39 +27,45 @@ export default {
       categories: [
         {
           title: 'art',
-          img: 'art.svg',
-          imgSelected: 'art-white.svg',
-          value: 'art'
+          value: 'art',
+          className: 'paint-brush',
+          showTooltip: false,
+          selected: false
         },
         {
           title: 'electronics',
-          img: 'computer.svg',
-          imgSelected: 'computer-white.svg',
-          value: 'electronics'
+          value: 'electronics',
+          className: 'desktop',
+          showTooltip: false,
+          selected: false
         },
         {
           title: 'fashion',
-          img: 'fashion.svg',
-          imgSelected: 'fashion-white.svg',
-          value: 'fashion'
+          value: 'fashion',
+          className: 'female',
+          showTooltip: false,
+          selected: false
         },
         {
           title: 'home & Garden',
-          img: 'home.svg',
-          imgSelected: 'home-white.svg',
-          value: 'home'
+          value: 'home',
+          className: 'home',
+          showTooltip: false,
+          selected: false
         },
         {
           title: 'music',
-          img: 'music.svg',
-          imgSelected: 'music-white.svg',
-          value: 'music'
+          value: 'music',
+          className: 'music',
+          showTooltip: false,
+          selected: false
         },
         {
           title: 'sports',
-          img: 'sports.svg',
-          imgSelected: 'sports-white.svg',
-          value: 'sport'
+          value: 'sport',
+          className: 'bicycle',
+          showTooltip: false,
+          selected: false
         }
       ]
     };
@@ -61,18 +75,37 @@ export default {
       this.$emit('selectedCategories', this.selectedCategories);
     }
   },
-  methods: {
-    getImgUrl(img) {
-      return '/assets/imgs/' + img;
-    }
-  }
 };
 </script>
 
 <style scoped>
-.category-img {
-  height: 70px;
-  width: 70px;
-  background-size: cover;
+.category {
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: darkslategrey;
+  border: 4px solid currentColor;
+  font-size: 30px;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+}
+.category.selected {
+  background: whitesmoke;
+  color: white;
+  background-color: darkslategrey;
+  border-color: transparent;
+}
+.category:hover {
+  cursor: pointer;
+}
+.tooltip {
+  color: white;
+  border-radius: 15px;
+  padding: .25em .5em;
+  background-color: darkslategrey;
+  position: absolute;
+  top: 65px;
 }
 </style>

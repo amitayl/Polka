@@ -95,11 +95,11 @@ export default {
       this.$emit("emitSelected", productBidderId);
     },
     getBidId(id) {
-      console.log("id", id);
+      ("id", id);
       let chosenProduct = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id );
       this.$store.commit({ type: PRODUCT_MUTATIONS.UPDATE_SELECTED_PRODUCT, product: chosenProduct});
       let bidId = this.detailsBids.find (detailsBid => detailsBid.bidderProdId === id ).bidderProdId;
-       console.log ('bidId' , bidId);
+        ('bidId' , bidId);
        this.$emit ('emitSelected' , bidId);
     },
 

@@ -20,8 +20,8 @@ body {
 /* for Login, Register & UploadProduct */
 
 .grey-form {
-  margin: 0 auto;
-  width: 500px;
+  width: calc(100vw - 20px);
+  max-width: 500px;
   padding: 20px;
   background: whitesmoke;
 }
@@ -32,18 +32,19 @@ body {
   position: relative;
   display: flex;
   justify-content: space-around;
-  align-items: center;
   padding: 10px;
   border-bottom: 1px solid lightgray;
 }
 
 .bid p {
   margin-bottom: 0;
+  font-weight: bold;
 }
 
 .bid-product {
   height: 50px;
   width: 50px;
+  margin: 8px 0;
 }
 
 .close-btn {
@@ -57,5 +58,6 @@ body {
   color: white;
 }
 .close-btn:hover {
+  cursor: pointer;
   background: rgb(243, 109, 109);
 }

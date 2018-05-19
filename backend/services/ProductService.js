@@ -4,37 +4,43 @@ const UserService = require('./UserService.js');
 const UtilService = require('./utilService.js');
 const Product = require('../classes/ProductClass.js');
 
-function pcl(obj) {
-  var e = JSON.stringify(obj, null, 2);
-  console.log(e);
-}
-
-function query(criteria = {}, colsToGet, userCoords) {
+function query(criteria, colsToGet, userCoords, sortBy, limit) {
   return new Promise((resolve, reject) => {
     return DBService.dbConnect().then(db => {
       // get only live products
       criteria.isLive = true;
-
-      // get products by criteria, attach owner
       const pipeline = [
         { $match: criteria },
-        { $project: colsToGet },
-        {
-          $lookup: {
-            from: DBService.COLLECTIONS.USER,
-            localField: 'ownerId',
-            foreignField: '_id',
-            as: 'owner'
-          }
-        }
       ];
+
+      // aggregating with an empty $project causes an error
+      if (!UtilService.isEmptyObj(colsToGet)) {
+        pipeline.push({$project: colsToGet});
+      }
+
+      if (!UtilService.isEmptyObj(sortBy)) {
+        pipeline.push({$sort: sortBy});
+      }
+
+      if (limit) {
+        pipeline.push({ $limit: limit })
+      }
+
+      const ownerLookup = {
+        $lookup: {
+          from: DBService.COLLECTIONS.USER,
+          localField: 'ownerId',
+          foreignField: '_id',
+          as: 'owner'
+        }
+      }
+      pipeline.push(ownerLookup);
+      // aggregating with an empty $project causes an error
 
       db
         .collection(DBService.COLLECTIONS.PRODUCT)
         .aggregate(pipeline)
         .toArray((err, products) => {
-          
-          console.log('AFTER mongoQuery', products);
           if (userCoords) {
             products.forEach(product => {
               const ownerLoc = product.owner[0].loc;
@@ -63,50 +69,16 @@ function query(criteria = {}, colsToGet, userCoords) {
             });
           }
 
-          if (err) reject(err);
-          else resolve(products);
+          if (err) {
+            reject(err);
+          }
+          else {
+            resolve(products);
+          }
         });
     });
   });
 }
-
-/* function query(criteria = {}, colsToGet, loggedInUserCoords) {
-  return new Promise((resolve, reject) => {
-    return DBService.dbConnect().then(db => {
-      // get only live products
-      criteria.isLive = true;
-
-      // get products by criteria, attach owner
-      const pipeline = [
-        { $match: criteria },
-        { $project: colsToGet },
-        {
-          $lookup: {
-            from: DBService.COLLECTIONS.USER,
-            localField: 'ownerId',
-            foreignField: '_id',
-            as: 'owner'
-          }
-        }
-      ];
-
-      db
-        .collection(DBService.COLLECTIONS.PRODUCT)
-        .aggregate(pipeline)
-        .toArray((err, products) => {
-
-          // for each product attach owner location & remove owner
-          products.forEach(product => {
-            product.ownerLoc = product.owner[0].loc;
-            delete product.owner;
-          });
-
-          if (err) reject(err);
-          else resolve(products);
-        });
-    });
-  });
-} */
 
 function add(product) {
   return new Promise((resolve, reject) => {
@@ -140,6 +112,49 @@ function add(product) {
   });
 }
 
+function getById(productId, colsToGet) {
+  let product_id = new mongo.ObjectID(productId);
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.PRODUCT)
+        .findOne({ _id: product_id }, colsToGet, (err, product) => {
+          if (err) reject(err);
+          else {
+            resolve(product);
+          }
+        });
+    });
+  });
+}
+
+function getByIds(productIds) {
+  const mongoQuery = { $or: [] };
+  mongoQuery.$or = productIds.map(productId => {
+    productId = new mongo.ObjectID(productId);
+    return { _id: productId };
+  });
+
+  const colsToGet = {
+    _id: 1,
+    title: 1,
+    imgs: { $slice: -1 }
+  };
+
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.PRODUCT)
+        .find(mongoQuery, colsToGet)
+        .toArray((err, products) => {
+          if (err) reject(err);
+          else resolve(products);
+          db.close();
+        });
+    });
+  });
+}
+
 function getProductDetailsById(productId) {
   productId = new mongo.ObjectID(productId);
 
@@ -157,22 +172,6 @@ function getProductDetailsById(productId) {
               .catch(err => reject(err));
           }
           db.close();
-        });
-    });
-  });
-}
-
-function getById(productId, colsToGet) {
-  let product_id = new mongo.ObjectID(productId);
-  return new Promise((resolve, reject) => {
-    DBService.dbConnect().then(db => {
-      db
-        .collection(DBService.COLLECTIONS.PRODUCT)
-        .findOne({ _id: product_id }, colsToGet, (err, product) => {
-          if (err) reject(err);
-          else {
-            resolve(product);
-          }
         });
     });
   });
@@ -244,11 +243,10 @@ function getOffersByProductId(id) {
                 });
                 return Promise.all(prms);
               } else {
-                console.log('lo mazliah');
+                ('lo mazliah');
               }
             })
             .then(x => {
-              pcl(x);
               returnObj.bids = x;
               resolve(returnObj);
             });
@@ -257,32 +255,40 @@ function getOffersByProductId(id) {
   });
 }
 
-function getByIds(productIds) {
-  console.log('moshe');
-  const mongoQuery = { $or: [] };
-  mongoQuery.$or = productIds.map(productId => {
-    productId = new mongo.ObjectID(productId);
-    return { _id: productId };
-  });
+function incrementViews(productId) {
+  productId = new mongo.ObjectID(productId);
 
-  const colsToGet = {
-    _id: 1,
-    title: 1,
-    imgs: { $slice: -1 }
-  };
-
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject)=>{
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.PRODUCT)
-        .find(mongoQuery, colsToGet)
-        .toArray((err, products) => {
-          if (err) reject(err);
-          else resolve(products);
-          db.close();
-        });
-    });
-  });
+        .updateOne(
+        { _id: productId },
+        { $inc: { viewCount: 1 } },
+        (err, res) => {
+          if (err) reject()
+          else resolve();
+        })
+    })
+  })
+}
+
+function update(product) {
+  const productId = new mongo.ObjectID(product._id);
+
+  return new Promise((resolve, reject)=>{
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.PRODUCT)
+        .updateOne(
+        { _id: productId },
+        { $set: { title: product.title, desc: product.desc } },
+        (err, res) => {
+          if (err) reject()
+          else resolve();
+        })
+    })
+  })
 }
 
 module.exports = {
@@ -291,5 +297,7 @@ module.exports = {
   getById,
   getByIds,
   getProductDetailsById,
-  getOffersByProductId
+  getOffersByProductId,
+  incrementViews,
+  update
 };

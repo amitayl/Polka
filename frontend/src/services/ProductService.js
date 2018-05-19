@@ -5,8 +5,8 @@ if (process.env.NODE_ENV !== 'development') {
   BASE_URL = '';
 }
 
-function query(queryObj, colsToGet, userCoords) {
-  const params = { queryObj, colsToGet }
+function query(queryObj = {}, colsToGet = {}, userCoords, sortBy = {}, limit = 0) {
+  const params = { queryObj, colsToGet, sortBy, limit }
   if (userCoords) params.userCoords = userCoords;
 
   return axios
@@ -24,35 +24,31 @@ function add(product) {
 function getProductById(productId) {
   return axios.get(BASE_URL + '/productDetails/' + productId).then(res => {
     let product = res.data.product;
-    product.ownerImg = res.data.owner.img;
-    product.ownerId = res.data.owner._id;
+    
+    product.owner = {
+      img: res.data.owner.img,
+      _id: res.data.owner._id,
+      nickName: res.data.owner.nickName,
+      desc: res.data.owner.desc,
+      loc: res.data.owner.loc
+    }
 
     return product;
   });
 }
 
-// function getBothById(productId) {
-//   return axios
-//   .get(BASE_URL + '/product/productDetails/'+ productId)
-//   .then(res => {
-//     let objDetails =  res.data
-//     let product = objDetails.product ;
-//     product.ownerImg = objDetails.owner.img;
-//     product.ownerId = objDetails.owner._id
-//     console.log ('objDetails.owner' , objDetails.owner);
-//     return product;
-//   })
-// }
+function incrementViews(productId) {
+  return axios.post(BASE_URL + '/product-views-increment', {productId})
+}
 
 function getOffersByProductId(productId) {
-  console.log ('mama');
   return axios
     .get(BASE_URL + '/product/getOffers/' + productId)
     .then(res => {
-      console.log('res.data', res.data);
+      ('res.data', res.data);
       return res.data;
     })
-    .catch(err => console.log('Error:', err));
+    .catch(err => ('Error:', err));
 }
 
 function _getProductUrl(productId) {
@@ -63,10 +59,16 @@ function getProductsByIds(...productIds) {
   return axios.get(`${BASE_URL}/product/${productIds}`).then(res => res.data);
 }
 
+function updateProductDetails(product) {
+  return axios.put(BASE_URL + '/product', {product});
+}
+
 export default {
   query,
   getProductById,
   add,
+  incrementViews,
   getOffersByProductId,
-  getProductsByIds
+  getProductsByIds,
+  updateProductDetails,
 };

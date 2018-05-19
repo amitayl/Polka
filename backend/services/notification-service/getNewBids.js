@@ -59,8 +59,9 @@ function _getNotificationsWithBidData(loggedInUserId, db) {
         const notifications = res;
 
         notifications.forEach((notification, idx) => {
+          notification.type = notification.notifications.type;
+          notification.isViewed = notification.notifications.isViewed;
           delete notification.notifications;
-          notification.type = 'newBid';
         });
 
         if (err) reject(err);

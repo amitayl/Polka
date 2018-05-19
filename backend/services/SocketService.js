@@ -1,31 +1,51 @@
 const socketIo = require('socket.io');
 
-// const connectedCount = 0;
+// let connectedCount = 0;
 // const allSockets = [];
+// const rooms = [];
+
+let io;
 
 function init(http) {
-  const io = socketIo(http);
+  io = socketIo(http);
 
   io.on('connection', socket => {
-    console.log('connected to root io');
+    // connectedCount++;
+    // allSockets.push(socket);
+    socket.on('joinSocketById', loggedInUserId=> {
+      socket.join(loggedInUserId);
+    })
 
-    socket.on('sendLoggedInUserId', loggedInUserId => {
-      const loggedInUserSocket = io.of('/' + loggedInUserId);
-
-      const nsps = Object.keys(io.sockets.clients().server.nsps);
-      console.log('NSPS BIATCH', nsps);
-
-      // when bid is sent, emit the notification to the owner
-      loggedInUserSocket.on('bidSent', ownerId => {
-        console.log('emitting product bidded to', ownerId);
-        
-        const ownerSocket = io.of('/' + ownerId);
-        ownerSocket.emit('productBidded', { notification: 'blahblah' });
-      });
+    socket.on('disconnect', () => {
+      ('user disconnected');
+      // connectedCount--;
+      // allSockets.splice(allSockets.findIndex(s => s === socket), 1);
     });
+
+    // socket.on('sendNotification', ()=> {
+    //   ('hey');
+    // })
+
+    // socket.on('chatRequest', data => {
+    //   socket.join(data.roomId);
+    //   io
+    //     .to(data.roomId)
+    //     .emit('chat message', { txt: 'new user conneted to room' });
+    //   ('sending alert:', data);
+    // });
+
+    // socket.on('chat newMessage', data => {
+    //   io.to(data.roomId).emit('chat message', data);
+    //   io.emit('alert user', data);
+    // });
   });
 }
 
+function emitGetNotifications(userId) {
+  io.to(userId).emit('emitGetNotifications');
+}
+
 module.exports = {
-  init
+  init,
+  emitGetNotifications
 };

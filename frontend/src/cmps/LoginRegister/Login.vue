@@ -38,6 +38,7 @@ import { USER_ACTIONS } from '@/store/UserStore.js';
 import EventBusService, { EVENTS } from '@/services/EventBusService';
 
 export default {
+  props: ['route'],
   data() {
     return {
       loginData: {
@@ -58,38 +59,14 @@ export default {
       this.$store
         .dispatch({ type: USER_ACTIONS.CHECK_LOGIN, loginData: this.loginData })
         .then(() => {
-          this.$router.push('/browseProducts');
+          if (this.route) this.$router.push('/browseProducts');
+          const loggedInUserId = this.$store.getters.getLoggedInUser._id;
+          this.$socket.emit('joinSocketById', loggedInUserId);
+          
           EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
             title: 'welcome',
             desc: 'did you miss me?'
           });
-
-          /* -------------
-          SOCKET STUFF
-          ---------------*/
-
-          // const loggedInUserId = this.$store.getters.getLoggedInUser._id;
-          // emit to create name space of logged in user
-          // this.$socket.emit('sendLoggedInUserId', loggedInUserId);
-
-          // const loggedInUserSocket = io(
-          //   'http://localhost:3000/' + loggedInUserId
-          // );
-
-          // // sign up to that name space
-          // this.$store.commit({
-          //   type: SOCKET_MUTATIONS.SET_SOCKET,
-          //   loggedInUserSocket
-          // });
-
-          // // listen to product bidded
-          // this.$store.commit({
-          //   type: SOCKET_MUTATIONS.SET_LISTENER,
-          //   eventName: 'productBidded',
-          //   callback: p => {
-          //     console.log(p);
-          //   }
-          // });
         })
         .catch(() => {
           EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {

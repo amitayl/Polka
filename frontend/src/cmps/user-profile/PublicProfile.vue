@@ -1,78 +1,75 @@
-
 <template>    
-    <section class="public-profile ">
-    
-        <div class= "user-img-line flex user-details   ">
-                 <img class="user-img"  :src="user.img">
+  <section class="public-profile ms-5">
 
-             <div  class="flex details flex-column">
-                <h2 class="user-title title is-1">{{user.nickName}} </h2>
-                
-                <br>
-                <br>    
-                <p class=" title user-desc">{{user.desc}} bla bla la bla bla </p>
-                <p class=" title user-email" >{{user.email}}</p>
-                <p class="title user-desc">Haifa, Sderot Moshe</p>
-            </div>
-        </div> 
-           
-        <router-link :to="'/transaction/'"><button>See transactions</button></router-link>
-    </section>
+    <v-card class="elevation-4">
+
+      <div class="public-profile-avatar" 
+        :style="{ 'backgroundImage': `url(${user.img})` }">
+      </div>
+
+      <v-card-title primary-title>
+        <div>
+          <h2 class="display-1 capitalize">{{user.nickName}}</h2>
+          <p class="title">{{user.desc}}</p>
+          <p class="title">
+            <v-icon :size="40">location_on</v-icon>  
+            {{user.loc.name}}
+          </p>
+        </div>
+      </v-card-title>
+
+    </v-card>
+
+    <h2 class="deals-section-headline mt-4 display-1 mb-3">Deals</h2>
+    <transaction-list></transaction-list>      
+
+    <h2 class="deals-section-headline mt-4 display-1 mb-3">Reviews</h2>
+    <review-list></review-list>
+  </section>
 </template>
 
 <script>
 // import Rating from 'v-rating';
+import TransactionService from '@/services/TransactionService.js';
+import TransactionList from '@/cmps/user-profile/public-profile/TransactionList.vue';
+import ReviewList from '@/cmps/user-profile/public-profile/ReviewList.vue';
+
 export default {
   props: {
     user: {
       type: Object,
       required: true
     }
+  },
+  components: {
+    TransactionList,
+    ReviewList
   }
 };
 </script>
 
 <style scoped>
-p {
-  font-size: 1.2rem;
-  line-height: 1.3rem;
-}
 .public-profile {
   text-align: left;
 }
-.user-details {
-  padding: 5px;
-}
-.user-img-line {
-  width: 700px;
-  padding: 50px;
-  /* background-color:rgb(211, 195, 195);
-    opacity:0.8; */
+.card {
+  margin-top: 100px;
+  padding-top: 60px;
 }
 
-.user-details {
-  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB8A-9J8dL2Z9B5HsjeCmOKJOURIrkQ63S0LVN9OznkhPq79agIA');
-  background-repeat: no-repeat;
-   background-size: 100% 100%;
-}
+.card .public-profile-avatar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-.user-email {
-  color: rgb(160, 154, 219);
-}
-
-.user-title {
-  font-family: 'Times New Roman', Times, serif;
-}
-
-
-
-
-.user-img {
-  box-shadow: 0 2px 2px black;
+  height: 140px;
+  width: 140px;
+  background-size: cover;
+  background-position: center;
   border-radius: 50%;
-  margin-right: 50px;
-  min-width: 200px;
-  width: 200px;
-  align-self: baseline;
+}
+.deals-section-headline {
+  text-align: center;
 }
 </style>

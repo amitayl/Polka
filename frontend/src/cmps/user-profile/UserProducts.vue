@@ -34,7 +34,7 @@ export default {
     //   ProductService.getOffersByProductIds(this.productIds).
     //   then (productOffersObjs=>{
     //       this.productOffersObjs = productOffersObjs;
-    //       console.log ('productOffersObjslllllllllllll' , productOffersObjs);
+    //        ('productOffersObjslllllllllllll' , productOffersObjs);
     //   })
     // },
   },

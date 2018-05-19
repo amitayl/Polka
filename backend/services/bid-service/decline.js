@@ -2,6 +2,7 @@
 const DBService = require('../DBService.js');
 const mongo = require('mongodb');
 const Bid = require('../../classes/BidClass.js');
+const { emitGetNotifications } = require('../SocketService.js');
 
 function decline(bid) {
   return new Promise((resolve, reject) => {
@@ -39,7 +40,9 @@ function removeNotificationFromOwner(bid, db) {
       { $pull: { notifications: {bidId} } },
       (err, res) => {
         if (err) reject();
-        else resolve();
+        else {
+          resolve();
+        }
       }
     );
   });
@@ -67,9 +70,11 @@ function createTransactionPushNotification(bid, db) {
           const bidderId = transaction.bidder._id;
 
           pushNotification(bidderId, insertedId, db)
-            .then(() => resolve())
+            .then(() => {
+              emitGetNotifications(bidderId);
+              resolve()
+            })
             .catch(() => reject());
-          resolve();
         }
       });
   });
@@ -78,7 +83,8 @@ function createTransactionPushNotification(bid, db) {
 function pushNotification(ownerId, insertedId, db) {
   const notification = {
     type: 'declinedBid',
-    transactionId: insertedId
+    transactionId: insertedId,
+    isViewed: false
   };
 
   return new Promise((resolve, reject) => {

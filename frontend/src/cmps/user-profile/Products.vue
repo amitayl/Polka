@@ -2,8 +2,6 @@
 <template>
     <section class="products">
       <user-products v-if="!isShowOffers"  @emitSelected="toggleOffers"></user-products> 
-       <!-- <offers v-if="isShowOffers"  
-       ></offers> -->
       <offers v-if="isShowOffers" :productId="productId"  
       @emitSelected="goToBid"  @toggleOffers="toggleOffers"></offers> 
     </section>
@@ -45,7 +43,7 @@ export default {
     //   ProductService.getOffersByProductIds(this.productIds).
     //   then (productOffersObjs=>{
     //       this.productOffersObjs = productOffersObjs;
-    //       console.log ('productOffersObjslllllllllllll' , productOffersObjs);
+    //        ('productOffersObjslllllllllllll' , productOffersObjs);
     //   })
     // },
   },

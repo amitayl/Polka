@@ -20,7 +20,7 @@ export default {
   },
   mutations: {
     [SOCKET_MUTATIONS.SET_SOCKET](state, { loggedInUserSocket }) {
-      console.log(loggedInUserSocket);
+      (loggedInUserSocket);
       state.socket = loggedInUserSocket;
     },
     [SOCKET_MUTATIONS.SET_LISTENER](state, { eventName, callback }) {

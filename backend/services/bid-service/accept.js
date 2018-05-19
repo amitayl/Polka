@@ -1,8 +1,8 @@
 const DBService = require('../DBService.js');
 const mongo = require('mongodb');
+const { emitGetNotifications } = require('../SocketService.js');
 
 function accept(bid) {
-
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       const bidId = new mongo.ObjectID(bid._id);
@@ -18,8 +18,10 @@ function accept(bid) {
       ];
 
       Promise.all(prms)
-        .then(() => {
-          resolve();
+        .then(values => {
+          ({values});
+          (values[1]);
+          resolve(values[1]);
           db.close();
         })
         .catch(() => {
@@ -72,9 +74,11 @@ function createTransactionPushNotification(bid, db) {
           const bidderId = new mongo.ObjectID(bid.bidder.product.ownerId);
 
           pushNotification(bidderId, insertedId, db)
-            .then(() => resolve())
+            .then(() => {
+              emitGetNotifications(bidderId);
+              resolve(insertedId)
+            })
             .catch(() => reject());
-          resolve();
         }
       });
   });
@@ -83,7 +87,8 @@ function createTransactionPushNotification(bid, db) {
 function pushNotification(ownerId, insertedId, db) {
   const notification = {
     type: 'acceptBid',
-    transactionId: insertedId
+    transactionId: insertedId,
+    isViewed: false
   };
 
   return new Promise((resolve, reject) => {
@@ -177,11 +182,10 @@ function removeProductsIdsFromUsers(bid, db) {
         }
       );
     });
-  });
-
   Promise.all([prmOwnerUpdate, prmBidderUpdate])
     .then(() => resolve())
     .catch(() => reject());
+  });
 }
 
 module.exports = accept;

@@ -43,10 +43,12 @@ module.exports = app => {
     const bid = req.body;
 
     BidService.accept(bid)
-      .then(() => {
-        res.json()
+      .then(transactionId => {
+        ('resolved accept ROUTES')
+        res.json(transactionId)
       })
       .catch(err => {
+        ('caught accept ROUTES')
         res.status(500).send({ err })
       });
   })

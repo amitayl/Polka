@@ -36,7 +36,50 @@ function remove(notification) {
   });
 }
 
+function setViewed(notificationsToUpdate, loggedInUserId) {
+  return new Promise((resolve, reject) => {
+    loggedInUserId = new mongo.ObjectID(loggedInUserId);
+
+    // get user's notifications
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.USER).findOne(
+          { _id: loggedInUserId },
+          { _id: 0, notifications: 1 }, (err, res) => {
+            if (err) {
+              reject();
+              return;
+            }
+            const notificationsFromDB = res.notifications;
+            
+            // for each notifications to update, find the matching DB notification
+            // change it's isViewed to true 
+            notificationsToUpdate.forEach(notificationToUpdate => {
+              notificationsFromDB.forEach(notificationFromDB => {
+                if (notificationToUpdate._id === notificationFromDB._id) {
+                  notificationFromDB.isViewed = true;
+                };
+              })
+            })
+
+            // set the updated DB Notifications back into the user
+            DBService.dbConnect().then(db => {
+              db
+                .collection(DBService.COLLECTIONS.USER).updateOne(
+                  { _id: loggedInUserId },
+                  { $set: { notifications: notificationsFromDB }}, 
+                  (err, res) => {
+                    if (err) reject(err)
+                    else resolve()
+                  })
+            })
+          })
+    })
+  })
+}
+
 module.exports = {
   query,
-  remove
+  remove,
+  setViewed
 };

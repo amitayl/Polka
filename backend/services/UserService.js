@@ -21,42 +21,72 @@ function query() {
 
 function add(userData) {
   return new Promise((resolve, reject) => {
-    // let isValidate = _validateDetails(user);
-    // if (!isValidate) reject('Validate failed!');
-    DBService.dbConnect().then(db => {
-      db
-        .collection(DBService.COLLECTIONS.USER)
-        .findOne({ email: userData.email }, (err, userFromDB) => {
-          // If name is already used!
-          if (userFromDB) {
-            reject('Name is already used!');
-          } else {
-            const newUser = new User(userData);
 
-            db
-              .collection(DBService.COLLECTIONS.USER)
-              .insertOne(newUser, (err, res) => {
-                if (err) reject(err);
-                else {
-                  resolve(res.ops[0]);
-                }
-                db.close();
-              });
-          }
-        });
+    DBService.dbConnect().then(db => {
+
+      _validateDetails(userData, db).then(isValidObj => {
+        if (!isValidObj.valid) reject(isValidObj.txt)
+        else {
+          db
+            .collection(DBService.COLLECTIONS.USER)
+            .findOne({ email: userData.email }, (err, userFromDB) => {
+              // If name is already used!
+              if (userFromDB) {
+                reject('Name is already used!');
+              } else {
+                const newUser = new User(userData);
+
+                db
+                  .collection(DBService.COLLECTIONS.USER)
+                  .insertOne(newUser, (err, res) => {
+                    if (err) reject(err);
+                    else {
+                      resolve(res.ops[0]);
+                    }
+                    db.close();
+                  });
+              }
+            });
+        }
+      });
     });
   });
 
-  function _validateDetails(user) {
-    return true;
+  function _validateDetails(userData, db) {
+    return new Promise((resolve, reject) => {
+
+    const isValidObj = {valid: true, txt: null}
+
+    db.collection(DBService.COLLECTIONS.USER).findOne(
+      { email: userData.email }, (err, user) => {
+        if (err) reject()
+        else if (user) {
+          isValidObj.valid = false;
+          isValidObj.txt = 'this email already exists'
+          resolve(isValidObj); 
+        }
+        else {
+          db.collection(DBService.COLLECTIONS.USER).findOne(
+          { nickName: userData.nickName }, (err, user) => {
+            if (err) reject()
+            else if (user) {
+              isValidObj.valid = false;
+              isValidObj.txt = 'this nick name already exists'
+              resolve(isValidObj); 
+            } else {
+              resolve(isValidObj)
+            }
+          })
+        }
+      })
+    })
   }
+  
 }
 
 function remove(userId) {
   // got through all his products and set isLive = false;
-
   userId = new mongo.ObjectID(userId);
-
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       db
@@ -105,7 +135,6 @@ function checkLogin(loginData) {
 }
 
 function addReview(review) {
-  console.log({ review });
   return new Promise((resolve, reject) => {
     const userId = new mongo.ObjectID(review.getterId);
     DBService.dbConnect().then(db => {
