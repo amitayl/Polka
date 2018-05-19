@@ -56,7 +56,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.8);
   color: #212121;
   border: 0;
-  -webkit-border-radius: 4px 0 0 4px;
+  /* -webkit-border-radius: 4px 0 0 4px; */
 }
 .text-box:focus {
   outline: 0;
@@ -105,17 +105,5 @@ button:focus {
 label {
   width: 100%;
 }
-.search-location {
-  /* display: inline-block;
-  /* width: 60vw; */
-  /* margin: 0 auto;
-  margin-top: 5vw;
-  font-size: 20px;
-  font-weight: 400;
-  outline: none;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  border-radius: 10px; */
-}
+
 </style>

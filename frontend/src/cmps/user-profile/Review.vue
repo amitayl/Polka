@@ -1,11 +1,13 @@
 <template>
 <div class="review">
-    {{review.rating}};
-    {{review.txt}}
+     <img src="http://lorempixum.com/100/100/nature/4" >
+  <star-rating read-only  :rating="review.rating" ></star-rating>
+   <p>{{review.txt}}</p>
     </div>
 </template>
 
 <script>
+import StarRating from 'vue-star-rating';
 export default {
     props: {
     review: {
@@ -18,9 +20,28 @@ export default {
 </script>
 
 
-<style>
-.review{
-    border:1px solid grey
+<style scoped>
+
+ img {
+  float: left;
+  margin: 0 15px 0 0;
 }
+
+ p {
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+
+li {
+  padding: 10px;
+  overflow: auto;
+}
+
+li:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+
+
 
 </style>

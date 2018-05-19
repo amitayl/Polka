@@ -15,6 +15,16 @@ module.exports = app => {
       });
   });
 
+  app.get('/bids', (req, res) => {
+    console.log ('req.query' , req.query)
+    console.log ('dada');
+    const userId = req.query.userIds;
+   res.end()
+    // console.log ('bidIds' , bidIds);
+  })
+
+  
+
   app.post('/bid', (req, res) => {
     const bidData = req.body;
 

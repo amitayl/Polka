@@ -25,7 +25,7 @@
           color="transparent"
         >
           <v-tab
-            v-for="(str, idx) in ['profile', 'products']"
+            v-for="(str, idx) in ['profile','bids', 'products']"
             :key="str"
             @click.native="frameIdx = idx , printframeIdx "
           >
@@ -35,16 +35,19 @@
       </v-toolbar>
     </div>
       
-     <public-profile v-if="frameIdx == 0" :user="profileUser"></public-profile>  
-    <products v-if="frameIdx == 1"></products> 
-     <!-- <public-profile  :user="profileUser"></public-profile>  -->
+     <public-profile v-if="profileUser && frameIdx == 0" :isUserEqualLoggidIn="isUserEqualLoggidIn"  :user="profileUser"></public-profile>  
+    <bids :user="profileUser" v-if="frameIdx == 1 && profileUser"></bids> 
+    <products v-if="frameIdx == 2"></products> 
+   
     
   </section>
 </template>
 
 <script>
+
 import UserService from '@/services/UserService';
 import PublicProfile from '@/cmps/user-profile/PublicProfile.vue';
+import Bids from '@/cmps/user-profile/Bids.vue';
 import Products from '@/cmps/user-profile/Products.vue';
 
 export default {
@@ -65,15 +68,16 @@ export default {
   },
   created() {
     
-
+    
     console.log ('frameIdx' , this.frameIdx)
     const userId = this.$route.params._id;
 
     this.loggedInUser = this.$store.getters.getLoggedInUser;
     console.log ('this.loggedInUserkk' , this.loggedInUser);
     if (this.loggedInUser && (this.loggedInUser._id === userId)) {
-      this.profileUser = this.loggedInUser;
-      this.isUserEqualLoggidIn = true;
+     this.profileUser = this.loggedInUser;
+      console.log ( 'profile' , this.profileUser);
+     this.isUserEqualLoggidIn = true;
     } else {
       console.log ('momo');
       UserService.getUserById(userId).then(user => {
@@ -102,6 +106,7 @@ export default {
 
   components: {
     PublicProfile,
+    Bids,
     Products
   }
 };

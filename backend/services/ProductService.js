@@ -9,12 +9,7 @@ function pcl(obj) {
   console.log(e);
 }
 
-<<<<<<< HEAD
-function query(criteria = {}, colsToGet, loggedInUserCoords) {
-  console.log ('asaf is strange')
-=======
 function query(criteria = {}, colsToGet, userCoords) {
->>>>>>> 8dbe9eff0979b62c1937da5749f1f00fae0d5255
   return new Promise((resolve, reject) => {
     return DBService.dbConnect().then(db => {
       // get only live products
