@@ -13,7 +13,7 @@
                   <div class="card-txt-header">
                     <h3 class="title headline">{{product.title}}</h3>
                     <span class="caption">
-                      {{product.distanceInKM.toFixed(1)}} Km
+                      <!-- {{product.distanceInKM.toFixed(1)}} Km -->
                     </span>
                   </div>
 

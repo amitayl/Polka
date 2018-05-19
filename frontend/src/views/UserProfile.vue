@@ -26,8 +26,10 @@
 </template>
 
 <script>
+
 import UserService from '@/services/UserService';
 import PublicProfile from '@/cmps/user-profile/PublicProfile.vue';
+import Bids from '@/cmps/user-profile/Bids.vue';
 import Products from '@/cmps/user-profile/Products.vue';
 
 export default {
@@ -43,6 +45,7 @@ export default {
     if (this.loggedInUser && this.loggedInUser._id === userId) {
       this.profileUser = this.loggedInUser;
     } else {
+      console.log ('momo');
       UserService.getUserById(userId).then(user => {
         this.profileUser = user;
       })
@@ -55,6 +58,7 @@ export default {
   },
   components: {
     PublicProfile,
+    Bids,
     Products
   }
 };

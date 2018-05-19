@@ -14,13 +14,11 @@ function accept(bid) {
         removeBidFromBids(bidId, db),
         removeBidfromOwnerBidIds(ownerProductId, bidId, db),
         removeProductsFromShelfs(bid, db),
-        removeProductsIdsFromUsers(bid, db)
+        // removeProductsIdsFromUsers(bid, db)
       ];
 
       Promise.all(prms)
         .then(values => {
-          ({values});
-          (values[1]);
           resolve(values[1]);
           db.close();
         })

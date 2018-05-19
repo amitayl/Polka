@@ -10,6 +10,16 @@
                class="small-img"
                :class="{selected: selectedImgIdx === idx}"
                @click="selectedImgIdx = idx">
+=======
+  <section v-if="product" class="contain flex space-between product-details">
+
+    <div class="product-imgs flex flex-column"> 
+      <div class="primary-img product-img" 
+       :style="{'backgroundImage': `url(${product.imgs[0]})`}"></div>
+      <div class="small-imgs flex space-between">
+          <img v-for="(img, idx) in product.imgs" v-if="idx !== 0" 
+               :key="img" :src="img" class="product-img small-img">
+>>>>>>> 55fab736001a5c772d07a9f8c9327f458b0b2fc6
       </div>
     </div> -->
 
@@ -227,4 +237,5 @@ export default {
     bottom: 20px;
   }
 }
+
 </style>

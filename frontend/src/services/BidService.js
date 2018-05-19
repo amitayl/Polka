@@ -24,10 +24,20 @@ function isExists(ownerProductId, bidderProductId) {
     })
     .then(res => res.data);
 }
+function getBids(userId) {
+  console.log ('userId' , userId )
+  return axios
+    .get(`${BASE_URL}/bids`, {
+      params: {userId}
+    })
+    .then(res => res.data);
+}
+
 
 export default {
   sendBid,
   acceptBid,
   declineBid,
-  isExists
+  isExists,
+  getBids
 };
