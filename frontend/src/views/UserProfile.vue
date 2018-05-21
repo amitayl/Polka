@@ -7,19 +7,20 @@
 
       <v-tab
         v-for="(str, idx) in 
-              ['profile', 'products']" 
+              ['profile','bids' ,'products']" 
               :key="idx"
               ripple>
         {{str}}
       </v-tab>
 
-      <v-tab-item
+      <!-- <v-tab-item
         v-for="(cmp, idx) in 
-               ['public-profile', 'products']" 
+               ['public-profile','bids', 'products']" 
                :key="idx">
 
         <component :is="cmp" v-if="profileUser && cmp !== 'products'" :user="profileUser"></component>
-      </v-tab-item>
+      </v-tab-item> -->
+      <bids v-if="profileUser" :user="profileUser"></bids>
 
     </v-tabs>
   </section>
@@ -45,7 +46,6 @@ export default {
     if (this.loggedInUser && this.loggedInUser._id === userId) {
       this.profileUser = this.loggedInUser;
     } else {
-      console.log ('momo');
       UserService.getUserById(userId).then(user => {
         this.profileUser = user;
       })

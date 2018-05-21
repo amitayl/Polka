@@ -28,7 +28,7 @@
 
     <ul class="reviews">
         <li v-for="review in user.reviews" :key="review.txt">
-            <img :src="user.img">
+            <img :src="review.senderImg">
             <star-rating class="rating" :star-size="25" 
             :show-rating="false" read-only 
             :rating="review.rating"></star-rating>
