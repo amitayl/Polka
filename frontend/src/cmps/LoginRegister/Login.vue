@@ -1,6 +1,5 @@
 <template>
   <section class="login">
-
     <v-form class="grey-form" @submit.prevent="checkLogin()">
       <v-text-field
         v-model="loginData.email"
@@ -32,7 +31,6 @@
 
 <script>
 import { USER_ACTIONS } from '@/store/UserStore.js';
-
 // import io from 'socket.io-client';
 // import { SOCKET_MUTATIONS } from '../store/SocketStore.js';
 import EventBusService, { EVENTS } from '@/services/EventBusService';

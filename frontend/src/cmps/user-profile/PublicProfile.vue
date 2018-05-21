@@ -9,8 +9,11 @@
 
       <v-card-title primary-title>
         <div>
-          <h2 class="display-1 capitalize">{{user.nickName}}</h2>
-          <p class="title">{{user.desc}}</p>
+          <h2 class="display-1 capitalize mb-2">{{user.nickName}}</h2>
+          <p class="title" 
+             :contenteditable="isEditMode"
+             ref="desc">{{user.desc}}</p>
+
           <p class="title">
             <v-icon :size="40">location_on</v-icon>  
             {{user.loc.name}}
@@ -36,57 +39,33 @@
             <p>{{review.txt}}</p>
         </li>
     </ul> 
+
+    <v-btn v-if="isLoggedInUserProfile"
+           @click.native="toggleEditMode()"
+           fab
+           light
+           fixed
+           bottom
+           right
+           color="amber darken-3">
+            
+            <transition name="fade-transition">
+              <v-icon v-if="isEditMode" color="white">
+                save
+              </v-icon>
+              <v-icon v-else color="white">
+                edit
+              </v-icon>
+            </transition>
+    </v-btn>
     
   </section>
-
-  <!-- <section class="public-profile container">
-      <v-card>
-          <div class= "user-img-line flex user-details   ">
-            <img  class="user-img"  :src="user.img">
-            <div  class="flex details flex-column">
-              <div class="details" v-if="!isEditMode">
-                <p display-4>{{user.nickName}}</p>
-                <br>
-                <br>    
-                <p  class=" title user-desc">{{user.desc}} </p>
-                <p class=" title user-email" >{{user.email}}</p>
-                <!-- <p class="title user-loc">{{user.loc.name}}</p>
-              </div>
-              <div class="details" v-if="isEditMode">
-                <label >
-                <input height="48" v-model="user.nickName" display-4>
-                </label>
-                <br>
-                <br>    
-              <p> <textarea v-model="user.desc" display-4></textarea></p>
-              <p> <input v-model="user.email" ></p>
-                <!-- <p class="title user-loc">{{user.loc.name}}</p>
-              </div>
-            </div>
-          <div>
-            <v-btn class="edit-button" @click="isEditMode=!isEditMode" v-if="!isEditMode">Edit</v-btn>
-            <v-btn class="save-edit" @click="isEditMode=!isEditMode" v-if="isEditMode">Save</v-btn>
-            
-            <v-container wrap>
-              <v-card height="100%">
-                number of trades:3
-                <br>
-                <br>
-                number of products:5
-              </v-card>
-            </v-container>
-          </div>
-        </div>
-    </v-card>
-    <hr>
- -->
-        <!-- <router-link :to="'/transaction/'"><button>See transactions</button></router-link>
-    </section>
--->
 </template>
 
 <script>
 // import Review from '@/cmps/user-profile/Review';
+import UserService from '@/services/UserService.js';
+import EventBusService, { EVENTS } from '@/services/EventBusService.js';
 import StarRating from 'vue-star-rating';
 
 import TransactionService from '@/services/TransactionService.js';
@@ -100,9 +79,39 @@ export default {
       required: true
     },
   },
-  data (){
+  created() {
+    this.userData = this.user;
+  },
+  data(){
     return {
+      userData: null,
       isEditMode: false
+    }
+  },
+  methods: {
+    toggleEditMode() {
+      if (this.isEditMode) {
+        this.userData.desc = this.$refs.desc.innerText;
+        UserService.update(this.userData).then(()=> {
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'Updated',
+            desc: 'keeping things fresh, I like that',
+          });
+        })
+      } else {
+        setTimeout(()=>{
+          this.$refs.desc.focus();
+        }, 0)
+      }
+      this.isEditMode = !this.isEditMode
+    },
+  },
+  computed: {
+    isLoggedInUserProfile() {
+      const loggedInUser = this.$store.getters.getLoggedInUser;
+      const userId = this.$route.params._id;
+
+      return loggedInUser && loggedInUser._id === userId;
     }
   },
   components: {
@@ -118,9 +127,9 @@ export default {
 <style scoped>
 .public-profile {
   text-align: left;
+  padding-top: 100px;
 }
 .card {
-  margin-top: 100px;
   padding-top: 60px;
 }
 
@@ -139,53 +148,15 @@ export default {
 .deals-section-headline {
   text-align: center;
 }
-p {
-  font-size: 1.5rem;
-  line-height: 1.3rem;
-}
-.public-profile {
-  text-align: left;
-}
-.details {
-  width:200px;
-}
-textarea{
-  height:70px;
-  width:200px;
-}
-.user-img {
-  box-shadow: 0 2px 2px black;
-  border-radius: 50%;
-  margin-right: 50px;
-  min-width: 200px;
-  width: 200px;
-  align-self: baseline;
-}
-.user-img-line {
-  width: 700px;
-  padding: 50px;
-}
-.user-email {
-  color: rgb(160, 154, 219);
-}
-.user-title {
-  font-family: 'Times New Roman', Times, serif;
-}
-div {
-  margin: 20px;
-}
-ul {
-  list-style-type: none;
-  width: 500px;
-}
 .reviews{
   display:grid;
   width:100%;
   grid-gap:20px;
    grid-template-columns: 1fr 1fr;
 }
-h3 {
-  font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+li {
+  padding: 10px;
+  overflow: auto;
 }
 li img {
   height:70px;
@@ -199,12 +170,12 @@ li img {
 li p {
   font: 200 1.2rem Georgia, Times New Roman, serif;
 }
-li {
-  padding: 10px;
-  overflow: auto;
-}
 li:hover {
   background: #eee;
   cursor: pointer;
+}
+/* overriding vue */
+.btn--floating {
+  z-index: 1;
 }
 </style>

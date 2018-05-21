@@ -1,8 +1,12 @@
 
 <template>
- <section class="login-register container"> 
+ <section class="login-register"> 
   
-    <v-tabs fixed-tabs grow dark slider-color="green">
+    <v-tabs 
+      fixed-tabs 
+      grow 
+      color="teal lighten-3"
+      slider-color="amber lighten-4">
 
     <v-tab @click="showRegiser(false)">
       Login
@@ -59,18 +63,3 @@ export default {
   }
 };
 </script>
-
-<style>
-
-.login-register{
-  margin: 0 auto;
-  width: 500px;
-}
-.login-form {
-  margin: 0 auto;
-  width: 500px;
-  padding: 20px;
-  background: whitesmoke;
-}
-</style>
-

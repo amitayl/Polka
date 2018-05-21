@@ -1,8 +1,7 @@
 <template>
-    <section class="user-products">
-         <h1 class="title is-2 product" >My products </h1>
-         <product-list @emitSelected="emitSelected" v-if="products" :products="products"></product-list>
-    </section>
+  <section class="user-products">
+    <product-list @emitSelected="emitSelected" v-if="products" :slim="true" :products="products"></product-list>
+  </section>
 </template>
 
 <script>
@@ -30,15 +29,7 @@ export default {
     emitSelected(id) {
       this.$emit('emitSelected', id);
     }
-    //  getProducts(){
-    //   ProductService.getOffersByProductIds(this.productIds).
-    //   then (productOffersObjs=>{
-    //       this.productOffersObjs = productOffersObjs;
-    //        ('productOffersObjslllllllllllll' , productOffersObjs);
-    //   })
-    // },
   },
-
   components: {
     ProductList
   }
@@ -46,5 +37,7 @@ export default {
 </script>
 
 <style scoped>
-
+.user-products {
+  margin-top: 25px;
+}
 </style>

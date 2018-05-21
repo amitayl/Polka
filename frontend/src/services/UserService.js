@@ -34,7 +34,6 @@ function addReview (review){
     });
 }
 
-
 function remove(userId) {
   return axios
     .delete(BASE_URL + '/user',  {params: {userId}})
@@ -69,6 +68,15 @@ function logout() {
     });
 }
 
+function update(userData) {
+  return axios
+    .put(BASE_URL + '/user', userData)
+    .then(res => res.data)
+    // .catch(err => {
+      // throw new Error('update failed');
+    // });
+}
+
 export default {
   query,
   remove,
@@ -76,5 +84,6 @@ export default {
   add,
   checkLogin,
   logout,
-  addReview
+  addReview,
+  update
 };

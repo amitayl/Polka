@@ -101,11 +101,12 @@ export default {
   cursor: pointer;
 }
 .tooltip {
+  position: absolute;
+  z-index: 1;
+  top: 65px;
   color: white;
   border-radius: 15px;
   padding: .25em .5em;
   background-color: darkslategrey;
-  position: absolute;
-  top: 65px;
 }
 </style>

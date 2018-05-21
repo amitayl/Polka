@@ -175,6 +175,25 @@ function linkProductToOwner(ownerId, productId) {
   });
 }
 
+function update(userData) {
+  return new Promise((resolve, reject) => {
+    userId = new mongo.ObjectID(userData._id);
+
+    DBService.dbConnect().then(db => {
+      db
+        .collection(DBService.COLLECTIONS.USER)
+        .updateOne(
+          { _id: userId },
+          { $set: { desc: userData.desc } },
+          (err, res) => {
+            if (err) reject(err);
+            else resolve(res);
+          }
+        );
+    });
+  });
+}
+
 module.exports = {
   query,
   getById,
@@ -182,5 +201,6 @@ module.exports = {
   remove,
   checkLogin,
   linkProductToOwner,
-  addReview
+  addReview,
+  update
 };

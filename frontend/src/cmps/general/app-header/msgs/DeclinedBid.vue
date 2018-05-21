@@ -1,6 +1,7 @@
 <template>
-  <section class="declined-bid bid">
-    <div class="flex flex-column align-center">
+  <section class="bid declined-bid">
+
+    <div class="product-container">
         <p class="body-1">{{data.owner.nickName}} refused your</p>
         <img class="bid-product" :src="data.bidder.product.imgs[0]">
         <p class="caption">{{data.bidder.product.title}}</p>
@@ -8,7 +9,7 @@
 
     <v-icon :size="50">block</v-icon>
 
-    <div class="flex flex-column align-center">
+    <div class="product-container">
         <p class="body-1">for his</p>
         <img class="bid-product" :src="data.owner.product.imgs[0]">
         <p class="caption">{{data.owner.product.title}}</p>
@@ -33,6 +34,9 @@ export default {
 
 <style>
 .declined-bid {
+  flex-direction: row;
+  padding-top: 35px;
+  align-items: center;
   background-color: rgb(255, 240, 240);
 }
 </style>

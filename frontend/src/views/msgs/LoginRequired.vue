@@ -1,5 +1,5 @@
 <template>
   <section class="login-required display-1">
-      YOU MUST LOGIN TO DO THIS
+      YOU MUST <router-link to="/login">LOGIN</router-link> TO DO THIS
   </section>
 </template>

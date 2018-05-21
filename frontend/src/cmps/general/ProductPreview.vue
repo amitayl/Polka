@@ -8,27 +8,46 @@
                 height="200px"
                 :src="product.imgs[0]">
               </v-card-media>
+
               <v-card-title>
                 <div class="width-100">
                   <div class="card-txt-header">
                     <h3 class="title headline">{{product.title}}</h3>
-                    <span class="caption">
-                      <!-- {{product.distanceInKM.toFixed(1)}} Km -->
+                    <span v-if="!slim" class="caption">
+                      {{product.distanceInKM.toFixed(1)}} Km
                     </span>
                   </div>
 
-                  <p class="desc">{{product.desc}}</p>
+                  <p v-if="!slim" class="desc">{{product.desc}}</p>
                 </div>
               </v-card-title>
             </div>
 
-            <v-card-actions>
+            <v-card-actions v-if="!slim">
               <v-spacer></v-spacer>
 
-              <v-btn v-if="!loggedInUser" flat color="orange">more details</v-btn>
-              <v-btn v-else-if="!isLoggedInUserProduct(product.ownerId)" 
-                     @click.stop="moveTo('/bid/'+product._id)" flat color="orange">bid now</v-btn>
-              <v-btn v-else flat color="orange">edit now</v-btn>        
+              <v-btn 
+                v-if="!loggedInUser" 
+                depressed
+                color="amber lighten-4">
+                more details
+              </v-btn>
+
+              <v-btn 
+                v-else-if="!isLoggedInUserProduct(product.ownerId)" 
+                @click.stop="moveTo('/bid/'+product._id)" 
+                depressed
+                color="amber lighten-4">
+                bid now
+              </v-btn>
+
+              <v-btn 
+                v-else 
+                depressed
+                color="amber lighten-4">
+                edit now
+              </v-btn>        
+
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -42,6 +61,10 @@ export default {
     product: {
       type: Object,
       required: true
+    },
+    slim: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -104,13 +127,20 @@ export default {
   margin-bottom: 10px;
 }
 .title {
-  width: 140px;
   height: 41px;
+  margin-right: 10px;
   overflow: hidden;
 }
 .desc {
   max-height: 50px;
   overflow: hidden;
   margin-bottom: 0;
+}
+/* overriding vue */
+.card__title {
+  padding-bottom: 0;
+}
+.card__actions {
+  padding: 12px 8px;
 }
 </style>

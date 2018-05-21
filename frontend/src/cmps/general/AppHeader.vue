@@ -1,152 +1,95 @@
 <template>
   <section v-show="!isHome" class="app-header">
-    <v-toolbar :class="{'margin-bottom': isMarginBottom}" :clipped-left="true" :height="64">
+    <v-toolbar :height="64" fixed color="white">
           
-      <div class="hover-pointer-container">
-        <i class="far fa-handshake fa-3x logo-icon"></i> 
-        <v-toolbar-title @click="moveTo('')" class="display-1 logo">Polka</v-toolbar-title>
-      </div>
-      <search-form></search-form>
+      <template v-if="isMobile">
 
-      <v-spacer></v-spacer>
-      
-      <v-toolbar-items>
-          
-          <template v-if="loggedInUser">
-            <div class="flex align-stretch relative">
-              <v-btn flat @click="toggleNotifications()">messages 
-                <span class="new-notifications" :class="{ pulse: largeNotificationBadge }" 
-                      v-if="newNotificationCount">
-                  {{newNotificationCount}}
-                </span>
-              </v-btn>
+        <search-form 
+          v-if="showSearchInMobile"
+          :isMobile="isMobile"
+          @closeSearch="showSearchInMobile = false"
+          @submit.native="showSearchInMobile = !showSearchInMobile">
+        </search-form>
 
-              <notifications v-show="showNotifications" 
-                              :notifications="notifications"
-                              @deleteNotification="deleteNotification($event)"
-                              @removeNotificationFromUi="removeNotificationFromUi($event)"></notifications>
-            </div>
-            
-            <v-btn flat @click="moveTo('upload')">upload</v-btn>
+        <template v-else>
 
-            <div class="flex align-center relative margin-left">
-              <div class="user-menu-icon" 
-                    @click="toggleUserMenu()"
-                    :style="{ 'backgroundImage': `url(${loggedInUser.img})` }">
-              </div>
-            
-              <ul v-show="showUserMenu" class="user-menu clean-list elevation-4">
-                <li><b>hello {{loggedInUser.nickName}}</b></li>
-                <li><v-btn flat @click="moveTo('profile/'+loggedInUser._id)">profile</v-btn></li>
-                <li><v-btn flat @click="logout()">logout</v-btn></li>
-              </ul>
-            </div>
+          <v-btn 
+            @click.native="$emit('toggleSideMenu')"
+            fab 
+            flat>
+            <v-icon>
+              menu
+            </v-icon>
+          </v-btn>
 
-          </template>
+          <div class="hover-pointer-container">
+            <i class="far fa-handshake logo-icon"></i> 
+            <v-toolbar-title 
+              @click="moveTo('')" 
+              class="display-1 logo"
+              fixed>
+                Polka
+            </v-toolbar-title>
+          </div>
 
-          <template v-else>
-            <v-btn flat @click.native="moveTo('login')">login / register</v-btn>
-          </template>
+          <v-btn 
+            @click.native="showSearchInMobile = !showSearchInMobile"
+            fab 
+            flat>
+            <v-icon 
+              class="search-icon">
+                search
+            </v-icon>
+          </v-btn>
 
-      </v-toolbar-items>
+        </template>
+
+      </template>
+
+
+      <template v-if="!isMobile">
+        <div class="hover-pointer-container">
+          <i class="far fa-handshake logo-icon"></i> 
+          <v-toolbar-title 
+            @click="moveTo('')" 
+            class="display-1 logo"
+            fixed>
+              Polka
+          </v-toolbar-title>
+        </div>
+
+        <search-form 
+          :isMobile="isMobile">
+        </search-form>
+        <link-list :isMobile="isMobile"></link-list>
+      </template>
+
     </v-toolbar>
-
   </section>
 </template>
 
 <script>
-import { USER_ACTIONS } from '@/store/UserStore.js';
+
 import SearchForm from './app-header/SearchForm.vue';
-import NotificationService from '@/services/NotificationService.js';
-import Notifications from './app-header/Notifications.vue';
-import EventBusService, { EVENTS } from '../../services/EventBusService';
+import LinkList from './app-header/LinkList.vue';
 
 export default {
-  created() {
-    EventBusService.$on(EVENTS.RETURN_REMOVED_NOTIFICATION, () => {
-      const idx = this.lastRemovedNotification.idx;
-      const notification = this.lastRemovedNotification.notification;
-
-      setTimeout(() => {
-        this.notifications.splice(idx, 0, notification);
-      }, 300);
-    });
-    
-    EventBusService.$on(EVENTS.CLOSE_NOTIFICATIONS, () => {
-      this.showNotifications = false;
-    });
-  },
-  sockets: {
-    emitGetNotifications() {
-      NotificationService.query(this.loggedInUser._id).then(notifications => {
-        this.notifications = notifications.reverse();
-        ('notification', this.notifications);
-      });
+  props: {
+    isMobile: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
     return {
-      notifications: null,
-      showNotifications: false,
-      showUserMenu: false,
-      lastRemovedNotification: null,
-      largeNotificationBadge: null,
+      showSearchInMobile: false,
     };
   },
   computed: {
-    loggedInUser() {
-      return this.$store.getters.getLoggedInUser;
-    },
-    isMarginBottom() {
-      const route = this.$route.path;
-      return route !== '/' && !route.startsWith('/product') && !route.startsWith('/profile') ; 
-    },
     isHome() {
       const route = this.$route.path;
       return route === '/';
     },
-    newNotificationCount() {
-      if (!this.notifications) return;
-
-      let count = 0;
-      this.notifications.forEach(notification => {
-        if (!notification.isViewed) count++;
-      });
-      return count;
-    }
-  },
-  watch: {
-    loggedInUser() {
-      if (this.loggedInUser) {
-        NotificationService.query(this.loggedInUser._id).then(notifications => {
-          this.notifications = notifications.reverse();
-        });
-      }
-    },
-    notifications(newVal, oldVal) {
-      if (oldVal && newVal.length > oldVal.length) {
-        this.largeNotificationBadge = true;
-        setTimeout(()=>{this.largeNotificationBadge=false}, 500)
-      }
-    },
-    showNotifications(newVal) {
-      if (newVal) {
-        const notificationsToUpdate = [];
-
-        this.notifications.forEach(notification => {
-          if (!notification.isViewed) {
-            notification.isViewed = true;
-            notificationsToUpdate.push(notification);
-          }
-        });
-
-        if (notificationsToUpdate.length > 0) {
-          NotificationService.setViewed(notificationsToUpdate, this.loggedInUser._id).then(() => {
-            ('has been set viewed');
-          })
-        }
-      }
-    }
   },
   methods: {
     moveTo(route) {
@@ -157,41 +100,26 @@ export default {
         this.$router.push(nextRoute);
       }
     },
-    toggleUserMenu() {
-      this.showUserMenu = !this.showUserMenu
-      if (this.showNotifications) this.showNotifications = false;
-    },
-    toggleNotifications() {
-      this.showNotifications = !this.showNotifications;
-      if (this.showUserMenu) this.showUserMenu = false;
-      
-    },
-    logout() {
-      this.showUserMenu = false;
-      this.showNotifications = false;
-      this.$store.dispatch({ type: USER_ACTIONS.LOGOUT }).then(() => {
-        this.$router.push('/login');
-      });
-    },
-    removeNotificationFromUi(idx) {
-      this.lastRemovedNotification = {
-        idx,
-        notification: this.notifications.splice(idx, 1)[0]
-      };
-    },
-    deleteNotification({ idx, notification }) {
-      this.notifications.splice(idx, 1);
-      NotificationService.remove(notification);
-    }
   },
   components: {
-    Notifications,
-    SearchForm
+    SearchForm,
+    LinkList,
   }
 };
 </script>
 
 <style>
+.toolbar {
+  z-index: 3;
+}
+.toolbar__content {
+  justify-content: space-between;
+}
+@media (min-width: 900px) {
+  .toolbar__content {
+    justify-content: initial;
+  }
+}
 @font-face {
   font-family: JosefinSans;
   src: url('../../../public/css/font/JosefinSans-Bold.ttf');
@@ -199,8 +127,8 @@ export default {
 
 .hover-pointer-container {
   display: flex;
+  align-items: center;
 }
-
 .hover-pointer-container:hover {
   cursor: pointer;
 }
@@ -209,92 +137,67 @@ export default {
 .logo-icon {
   color: #4cb5ab;
 }
-
 .logo {
   font-family: JosefinSans;
-  margin-right: 20px;
 }
-
-.margin-bottom {
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 1px 10px 0 rgba(0, 0, 0, 0.12);
-  margin-bottom: 30px;
+.logo-icon {
+  font-size: 26px;
 }
-
-.user-menu-icon {
-  height: 48px;
-  width: 48px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
+@media (min-width: 900px) {
+  .logo {
+    margin-right: 20px;
+  }
+  .logo-icon {
+    font-size: 40px;
+  }
 }
-
-.user-menu-icon:hover {
-  cursor: pointer;
+.search-icon {
+  transform: rotateY(180deg);
 }
-.user-menu {
-  position: absolute;
-  background: white;
-  border-radius: 5px;
-  width: 150px;
-  top: 80px;
-  left: -100px;
-  padding: 10px;
-}
-.user-menu li {
-  padding: 5px;
-}
-.margin-left {
-  margin-left: 18px;
-}
-.new-notifications {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 7px;
-  border-radius: 5px;
-  width: 20px;
-  height: 20px;
-  background-color: red;
-  color: white;
-  transition: transform .3s;
-}
-.pulse {
-  transform: scale(1.2);
-}
-
-/* // responsive drawer */
-
-/* .toolbar__items {
-  background: white;
-  position: absolute;
-  z-index: -1;
-  top: 65px;
-  left: 0;
-  height: calc(100vh - 64px);
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 
-              0 4px 5px 0 rgba(0, 0, 0, 0.14), 
-              0 1px 10px 0 rgba(0, 0, 0, 0.12);
-}
-.toolbar__items *:not(.user-menu-icon):not(.notifications-container):not(.new-notifications) {
-  padding: 10px 0;
-  height: initial;
+.search-form,
+.search-form .search-form-form {
+  height: inherit;
   width: 100%;
-  flex-grow: 0;
 }
-.notifications-container {
-  position: absolute;
-  overflow-y: scroll;
-  background: white;
-  border-radius: 5px;
-  height: 300px;
-  width: 400px;
-  /* top: 80px; */
-  /* transform: translateX(-50%); */
-  /* left: calc(100% + 12px); */
-/* } */
+.search-form-form .search {
+  flex-grow: 1;
+}
+.app-header .search-form .search-form-form,
+.app-header .search-form .search-form-form select,
+.app-header .search-form .search-form-form button[type='submit'] {
+  border-radius: 0;
+}
+.search-form .search-form-form button[type='submit'] {
+  min-width: 64px;
+}
+.search-form .search-form-form .search-form-category {
+  width: 64px;
+}
+@media (min-width: 900px) {
+  .search-form,
+  .search-form .search-form-form {
+    height: initial;
+    width: initial;
+  }
+  .search-form-form .search {
+    flex-grow: none;
+  }
+  .search-form .search-form-form {
+    border-radius: 20px;
+  }
+  .search-form .search-form-form select {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+  .search-form .search-form-form button[type='submit'] {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    min-width: initial;
+  }
+}
+/* overriding vuetify classes */
+.app-header .btn--floating {
+  height: 40px;
+  width: 40px;
+}
 </style>

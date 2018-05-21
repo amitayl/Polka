@@ -25,7 +25,7 @@
 
       <div class="flex">
         <v-spacer></v-spacer>
-        <v-btn type="submit">upload</v-btn>
+        <v-btn type="submit" color="amber lighten-3">upload</v-btn>
       </div>
 
     </v-form>
@@ -49,7 +49,7 @@ export default {
         desc: '',
         imgs: [],
         categories: [],
-        ownerId: null,
+        ownerId: null
       },
       rules: {
         notEmpty: [input => input.length > 0]
@@ -79,7 +79,7 @@ export default {
     },
     setSelectedCategories(categories) {
       this.product.categories = categories;
-      (this.product.categories);
+      this.product.categories;
     },
     addProduct() {
       if (!validateForm(this)) return;
@@ -134,10 +134,6 @@ export default {
 
 <style scoped>
 body {
-  margin: 0 auto;
-}
-
-form {
   margin: 0 auto;
 }
 

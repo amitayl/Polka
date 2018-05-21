@@ -10,10 +10,12 @@ function sendBid(bidData) {
 }
 
 function acceptBid(bid) {
+  console.log('accepting');
   return axios.post(`${BASE_URL}/accept`, bid).then(res => res.data);
 }
 
 function declineBid(bid) {
+  console.log('declining');
   return axios.post(`${BASE_URL}/decline`, bid);
 }
 

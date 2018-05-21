@@ -115,11 +115,11 @@ function getDealsByUserId(userId) {
         .collection(DBService.COLLECTIONS.TRANSACTION)
         .find(filter).toArray((err, transactions) => {
           if (err) reject(err);
-          else {
+          else if (transactions.length > 0) {
             _replaceProductIdsWithData(transactions, db).then(detailedTransactions => {
               resolve(detailedTransactions);
             })
-          }
+          } else resolve();
           db.close();
         });
     });

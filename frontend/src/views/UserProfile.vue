@@ -1,27 +1,35 @@
 <template>
   <section>
-    <v-tabs
-      v-model="active"
-      color="cyan"
-      slider-color="yellow">
+    <template v-if="isLoggedInUserProfile">
 
-      <v-tab
-        v-for="(str, idx) in 
-              ['profile', 'products']" 
-              :key="idx"
-              ripple>
-        {{str}}
-      </v-tab>
+      <v-tabs
+        v-model="active"
+        centered
+        grow
+        color="teal lighten-3"
+        slider-color="amber lighten-4">
 
-      <v-tab-item
-        v-for="(cmp, idx) in 
-               ['public-profile', 'products']" 
-               :key="idx">
+        <v-tab
+          v-for="(str, idx) in 
+                ['profile', 'products']" 
+                :key="idx"
+                ripple>
+          {{str}}
+        </v-tab>
 
-        <component :is="cmp" v-if="profileUser && cmp !== 'products'" :user="profileUser"></component>
-      </v-tab-item>
+        <v-tab-item
+          v-for="(cmp, idx) in 
+                ['public-profile', 'products']" 
+                :key="idx">
 
-    </v-tabs>
+          <component :is="cmp" v-if="profileUser" :user="profileUser"></component>
+        </v-tab-item>
+
+      </v-tabs>
+
+    </template>
+
+    <public-profile v-else-if="profileUser" :user="profileUser"></public-profile>
   </section>
 </template>
 
@@ -40,12 +48,10 @@ export default {
     };
   },
   created() {
-    const userId = this.$route.params._id;
-
-    if (this.loggedInUser && this.loggedInUser._id === userId) {
+    if (this.isLoggedInUserProfile) {
       this.profileUser = this.loggedInUser;
     } else {
-      console.log ('momo');
+      const userId = this.$route.params._id;
       UserService.getUserById(userId).then(user => {
         this.profileUser = user;
       })
@@ -54,6 +60,10 @@ export default {
   computed: {
     loggedInUser() {
       return this.$store.getters.getLoggedInUser;
+    },
+    isLoggedInUserProfile() {
+      const userId = this.$route.params._id;
+      return this.loggedInUser && this.loggedInUser._id === userId
     }
   },
   components: {

@@ -1,7 +1,9 @@
 <template>
   <section class="bid-container container">
 
-    <section class="logged-in-user-products" v-if="cardsAlreadyBidded.length > 0">
+    <section 
+      class="logged-in-user-products mb-3" 
+      v-if="cardsAlreadyBidded.length > 0">
 
       <v-layout v-for="(loggedInUserProduct, idx) in loggedInUserProducts" 
                 :key="idx" class="elevation-2">
@@ -14,26 +16,28 @@
             <v-icon class="done" v-if="selectedProductIdx === idx">done</v-icon>
 
             <v-card-media
-              height="100px"
+              height="135"
               :src="loggedInUserProduct.imgs[0]">
             </v-card-media>
             
-            <v-card-title>
-              <span>{{loggedInUserProduct.title}}</span>
-            </v-card-title>
-
           </v-card>
         </v-flex>
       </v-layout>
     </section>
     
-      <h2 v-if="loggedInUserProducts === false">you have no products, please upload some</h2>
-    <router-link to="/upload">upload new product</router-link>
+    <template v-if="loggedInUserProducts === false">
+      <h2>you have no products, please upload some</h2>
+      <router-link to="/upload">upload new product</router-link>
+    </template>
     
-    <v-btn @click="bidProduct()" 
-      :disabled="selectedProductIdx === null || isSelectedProductBidded">
-        {{sendBidTxt}}
-    </v-btn>
+    <div class="btn-container">
+      <v-btn 
+        @click="bidProduct()" 
+        :color="selectedProductIdx !== null? 'amber lighten-3' : 'grey lighten-2' "
+        :disabled="selectedProductIdx === null || isSelectedProductBidded">
+          {{sendBidTxt}}
+      </v-btn>
+    </div>
   </section>
 </template>
 
@@ -83,15 +87,16 @@ export default {
   },
   computed: {
     sendBidTxt() {
-      return this.isSelectedProductBidded
-        ? 'you allready bidded this product'
-        : 'send bid';
+      if (this.isSelectedProductBidded) {
+        return 'this bid was already made';
+      } else return 'send bid'
     }
   },
   methods: {
     selectProduct(idx) {
       if (this.cardsAlreadyBidded[idx]) return;
       this.selectedProductIdx = idx;
+      console.log(this.selectedProductIdx);
     },
     bidProduct() {
       const owner = { productId: this.biddedProductId };
@@ -107,21 +112,6 @@ export default {
             title: 'offer sent!',
             desc: 'we will let you know'
           });
-
-          // ProductService.getProductById(bidData.owner.productId).then(
-          //   product => {
-
-          //     (this.$socket, this.$store.getters.socket);
-          //     this.$socket.emit('bidSent', product.ownerId);
-          //     this.$store.getters.socket.emit('bidSent', product.ownerId);
-          //     // emit the owner Id
-          //     this.$store.commit({
-          //       type: SOCKET_MUTATIONS.EMIT,
-          //       eventName: 'bidSent',
-          //       params: product.ownerId
-          //     });
-          //   }
-          // );
         })
         .catch(() => {
           EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
@@ -140,9 +130,13 @@ export default {
 <style scoped>
 .logged-in-user-products {
   display: grid;
-  grid-template-columns: repeat(2, 150px);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   grid-gap: 20px;
+}
+
+.logged-in-user-products .card__media {
+  height: 40vw;
 }
 
 .logged-in-user-products > div:hover {
@@ -183,6 +177,25 @@ export default {
   border-radius: 50%;
   height: 30px;
   width: 30px;
+}
+
+.btn-container {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 20px;
+  background-color: rgba(0,0,0,.2);
+}
+
+@media (min-width: 750px) {
+  .btn-container {
+    width: initial;
+    left: initial;
+    right: 20px;
+    bottom: 20px;
+  }
 }
 
 @media (min-width: 400px) {

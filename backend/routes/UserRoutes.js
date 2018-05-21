@@ -67,4 +67,12 @@ module.exports = app => {
     req.session.reset();
     res.end('Loggedout');
   });
+
+  app.put('/user', (req, res) => {
+    const userData = req.body;
+
+    UserService.update(userData)
+      .then(() => res.json())
+      .catch(err => res.status(500).send({ error: `user update failed, ${err}` }));
+  });
 };

@@ -1,35 +1,45 @@
 <template>
-  <section class="new-bid bid" @click="moveTo('/decideTrade/'+data._id)">
-    <div class="flex flex-column align-center">
-      <p class="subheading">{{data.bidder.nickName}} wants your</p>
-      <img :src="data.owner.product.imgs[0]" class="bid-product" alt="my product">
-      <p class="caption">{{data.owner.product.title}}</p>
-    </div>
+  <section class="new-bid bid">
 
-    <v-icon :size="50">swap_horiz</v-icon>
+    <div class="flex">
+      <div class="product-container">
+        <p class="subheading">{{data.bidder.nickName}} your</p>
+        <img :src="data.owner.product.imgs[0]" class="bid-product" alt="my product">
+        <p class="caption">{{data.owner.product.title}}</p>
+      </div>
 
-    <div class="flex flex-column align-center">
-      <p class="subheading">for his</p>
-      <img :src="data.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
-      <p class="caption">{{data.bidder.product.title}}</p>
+      <v-icon :size="50">swap_horiz</v-icon>
+
+      <div class="product-container">
+        <p class="subheading">for his</p>
+        <img :src="data.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
+        <p class="caption">{{data.bidder.product.title}}</p>
+      </div>
     </div>
 
     <div class="btn-container">
-      <v-btn class="accept-btn" @click.native.stop="acceptBid()">
-        trade
-        <v-icon :size="15">done</v-icon>
-      </v-btn>
-      <v-btn class="decline-btn" @click.native.stop="declineBid()">
+      <v-btn 
+        small
+        class="decline-btn" 
+        @click.native.stop="declineBid()">
         nope
         <v-icon :size="15">delete</v-icon>
+      </v-btn>
+
+      <v-btn 
+        small
+        class="accept-btn" 
+        @click.native.stop="acceptBid()">
+        trade
+        <v-icon :size="15">done</v-icon>
       </v-btn>
     </div>
   </section>
 </template>
 
 <script>
-import BidService from '@/services/BidService.js';
 import EventBusService, { EVENTS } from '@/services/EventBusService.js';
+import BidService from '@/services/BidService.js';
 
 export default {
   props: {
@@ -85,25 +95,24 @@ export default {
 <style>
 .new-bid {
   background-color: rgb(217, 245, 255);
-  align-items:stretch;
-}
-.new-bid:hover {
-  cursor: pointer;
-  background-color: rgb(186, 235, 253);
 }
 .btn-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
-  margin-left: 10px;
+  margin-top: 10px;
 }
 .btn-container .btn {
-  padding: 8px 0;
-  width: 30px;
+  margin: 0;
+}
+.btn-container .btn:last-of-type {
+  margin-left: 10px;
+}
+.btn-container .btn__content {
+  padding: 8px;
 }
 .btn i {
-  margin-left: 5px;
+  width: 10px;
 }
 .accept-btn {
   background: lightseagreen;

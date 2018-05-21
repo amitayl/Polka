@@ -7,7 +7,6 @@
 
         <div class="date">
           <p>Deal :#1</p> 
-          <p>{{time}}</p>
         </div>
 
         <div class="center">
@@ -59,21 +58,17 @@
 
 <script>
 import UserService from '@/services/UserService';
-import StarRating from 'vue-star-rating';
+// import StarRating from 'vue-star-rating';
 import TransactionUserCard from '@/cmps/Transaction/TransactionUserCard';
 import FillReview from '@/cmps/FillReview';
-import moment from 'moment';
+// import moment from 'moment';
 import TransactionService from '@/services/TransactionService.js';
 import Modal from '@/cmps/general/Modal.vue';
 
 export default {
   data() {
     return {
-      time: '',
-      transaction: {},
       showModal: false,
-      bidder: {},
-      owner: {},
       isShowReview: true,
       transactionObj: null,
       review: {
@@ -88,7 +83,6 @@ export default {
   },
   mounted() {
     const transactionId = this.$route.params._id;
-    this.time = moment().format('MMM Do YY');
     TransactionService.getById(transactionId).then(transObj => {
       this.transactionObj = transObj;
 

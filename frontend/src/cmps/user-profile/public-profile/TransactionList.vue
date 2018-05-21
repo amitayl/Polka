@@ -1,7 +1,7 @@
 <template>    
     <section class="transaction-list elevation-4">
-        <transaction-preview v-if="transactions" v-for="transaction in transactions" 
-                             :transaction="transaction"></transaction-preview>
+        <transaction-preview v-if="transactions" v-for="(transaction, idx) in transactions" 
+                             :transaction="transaction" :key="idx"></transaction-preview>
     </section>
 </template>
 

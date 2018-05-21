@@ -3,6 +3,7 @@ const mongo = require('mongodb');
 const { emitGetNotifications } = require('../SocketService.js');
 
 function accept(bid) {
+  console.log({bid});
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       const bidId = new mongo.ObjectID(bid._id);
@@ -14,7 +15,7 @@ function accept(bid) {
         removeBidFromBids(bidId, db),
         removeBidfromOwnerBidIds(ownerProductId, bidId, db),
         removeProductsFromShelfs(bid, db),
-        // removeProductsIdsFromUsers(bid, db)
+        removeProductsIdsFromUsers(bid, db)
       ];
 
       Promise.all(prms)

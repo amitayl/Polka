@@ -3,7 +3,7 @@
         <ul class="clean-list product-list-list">
             <li @click="emitSelected(product._id)" v-for="product in products" 
                 :key="product._id">
-                <product-preview  :product="product"></product-preview>
+                <product-preview :product="product" :slim="slim"></product-preview>
             </li>
         </ul>
     </section>
@@ -17,6 +17,10 @@ export default {
     products: {
       type: Array,
       required: true
+    },
+    slim: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

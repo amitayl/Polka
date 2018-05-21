@@ -26,23 +26,32 @@ function dbConnect() {
 
 function cleanDB() {
   dbConnect().then(db => {
-    ('cleaning db')
+    console.log('cleaning db');
     db
       .collection(COLLECTIONS.USER)
-      .updateMany({}, { $set: { notifications: [], reviews: [], productIds: [] } }, () => {
-        // for each product reinsert the product id the his owner
-        db.collection(COLLECTIONS.PRODUCT).find({}).toArray((err, products) => {
-          products.forEach((product, idx) => {
-            const ownerId = new mongo.ObjectID(product.ownerId);
-            const productId = new mongo.ObjectID(product._id);
+      .updateMany(
+        {},
+        { $set: { notifications: [], reviews: [], productIds: [] } },
+        () => {
+          // for each product reinsert the product id the his owner
+          db
+            .collection(COLLECTIONS.PRODUCT)
+            .find({})
+            .toArray((err, products) => {
+              products.forEach((product, idx) => {
+                const ownerId = new mongo.ObjectID(product.ownerId);
+                const productId = new mongo.ObjectID(product._id);
 
-            db.collection(COLLECTIONS.USER).updateOne(
-              { _id: ownerId }, 
-              { $push: { productIds: productId } })
-          });
-        }) 
-      });
-
+                db
+                  .collection(COLLECTIONS.USER)
+                  .updateOne(
+                    { _id: ownerId },
+                    { $push: { productIds: productId } }
+                  );
+              });
+            });
+        }
+      );
 
     db
       .collection(COLLECTIONS.PRODUCT)
@@ -50,8 +59,6 @@ function cleanDB() {
 
     db.collection(COLLECTIONS.BID).remove({});
     db.collection(COLLECTIONS.TRANSACTION).remove({});
-
-    
   });
 }
 

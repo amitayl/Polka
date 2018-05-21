@@ -1,7 +1,8 @@
 @import './helpers.css';
 @import './normalize.css';
 
-html, body {
+html,
+body {
   min-height: 100vh;
 }
 
@@ -20,20 +21,39 @@ body {
 /* for Login, Register & UploadProduct */
 
 .grey-form {
-  width: calc(100vw - 20px);
+  width: 100vw;
+  margin: 0 auto;
   max-width: 500px;
   padding: 20px;
   background: whitesmoke;
 }
 
+@media (min-width: 500px) {
+  .grey-form {
+    margin-top: 20px;
+  }
+}
 /* notifications */
 
 .bid {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  align-items: stretch;
   padding: 10px;
   border-bottom: 1px solid lightgray;
+}
+
+.bid .product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+.bid i {
+  flex-grow: 1;
 }
 
 .bid p {
@@ -57,7 +77,40 @@ body {
   background: lightcoral;
   color: white;
 }
+
 .close-btn:hover {
   cursor: pointer;
   background: rgb(243, 109, 109);
+}
+
+/* editable content */
+h1[contenteditable='true'],
+h2[contenteditable='true'],
+h3[contenteditable='true'],
+h4[contenteditable='true'],
+h5[contenteditable='true'],
+h6[contenteditable='true'],
+p[contenteditable='true'] {
+  text-decoration: underline;
+}
+
+/* transitions */
+
+.slide-left-enter, .slide-left-leave-to {
+  transform: translateX(-100%);
+}
+.slide-left-enter-to, .slide-left-leave {
+  transform: initial;
+}
+.slide-left-enter-active, .slide-left-leave-active {
+  transition: transform 0.3s;
+}
+
+/* --------------------------
+   overriding vuetify classes 
+   -------------------------- */
+
+/* tabs */
+.tabs__slider {
+  height: 4px;
 }

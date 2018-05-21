@@ -25,7 +25,7 @@ export default {
   methods: {
     stopPropogation(event) {
       event.cancelBubble = true;
-    },
+    }
   },
   components: {
     NewBid,
@@ -41,17 +41,21 @@ export default {
 }
 
 .notifications-container {
-  position: absolute;
   overflow-y: scroll;
   background: white;
   border-radius: 5px;
   height: 300px;
-  width: 400px;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  max-width: 350px;
 }
 
+@media (min-width: 900px) {
+  .notifications-container {
+    position: absolute;
+    top: 80px;
+    transform: translateX(-50%);
+  }
+}
 .notifications-container::-webkit-scrollbar-button {
   display: none;
 }

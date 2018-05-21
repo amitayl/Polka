@@ -2,7 +2,7 @@
 <template>
     <section class="products">
       <user-products v-if="!isShowOffers"  @emitSelected="toggleOffers"></user-products> 
-      <offers v-if="isShowOffers" :productId="productId"  
+      <offers v-else :productId="productId"  
       @emitSelected="goToBid"  @toggleOffers="toggleOffers"></offers> 
     </section>
 </template>
@@ -35,10 +35,6 @@ export default {
       }
       // isShowOffers=true;
     },
-    goToBid(bidId) {
-      this.$router.push('/decideTrade/' + bidId);
-    }
-
     //  getProducts(){
     //   ProductService.getOffersByProductIds(this.productIds).
     //   then (productOffersObjs=>{

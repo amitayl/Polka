@@ -26,7 +26,8 @@ export default {
     currProdut: null,
     products: null,
     selectedProduct: null,
-    uploadedProduct: null
+    uploadedProduct: null,
+    isGettingProducts: false
   },
   mutations: {
     [PRODUCT_MUTATIONS.SET_PRODUCTS](state, { products }) {

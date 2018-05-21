@@ -1,28 +1,5 @@
 <template>
   <section class="product-details" v-if="product">
-
-    <!-- <div >  -->
-      <!-- <div class="primary-img"  -->
-           <!-- :style="{'backgroundImage': `url(${product.imgs[this.selectedImgIdx]})`}"></div> -->
-      <!-- <div class="small-img-container flex">
-          <img v-for="(img, idx) in product.imgs" 
-               :key="img" :src="img" 
-               class="small-img"
-               :class="{selected: selectedImgIdx === idx}"
-               @click="selectedImgIdx = idx">
-=======
-  <section v-if="product" class="contain flex space-between product-details">
-
-    <div class="product-imgs flex flex-column"> 
-      <div class="primary-img product-img" 
-       :style="{'backgroundImage': `url(${product.imgs[0]})`}"></div>
-      <div class="small-imgs flex space-between">
-          <img v-for="(img, idx) in product.imgs" v-if="idx !== 0" 
-               :key="img" :src="img" class="product-img small-img">
->>>>>>> 55fab736001a5c772d07a9f8c9327f458b0b2fc6
-      </div>
-    </div> -->
-
     <v-carousel class="product-imgs" hide-controls :hide-delimiters="product.imgs.length === 1">
       <v-carousel-item v-for="(img ,idx) in product.imgs" :src="img" :key="idx"></v-carousel-item>
     </v-carousel>
@@ -63,8 +40,7 @@
         <div class="owner-profile-name-container flex align-center mb-2">
           <router-link :to="'/profile/'+product.owner._id">
 
-            <div class="user-menu-icon" 
-                 :style="{ 'backgroundImage': `url(${product.owner.img})` }">
+            <div :style="{ 'backgroundImage': `url(${product.owner.img})` }">
             </div>
 
           </router-link>
