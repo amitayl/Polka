@@ -17,9 +17,12 @@ module.exports = app => {
 
   app.get('/bids', (req, res) => {
     console.log ('req.query' , req.query)
-    console.log ('dada');
-    const userId = req.query.userIds;
-   res.end()
+    const userId = req.query.userId;
+    BidService.getBids(userId)
+    .then((bids) => {
+      res.json(bids)
+    })
+  
     // console.log ('bidIds' , bidIds);
   })
 

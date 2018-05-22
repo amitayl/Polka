@@ -53,15 +53,28 @@
     
     <div class="btn-container">
       <v-btn v-if="!loggedInUser" 
+             color="amber lighten-3"
              @click.native="showModal = true">
               Login to bid
       </v-btn>
-      <v-btn v-else-if="!isViewerAlsoOwner" 
-             @click="toBid()"> 
-              Bid Now
+      <v-btn 
+        v-else-if="!isViewerAlsoOwner" 
+        color="amber lighten-3"
+        @click="toBid()"> 
+        Bid Now
       </v-btn>
-      <v-btn v-else-if="!editMode" @click.native="editMode= true">edit</v-btn>
-      <v-btn v-else @click.native="updateProductDetails()">save</v-btn>
+      <v-btn 
+        v-else-if="!editMode" 
+        color="amber lighten-3"
+        @click.native="editMode= true">
+        edit
+      </v-btn>
+      <v-btn 
+        v-else 
+        color="amber lighten-3"
+        @click.native="updateProductDetails()">
+        save
+      </v-btn>
     </div>
 
     <modal v-show="showModal" @hideModal="showModal = false">

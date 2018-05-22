@@ -2,7 +2,7 @@ import axios from 'axios';
 let BASE_URL = 'http://127.0.0.1:3000';
 
 if (process.env.NODE_ENV !== 'development') {
-  BASE_URL = '';
+  BASE_URL = '/';
 }
 
 function sendBid(bidData) {

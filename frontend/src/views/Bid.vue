@@ -189,6 +189,11 @@ export default {
   background-color: rgba(0,0,0,.2);
 }
 
+.btn {
+  margin: 0;
+  width: 100%;
+}
+
 @media (min-width: 750px) {
   .btn-container {
     width: initial;

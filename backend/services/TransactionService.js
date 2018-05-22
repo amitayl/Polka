@@ -6,7 +6,8 @@ function query() {
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.TRANSACTION)
-        .find({}).toArray((err, transactions) => {
+        .find({})
+        .toArray((err, transactions) => {
           if (err) reject(err);
           else resolve(transactions);
           db.close();
@@ -24,55 +25,68 @@ function getById(transactionId) {
           _id: new mongo.ObjectID(transactionId)
         })
         .then(transaction => {
-          let owner = {}
-          let bidder = {}
+          let owner = {};
+          let bidder = {};
 
-          let prmOwner = new Promise((resolve, reject) => { 
-            db.collection(DBService.COLLECTIONS.PRODUCT)
-            .findOne({
-              _id: new mongo.ObjectId(transaction.owner.productId)
-            }).then(product => {
-              owner.prodTitle = product.title;
-              owner.prodImg = product.imgs[0];
-              db.collection(DBService.COLLECTIONS.USER)
-                .findOne({
-                  _id: new mongo.ObjectId(transaction.owner._id)
-                }).then(user => {
-                  owner._id = user._id
-                  owner.img = user.img
-                  owner.nickName = user.nickName
-                  resolve(owner);
-                })
-              })
-            })
-
-              let prmBidder =  new Promise((resolve, reject) => {
-              db.collection(DBService.COLLECTIONS.PRODUCT)
-            .findOne({
-              _id: new mongo.ObjectId(transaction.bidder.productId)
-            }).then(product => {
-              bidder.prodTitle = product.title;
-              bidder.prodImg = product.imgs[0];
-              db.collection(DBService.COLLECTIONS.USER)
+          let prmOwner = new Promise((resolve, reject) => {
+            db
+              .collection(DBService.COLLECTIONS.PRODUCT)
               .findOne({
-                _id: new mongo.ObjectId(transaction.bidder._id)
-              }).then(user => {
-                bidder._id = user._id
-                bidder.img = user.img
-                bidder.nickName = user.nickName
-                resolve(bidder);
+                _id: new mongo.ObjectId(transaction.owner.productId)
               })
-            })
-          })
-          Promise.all([prmOwner,prmBidder]).then (transarray =>{
-            let transObj = {};
-            transObj.owner = transarray[0];
-            transObj.bidder = transarray[1];
-            resolve (transObj)
-        })
-      })
-    })
-  })
+              .then(product => {
+                owner.prodTitle = product.title;
+                owner.prodImg = product.imgs[0];
+                owner.prodDesc = product.desc;
+                
+                db
+                  .collection(DBService.COLLECTIONS.USER)
+                  .findOne({
+                    _id: new mongo.ObjectId(transaction.owner._id)
+                  })
+                  .then(user => {
+                    owner._id = user._id;
+                    owner.img = user.img;
+                    owner.nickName = user.nickName;
+                    resolve(owner);
+                  });
+              });
+          });
+
+          let prmBidder = new Promise((resolve, reject) => {
+            db
+              .collection(DBService.COLLECTIONS.PRODUCT)
+              .findOne({
+                _id: new mongo.ObjectId(transaction.bidder.productId)
+              })
+              .then(product => {
+                bidder.prodTitle = product.title;
+                bidder.prodImg = product.imgs[0];
+                bidder.prodDesc = product.desc;
+                db
+                  .collection(DBService.COLLECTIONS.USER)
+                  .findOne({
+                    _id: new mongo.ObjectId(transaction.bidder._id)
+                  })
+                  .then(user => {
+                    bidder._id = user._id;
+                    bidder.img = user.img;
+                    bidder.nickName = user.nickName;
+                    resolve(bidder);
+                  });
+              });
+          });
+          Promise.all([prmOwner, prmBidder]).then(values => {
+            let transObj = {
+              createdAt: transaction.createdAt
+            };
+            transObj.owner = values[0];
+            transObj.bidder = values[1];
+            resolve(transObj);
+          });
+        });
+    });
+  });
 }
 
 function add(bid, isDeal) {
@@ -89,7 +103,7 @@ function add(bid, isDeal) {
           else {
             resolve();
           }
-        })
+        });
     });
   });
 }
@@ -100,25 +114,25 @@ function getDealsByUserId(userId) {
 
     const filter = {
       $and: [
-        { 
-          $or: [ 
-            { 'owner._id': userId }, 
-            { 'bidder._id': userId } 
-          ]
+        {
+          $or: [{ 'owner._id': userId }, { 'bidder._id': userId }]
         },
         { isDeal: true }
       ]
-    }
+    };
 
     DBService.dbConnect().then(db => {
       db
         .collection(DBService.COLLECTIONS.TRANSACTION)
-        .find(filter).toArray((err, transactions) => {
+        .find(filter)
+        .toArray((err, transactions) => {
           if (err) reject(err);
           else if (transactions.length > 0) {
-            _replaceProductIdsWithData(transactions, db).then(detailedTransactions => {
-              resolve(detailedTransactions);
-            })
+            _replaceProductIdsWithData(transactions, db).then(
+              detailedTransactions => {
+                resolve(detailedTransactions);
+              }
+            );
           } else resolve();
           db.close();
         });
@@ -181,4 +195,4 @@ module.exports = {
   getById,
   add,
   getDealsByUserId
-}
+};

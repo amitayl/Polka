@@ -23,40 +23,50 @@
 
     </v-card>
 
-    <h2 class="deals-section-headline mt-4 display-1 mb-3">Deals</h2>
-    <transaction-list></transaction-list>      
+    <div class="deals-reviews-container">
 
-    <h2 class="deals-section-headline mt-4 display-1 mb-3">Reviews</h2>
-    <review-list></review-list>
+      <div>
+        <h2 class="deals-section-headline mt-4 display-1 mb-3">Deals</h2>
+        <transaction-list></transaction-list>      
+      </div>
 
-    <ul class="reviews">
-        <li v-for="review in user.reviews" :key="review.txt">
-            <img :src="user.img">
+      <div>
+        <h2 class="deals-section-headline mt-4 display-1 mb-3">Reviews</h2>
+        <ul class="reviews">
+          <li 
+            v-for="review in user.reviews" 
+            :key="review.txt"
+            class="elevation-4">
+            <img :src="review.senderImg">
             <star-rating class="rating" :star-size="25" 
             :show-rating="false" read-only 
             :rating="review.rating"></star-rating>
 
             <p>{{review.txt}}</p>
-        </li>
-    </ul> 
+          </li>
+        </ul> 
+      </div>
 
-    <v-btn v-if="isLoggedInUserProfile"
-           @click.native="toggleEditMode()"
-           fab
-           light
-           fixed
-           bottom
-           right
-           color="amber darken-3">
-            
-            <transition name="fade-transition">
-              <v-icon v-if="isEditMode" color="white">
-                save
-              </v-icon>
-              <v-icon v-else color="white">
-                edit
-              </v-icon>
-            </transition>
+    </div>
+
+    <v-btn 
+      v-if="isLoggedInUserProfile"
+      @click.native="toggleEditMode()"
+      fab
+      light
+      fixed
+      bottom
+      right
+      color="amber darken-3">
+      
+      <transition name="fade-transition">
+        <v-icon v-if="isEditMode" color="white">
+          save
+        </v-icon>
+        <v-icon v-else color="white">
+          edit
+        </v-icon>
+      </transition>
     </v-btn>
     
   </section>
@@ -70,7 +80,6 @@ import StarRating from 'vue-star-rating';
 
 import TransactionService from '@/services/TransactionService.js';
 import TransactionList from '@/cmps/user-profile/public-profile/TransactionList.vue';
-import ReviewList from '@/cmps/user-profile/public-profile/ReviewList.vue';
 
 export default {
   props: {
@@ -116,13 +125,10 @@ export default {
   },
   components: {
     TransactionList,
-    ReviewList,
     StarRating
   }
-  
 };
 </script>
-
 
 <style scoped>
 .public-profile {
@@ -132,7 +138,6 @@ export default {
 .card {
   padding-top: 60px;
 }
-
 .card .public-profile-avatar {
   position: absolute;
   top: 0;
@@ -145,14 +150,21 @@ export default {
   background-position: center;
   border-radius: 50%;
 }
+.deals-reviews-container {
+  display: flex;
+  flex-direction: column
+}
+@media (min-width: 750px) {
+  .deals-reviews-container {
+    flex-direction: initial;
+    justify-content: space-between;
+  }
+  .deals-reviews-container > div {
+    width: 48%;
+  }
+}
 .deals-section-headline {
   text-align: center;
-}
-.reviews{
-  display:grid;
-  width:100%;
-  grid-gap:20px;
-   grid-template-columns: 1fr 1fr;
 }
 li {
   padding: 10px;
@@ -163,18 +175,10 @@ li img {
   float: left;
   margin: 0 15px 0 0;
 }
-.rating{
-  margin-top:0px;
-  margin-bottom:20px;
-}
 li p {
   font: 200 1.2rem Georgia, Times New Roman, serif;
+  margin: 0;
 }
-li:hover {
-  background: #eee;
-  cursor: pointer;
-}
-/* overriding vue */
 .btn--floating {
   z-index: 1;
 }

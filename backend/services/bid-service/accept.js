@@ -51,6 +51,7 @@ function removeNotificationFromOwner(bid, db) {
 
 function createTransactionPushNotification(bid, db) {
   const transaction = {
+    createdAt: Date.now(),
     owner: {
       _id: new mongo.ObjectID(bid.owner.product.ownerId),
       productId: new mongo.ObjectID(bid.owner.product._id),

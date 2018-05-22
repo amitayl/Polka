@@ -5,7 +5,7 @@
         <h2 class="page-headline">Selling takes Time.</h2>
         <p class="page-ampersant">&</p>
         <h3 class="page-subtitle">who's got time for that ?</h3>
-        <search-form></search-form>
+        <search-form :isMobile="isMobile"></search-form>
       </div>
     </section>
 
@@ -47,6 +47,12 @@ import SearchForm from '../cmps/general/app-header/SearchForm.vue';
 import ProductService from '@/services/ProductService.js';
 
 export default {
+  props: {
+    isMobile: {
+      type: Boolean,
+      required: true
+    }
+  },
   created() {
     const sortBy = { viewCount: -1 };
     ProductService.query({}, {}, undefined, sortBy, 3).then(products => {

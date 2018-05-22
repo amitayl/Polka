@@ -39,7 +39,7 @@
               class="user-menu-icon" 
               :style="{ 'backgroundImage': `url(${loggedInUser.img})` }">
             </div>
-            <b class="headline ml-4 flex align-center">{{loggedInUser.nickName}}</b>
+            <b class="headline ml-4 flex align-center capitalize">{{loggedInUser.nickName}}</b>
           </div>
         </div>
 

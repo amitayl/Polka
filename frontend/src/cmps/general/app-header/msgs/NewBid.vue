@@ -58,6 +58,11 @@ export default {
       BidService.acceptBid(this.data)
         .then(transactionId => {
           this.$router.push('/transaction/'+transactionId);
+          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
+            title: 'accept failed',
+            desc: 'please try again later',
+            success: false
+          });
         })
         
         .catch(() => {

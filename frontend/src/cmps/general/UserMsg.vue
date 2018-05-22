@@ -41,7 +41,7 @@ export default {
 <style scoped>
 .user-msg {
   opacity: 0;
-  position: absolute;
+  position: fixed;
   z-index: -1;
   top: 20px;
   right: 20px;
