@@ -2,9 +2,9 @@
   <section class="home">
     <section class="page-header">
       <div class="search-bar">
-        <h2 class="page-headline">Selling takes Time.</h2>
-        <p class="page-ampersant">&</p>
-        <h3 class="page-subtitle">who's got time for that ?</h3>
+        <h2 class="page-headline">Polka Barter</h2>
+        <p class="page-ampersant">STOP BUYING. </p>
+        <h3 class="page-subtitle">START TRADING.</h3>
         <search-form :hideCategories="true"></search-form>
       </div>
     </section>
@@ -70,15 +70,15 @@ export default {
       qualities: [
         {
           icon: 'attach_money',
-          txt: 'free of charge'
+          txt: 'Save Money'
         },
         {
-          icon: 'flight_takeoff',
-          txt: 'global users'
+          icon: 'local_florist',
+          txt: 'Go Green'
         },
         {
-          icon: 'fingerprint',
-          txt: 'unique community'
+          icon: 'tag_faces',
+          txt: 'Meet Awesome People'
         }
       ],
       featuredProducts: null,
