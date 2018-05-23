@@ -22,14 +22,19 @@
       </li>
     </ul>
     
-    <h2 class="home-section-headline display-1">featured products</h2>
+    <h2 class="home-section-headline display-1">Latest trades</h2>
 
-    <v-carousel v-if="featuredProducts" class="featured-products" hide-controls hide-delimiters>
+    <!-- <v-carousel v-if="featuredProducts" class="featured-products" hide-controls hide-delimiters>
       <v-carousel-item v-for="(product, idx) in featuredProducts" :src="product.imgs[0]" :key="idx">
         <div class="curr-product-details">
           <h3 class="curr-product-title">{{product.title}}</h3>
           <h4 class="curr-product-desc">{{product.desc.substr(0, 70)}}<span v-if="product.desc.length > 70">...</span></h4>
         </div>
+      </v-carousel-item>
+    </v-carousel> -->
+
+    <v-carousel class="featured-products" hide-controls hide-delimiters>
+      <v-carousel-item v-for="(product, idx) in recentTrades" :src="product.img" :key="idx">
       </v-carousel-item>
     </v-carousel>
 
@@ -54,11 +59,11 @@ export default {
     }
   },
   created() {
-    const sortBy = { viewCount: -1 };
-    ProductService.query({}, {}, undefined, sortBy, 3).then(products => {
-      products;
-      this.featuredProducts = products;
-    });
+    // const sortBy = { viewCount: -1 };
+    // ProductService.query({}, {}, undefined, sortBy, 3).then(products => {
+    //   products;
+    //   this.featuredProducts = products;
+    // });
   },
   data() {
     return {
@@ -76,7 +81,18 @@ export default {
           txt: 'unique community'
         }
       ],
-      featuredProducts: null
+      featuredProducts: null,
+      recentTrades: [
+        {
+        img: "../imgs/carousel/slide1.jpg"
+      },
+        {
+        img: "../imgs/carousel/slide2.jpg"
+      },
+        {
+        img: "../imgs/carousel/slide3.jpg"
+      },
+      ]
     };
   },
   components: {
