@@ -21,7 +21,7 @@ function query() {
 
 function add(userData) {
   return new Promise((resolve, reject) => {
-
+    console.log({ userData });
     DBService.dbConnect().then(db => {
 
       _validateDetails(userData, db).then(isValidObj => {
@@ -54,34 +54,33 @@ function add(userData) {
 
   function _validateDetails(userData, db) {
     return new Promise((resolve, reject) => {
+      const isValidObj = { valid: true, txt: null };
 
-      const isValidObj = { valid: true, txt: null }
-
-      db.collection(DBService.COLLECTIONS.USER).findOne(
-        { email: userData.email }, (err, user) => {
-          if (err) reject()
+      db
+        .collection(DBService.COLLECTIONS.USER)
+        .findOne({ email: userData.email }, (err, user) => {
+          if (err) reject();
           else if (user) {
             isValidObj.valid = false;
-            isValidObj.txt = 'this email already exists'
+            isValidObj.txt = 'this email already exists';
             resolve(isValidObj);
-          }
-          else {
-            db.collection(DBService.COLLECTIONS.USER).findOne(
-              { nickName: userData.nickName }, (err, user) => {
-                if (err) reject()
+          } else {
+            db
+              .collection(DBService.COLLECTIONS.USER)
+              .findOne({ nickName: userData.nickName }, (err, user) => {
+                if (err) reject();
                 else if (user) {
                   isValidObj.valid = false;
-                  isValidObj.txt = 'this nick name already exists'
+                  isValidObj.txt = 'this nick name already exists';
                   resolve(isValidObj);
                 } else {
-                  resolve(isValidObj)
+                  resolve(isValidObj);
                 }
-              })
+              });
           }
-        })
-    })
+        });
+    });
   }
-
 }
 
 function remove(userId) {
@@ -102,7 +101,6 @@ function remove(userId) {
 
 function getById(userId, colsToGet) {
   userId = new mongo.ObjectID(userId);
-
 
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
@@ -141,35 +139,32 @@ function addReview(review) {
     const userId = new mongo.ObjectID(review.getterId);
     const senderId = new mongo.ObjectID(review.details.senderId);
     DBService.dbConnect().then(db => {
-      console.log('yalla')
-      db.collection(DBService.COLLECTIONS.USER)
+      console.log('yalla');
+      db
+        .collection(DBService.COLLECTIONS.USER)
         .findOne({ _id: senderId })
         .then(sender => {
-          review.details.senderImg = sender.img
-          console.log('senderIMG', sender.img)
-          db
-            .collection(DBService.COLLECTIONS.USER)
-            .updateOne(
-              { _id: userId },
-              {
-                $push: {
-                  reviews: review.details
-                }
-              },
-              (err, res) => {
-                console.log ('review' , review.details);
-                console.log ('res' , res)
-                if (err) {
-                  reject(err);
-                  console.log ('err' , err)
-                }
-                else resolve();
-                db.close();
-              })
-        })
-      
-    })
-   
+          review.details.senderImg = sender.img;
+          console.log('senderIMG', sender.img);
+          db.collection(DBService.COLLECTIONS.USER).updateOne(
+            { _id: userId },
+            {
+              $push: {
+                reviews: review.details
+              }
+            },
+            (err, res) => {
+              console.log('review', review.details);
+              console.log('res', res);
+              if (err) {
+                reject(err);
+                console.log('err', err);
+              } else resolve();
+              db.close();
+            }
+          );
+        });
+    });
   });
 }
 

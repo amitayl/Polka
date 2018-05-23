@@ -24,13 +24,26 @@ function add(product) {
 function getProductById(productId) {
   return axios.get(BASE_URL + '/productDetails/' + productId).then(res => {
     let product = res.data.product;
+    const owner = res.data.owner;
     
+    let avgReviewRating = null;
+    console.log('getting product by id', owner.reviews.length);
+    if (owner.reviews.length > 0) {
+      const sumReviewRating = owner.reviews.reduce((accumulator, review) => {
+        console.log({review});
+        return accumulator += review.rating;
+      }, 0)
+      avgReviewRating = sumReviewRating / owner.reviews.length
+    }
+
     product.owner = {
-      img: res.data.owner.img,
-      _id: res.data.owner._id,
-      nickName: res.data.owner.nickName,
-      desc: res.data.owner.desc,
-      loc: res.data.owner.loc
+      img: owner.img,
+      _id: owner._id,
+      nickName: owner.nickName,
+      desc: owner.desc,
+      loc: owner.loc,
+      desiredCategories: owner.desiredCategories,
+      avgReviewRating
     }
 
     return product;

@@ -1,8 +1,22 @@
 <template>
-  <section class="browse-products pt-4">
+  <section 
+    class="browse-products pt-4 pb-4"
+    :class="{'flex': !products, 'flex-center': !products}">
     <!-- <categories-sub-nav></categories-sub-nav> -->
     <!-- <product-sort></product-sort> -->
-    <product-list @emitSelected="routeDetails" v-if="products" :products="products"></product-list>
+    
+    <product-list 
+      v-if="products" 
+      :products="products"
+      @emitSelected="routeDetails">
+    </product-list>
+
+    <img 
+      v-else
+      class="loading-gif" 
+      src="@/assets/gifs/loading3.gif" 
+      alt="indigo gif"/>
+      
   </section>
 </template>
 
@@ -42,3 +56,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.browse-products {
+  min-height: calc(100vh - 88px);
+}
+.browse-products .loading-gif {
+  height: 70px;
+  width: 70px;
+}
+</style>

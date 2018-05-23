@@ -1,12 +1,15 @@
 <template>
   <section class="app">
+
     <user-msg></user-msg>
 
     <header>
-      <app-header 
-        :isMobile="isMobile"
-        @toggleSideMenu="showSideMenu = !showSideMenu">
-      </app-header>
+      <transition name="fade" mode="out-in">
+        <app-header 
+          :isMobile="isMobile"
+          @toggleSideMenu="showSideMenu = !showSideMenu">
+        </app-header>
+      </transition>
     </header>
 
     <transition name="slide-left">
@@ -24,8 +27,12 @@
         v-if="isMobile && showSideMenu" 
         class="dark-overlay">
       </div>
-      <router-view/>
+      
+      <transition name="fade" mode="out-in">
+        <router-view :isMobile="isMobile"/>
+      </transition>
     </main>
+
   </section>
 </template>
 
@@ -98,6 +105,9 @@ export default {
 }
 main {
   min-height: 100vh;
+}
+main section {
+  min-height: calc(100vh - 88px) 
 }
 .dark-overlay {
   position: absolute;

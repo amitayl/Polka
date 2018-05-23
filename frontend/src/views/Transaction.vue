@@ -30,20 +30,29 @@
       </v-btn>
     </div>
 
-    <modal v-show="showModal" @hideModal="showModal = false">          
+    <modal 
+      v-show="showModal" 
+      @hideModal="showModal = false">          
+      
       <v-card>
         <div class="layout-card">
-          <div class="title-star">Please choose a rating from 1-5 for you trade partner</div>
-          <star-rating v-bind:star-size="30"  @rating-selected ="setRating" ></star-rating>
+          <div class="title-star">
+            Please choose a rating from 1-5 for you trade partner
+          </div>
+
+          <star-rating 
+            :star-size="30"  
+            @rating-selected = "setRating">
+          </star-rating>
 
           <v-container fluid>
             <v-layout row>
               <v-flex xs12>
                 <v-text-field
                   v-model = "review.details.txt"
-                  label=
+                  label =
                     "Please tell us about your 
-                    experience with your trade partner"
+                     experience with your trade partner"
                   textarea
                 ></v-text-field>
               </v-flex>
@@ -51,9 +60,13 @@
           </v-container>
 
           <v-card-actions>
-            <v-btn color="teal darken-1" flat 
+            <v-btn 
+              flat
+              color="teal darken-1"
               @click.native="showModal = false">Close</v-btn>
-            <v-btn color="teal darken-1" flat data-dismiss="modal" 
+            <v-btn 
+              flat
+              color="teal darken-1"
               @click.native="showModal = false ,submitReview()">Save</v-btn>
           </v-card-actions>
         </div>
@@ -138,8 +151,9 @@ export default {
   width: 80%;
 }
 .user-card-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
 }
 .btn-container {
   position: fixed;
@@ -147,7 +161,7 @@ export default {
   bottom: 0;
   width: 100%;
   padding: 20px;
-  background-color: rgba(0,0,0,.2);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .btn {
   margin: 0;
@@ -156,11 +170,7 @@ export default {
 }
 @media (min-width: 750px) {
   .user-card-container {
-    flex-direction: initial;
-    justify-content: space-between;
-  }
-  .user-card-container .transaction-user-card {
-    width: 48%;
+    grid-template-columns: 1fr 1fr;
   }
   .btn-container {
     width: initial;

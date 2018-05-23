@@ -49,6 +49,14 @@
       ></v-text-field>
 
       <get-place @selectedPlace="setPlace($event)"></get-place>
+
+      <h2 class="categories-picker-title subheading mb-2">
+        What kind of items you like?
+      </h2>
+
+      <categories-picker 
+        @selectedCategories="setSelectedCategories($event)">
+      </categories-picker>
       
       <div class="flex">
         <v-spacer></v-spacer>
@@ -61,8 +69,9 @@
 
 <script>
 import GetPlace from '@/cmps/LoginRegister/GetPlace';
-import { USER_ACTIONS } from '@/store/UserStore.js';
 import UploadImg from '@/cmps/product-upload/UploadImg';
+import CategoriesPicker from '@/cmps/general/CategoriesPicker.vue';
+import { USER_ACTIONS } from '@/store/UserStore.js';
 import EventBusService, { EVENTS } from '@/services/EventBusService';
 
 export default {
@@ -83,7 +92,8 @@ export default {
         img: 'https://bit.ly/2rlMMSN',
         nickName: 'John',
         desc: 'I am just a regular everyday normal guy (or girl)',
-        loc: null
+        loc: null,
+        desiredCategories: null
       }
     };
   },
@@ -91,13 +101,15 @@ export default {
     addUser() {
       const userData = this.userData;
 
-      const isUserFormFilled = userData.email && 
-                               userData.password &&
-                               userData.confirmPassword &&
-                               userData.img && userData.img !== 'https://bit.ly/2rlMMSN';
-                               userData.nickName &&
-                               userData.desc &&
-                               userData.loc
+      const isUserFormFilled = 
+        userData.email && 
+        userData.password &&
+        userData.confirmPassword &&
+        userData.img && userData.img !== 'https://bit.ly/2rlMMSN';
+        userData.nickName &&
+        userData.desc &&
+        userData.loc &&
+        userData.desiredCategories && userData.desiredCategories.length > 0;
 
       if (!isUserFormFilled) {
         EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
@@ -132,11 +144,15 @@ export default {
     },
     setPlace(loc) {
       this.userData.loc = loc;
+    },
+    setSelectedCategories(categories) {
+      this.userData.desiredCategories = categories;
     }
   },
   components: {
     UploadImg,
-    GetPlace
+    GetPlace,
+    CategoriesPicker
   }
 };
 </script>
@@ -151,7 +167,9 @@ img {
 }
 .user-img {
   margin: 10px;
-  /* border:1px solid rgb(184, 218, 184); */
+  text-align: left;
+}
+.categories-picker-title {
   text-align: left;
 }
 </style>

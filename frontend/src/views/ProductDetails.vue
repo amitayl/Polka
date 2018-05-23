@@ -1,85 +1,128 @@
 <template>
-  <section class="product-details" v-if="product">
-    <v-carousel class="product-imgs" hide-controls :hide-delimiters="product.imgs.length === 1">
-      <v-carousel-item v-for="(img ,idx) in product.imgs" :src="img" :key="idx"></v-carousel-item>
-    </v-carousel>
-      
-    <div class="non-part-imgs">
-      <div class="product-desc-container">
+  <section 
+    class="product-details"
+    :class="{'flex': !product, 'flex-center': !product}">
 
-        <template v-if="editMode">
-          <v-form>
-            <v-text-field
-              v-model="product.title"
-              label="Title"
-              autofocus
-            ></v-text-field>
+    <template v-if="product">
+      <v-carousel 
+        class="product-imgs" 
+        hide-controls 
+        :hide-delimiters="product.imgs.length === 1">
 
-            <v-text-field
-              v-model="product.desc"
-              textarea
-              label="Description"
-            ></v-text-field>
-          </v-form>
-        </template>
+        <v-carousel-item 
+          v-for="(img ,idx) in product.imgs" 
+          :src="img" 
+          :key="idx">
+        </v-carousel-item>
+      </v-carousel>
+        
+      <div class="non-part-imgs">
+        <div class="product-desc-container">
 
-        <template v-else>
-          <h1 class="display-1 mb-2">{{product.title}}</h1>
-          <h4 class="title mb-4">{{product.desc}}</h4> 
-        </template>
+          <template v-if="editMode">
+            <v-form>
+              <v-text-field
+                v-model="product.title"
+                label="Title"
+                autofocus
+              ></v-text-field>
 
-        <h4 class="title">
-          <v-icon :size="40">location_on</v-icon>  
-          {{product.owner.loc.name}}
-        </h4>
-      </div>
+              <v-text-field
+                v-model="product.desc"
+                textarea
+                label="Description"
+              ></v-text-field>
+            </v-form>
+          </template>
 
-      <hr class="mt-4 mb-4"/>
+          <template v-else>
+            <h1 class="display-1 mb-2">{{product.title}}</h1>
+            <h4 class="title mb-4">{{product.desc}}</h4> 
+          </template>
 
-      <div class="owner-desc-container">
-        <div class="owner-profile-name-container flex align-center mb-2">
-          <router-link :to="'/profile/'+product.owner._id">
-
-            <div :style="{ 'backgroundImage': `url(${product.owner.img})` }">
-            </div>
-
-          </router-link>
-          <h2 class="user-name title ml-2">{{product.owner.nickName}}</h2>
+          <h4 class="title">
+            <v-icon :size="40">location_on</v-icon>  
+            {{product.owner.loc.name}}
+          </h4>
         </div>
-        <h3 class="title">{{product.owner.desc}}</h3>
+
+        <hr class="mt-4 mb-4"/>
+
+        <div class="owner-desc-container">
+          <div class="owner-profile-name-container flex align-center mb-2">
+            <router-link :to="'/profile/'+product.owner._id">
+
+              <div 
+                class="user-icon" 
+                :style="{ 'backgroundImage': `url(${product.owner.img})` }">
+              </div>
+
+            </router-link>
+            <h2 class="user-name title ml-2 mr-3">{{product.owner.nickName}}</h2>
+
+            <star-rating 
+              v-if="product.owner.avgReviewRating"
+              :rating="product.owner.avgReviewRating"
+              :show-rating="false" 
+              :star-size="25" 
+              read-only>
+            </star-rating>
+          </div>
+          <h3 class="title mb-3">{{product.owner.desc}}</h3>
+
+          <hr class="mt-4 mb-4"/>
+
+          <h3 class="title mb-1">Things I like:</h3>
+          <categories-picker 
+            :display="product.owner.desiredCategories"
+            :small="true">
+          </categories-picker>
+          
+        </div>
+
+      </div>
+      
+      <div class="btn-container">
+
+        <v-btn 
+          v-if="!loggedInUser" 
+          color="indigo lighten-3"
+          @click.native="showModal = true">
+          Login to bid
+        </v-btn>
+
+        <v-btn 
+          v-else-if="!isViewerAlsoOwner" 
+          color="indigo lighten-3"
+          @click="toBid()"> 
+          Bid Now
+        </v-btn>
+
+        <v-btn 
+          v-else-if="!editMode" 
+          color="indigo lighten-3"
+          @click.native="editMode= true">
+          edit
+        </v-btn>
+
+        <v-btn 
+          v-else 
+          color="indigo lighten-3"
+          @click.native="updateProductDetails()">
+          save
+        </v-btn>
       </div>
 
-    </div>
-    
-    <div class="btn-container">
-      <v-btn v-if="!loggedInUser" 
-             color="amber lighten-3"
-             @click.native="showModal = true">
-              Login to bid
-      </v-btn>
-      <v-btn 
-        v-else-if="!isViewerAlsoOwner" 
-        color="amber lighten-3"
-        @click="toBid()"> 
-        Bid Now
-      </v-btn>
-      <v-btn 
-        v-else-if="!editMode" 
-        color="amber lighten-3"
-        @click.native="editMode= true">
-        edit
-      </v-btn>
-      <v-btn 
-        v-else 
-        color="amber lighten-3"
-        @click.native="updateProductDetails()">
-        save
-      </v-btn>
-    </div>
+      <modal v-show="showModal" @hideModal="showModal = false">
+        <login></login>
+      </modal>
+    </template>
 
-    <modal v-show="showModal" @hideModal="showModal = false">
-      <login></login>
-    </modal>
+    <img 
+      v-else
+      class="loading-gif" 
+      src="@/assets/gifs/loading3.gif" 
+      alt="indigo gif"/>
 
   </section>
 </template>
@@ -91,6 +134,8 @@ import BidService from '@/services/BidService.js';
 import EventBusService, { EVENTS } from '@/services/EventBusService.js';
 import Modal from '@/cmps/general/Modal.vue';
 import Login from '@/cmps/LoginRegister/Login.vue';
+import CategoriesPicker from '@/cmps/general/CategoriesPicker.vue';
+import StarRating from 'vue-star-rating';
 
 export default {
   created() {
@@ -151,7 +196,7 @@ export default {
   },
   watch: {
     loggedInUser() {
-      if (this.loggedInUser) {
+      if (this.loggedInUser && this.product) {
         this.showModal = false;
         this.isViewerAlsoOwner = this.product.owner._id === this.loggedInUser._id;
       }
@@ -159,7 +204,9 @@ export default {
   },
   components: {
     Modal,
-    Login
+    Login,
+    CategoriesPicker,
+    StarRating
   }
 };
 </script>
@@ -194,6 +241,9 @@ export default {
 .user-name {
   text-transform: capitalize;
 }
+.categories-picker {
+  justify-content: flex-start;
+}
 .btn-container {
   position: fixed;
   bottom: 0;
@@ -205,6 +255,10 @@ export default {
   margin: 0;
   width: 100%;
   background: white;
+}
+.product-details .loading-gif {
+  height: 70px;
+  width: 70px;
 }
 @media (min-width: 750px) {
   .product-details {
@@ -226,5 +280,4 @@ export default {
     bottom: 20px;
   }
 }
-
 </style>

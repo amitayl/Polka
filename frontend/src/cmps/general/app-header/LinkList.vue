@@ -2,47 +2,47 @@
   <section class="link-list">
     <template v-if="loggedInUser">
 
-      <template v-if="isMobile">
-        <v-btn flat @click="logout()">logout</v-btn>
-      </template>
+        <template v-if="isMobile">
+          <v-btn flat @click="logout()">logout</v-btn>
+        </template>
 
-      <v-btn flat @click="moveTo('upload')">upload</v-btn>
-      
-      <div :class="{'messages-container': isMobile}">
-        <v-btn flat @click="toggleNotifications()">
-          messages 
-        <span 
-          class="new-notifications" 
-          :class="{ pulse: largeNotificationBadge }" 
-          v-if="newNotificationCount">
-          {{newNotificationCount}}
-        </span>
-        </v-btn>
+        <v-btn flat @click="moveTo('upload')">upload</v-btn>
+        
+        <div :class="{'messages-container': isMobile}">
+          <v-btn flat @click="toggleNotifications()">
+            messages 
+          <span 
+            class="new-notifications" 
+            :class="{ pulse: largeNotificationBadge }" 
+            v-if="newNotificationCount">
+            {{newNotificationCount}}
+          </span>
+          </v-btn>
 
-        <notifications 
-          v-show="showNotifications" 
-          :notifications="notifications"
-          @deleteNotification="deleteNotification($event)"
-          @removeNotificationFromUi="removeNotificationFromUi($event)">
-        </notifications>
-      </div>
-
-      <div 
-        class="flex align-center relative"
-        :class="{'margin-left': !isMobile}">
-        <div 
-          v-if="isMobile"
-          class="mobile-user-info" 
-          @click="moveTo('profile/'+loggedInUser._id)">
-          <div class="flex">
-            <div 
-              class="user-menu-icon" 
-              :style="{ 'backgroundImage': `url(${loggedInUser.img})` }">
-            </div>
-            <b class="headline ml-4 flex align-center capitalize">{{loggedInUser.nickName}}</b>
-          </div>
+          <notifications 
+            v-show="showNotifications" 
+            :notifications="notifications"
+            @deleteNotification="deleteNotification($event)"
+            @removeNotificationFromUi="removeNotificationFromUi($event)">
+          </notifications>
         </div>
 
+        <div 
+          class="flex align-center relative"
+          :class="{'margin-left': !isMobile}">
+          <div 
+            v-if="isMobile"
+            class="mobile-user-info" 
+            @click="moveTo('profile/'+loggedInUser._id)">
+            <div class="flex">
+              <div 
+                class="user-menu-icon" 
+                :style="{ 'backgroundImage': `url(${loggedInUser.img})` }">
+              </div>
+              <b class="headline ml-4 flex align-center capitalize">{{loggedInUser.nickName}}</b>
+            </div>
+          </div>
+    
         <template v-else>
           <div 
             class="user-menu-icon" 

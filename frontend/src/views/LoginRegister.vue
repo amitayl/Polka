@@ -6,7 +6,7 @@
       fixed-tabs 
       grow 
       color="teal lighten-3"
-      slider-color="amber lighten-4">
+      slider-color="indigo lighten-4">
 
     <v-tab @click="showRegiser(false)">
       Login

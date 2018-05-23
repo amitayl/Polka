@@ -1,12 +1,19 @@
 <template>
-  <section class="bid-container container">
+  <section 
+    class="bid-container mt-3 ms-5">
+
+    <h1 class="my-products-headline display-1 mb-2">My Products</h1>
+    <hr class="deal-underline mb-4"/>
 
     <section 
       class="logged-in-user-products mb-3" 
       v-if="cardsAlreadyBidded.length > 0">
 
-      <v-layout v-for="(loggedInUserProduct, idx) in loggedInUserProducts" 
-                :key="idx" class="elevation-2">
+      <v-layout 
+        v-for="(loggedInUserProduct, idx) 
+        in loggedInUserProducts" 
+        :key="idx" class="elevation-2">
+
         <v-flex>
 
           <v-card width="100%" @click.native="selectProduct(idx)"
@@ -25,6 +32,12 @@
       </v-layout>
     </section>
     
+    <img 
+      v-else
+      class="loading-gif" 
+      src="@/assets/gifs/loading3.gif" 
+      alt="indigo gif"/>
+
     <template v-if="loggedInUserProducts === false">
       <h2>you have no products, please upload some</h2>
       <router-link to="/upload">upload new product</router-link>
@@ -33,7 +46,7 @@
     <div class="btn-container">
       <v-btn 
         @click="bidProduct()" 
-        :color="selectedProductIdx !== null? 'amber lighten-3' : 'grey lighten-2' "
+        :color="selectedProductIdx !== null? 'indigo lighten-3' : 'grey lighten-2' "
         :disabled="selectedProductIdx === null || isSelectedProductBidded">
           {{sendBidTxt}}
       </v-btn>
@@ -168,6 +181,10 @@ export default {
   box-shadow: none;
 }
 
+.my-products-headline {
+  text-align: left;
+}
+
 .icon.done {
   position: absolute;
   z-index: 1;
@@ -192,6 +209,20 @@ export default {
 .btn {
   margin: 0;
   width: 100%;
+}
+
+.deal-underline {
+  border: 2px solid lightgray;
+  width: 80%;
+}
+
+.bid-container .loading-gif {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 70px;
+  width: 70px;
 }
 
 @media (min-width: 750px) {

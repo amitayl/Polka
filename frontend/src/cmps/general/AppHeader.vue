@@ -1,5 +1,5 @@
 <template>
-  <section v-show="!isHome" class="app-header">
+  <section v-if="!isHome" class="app-header">
     <v-toolbar :height="64" fixed color="white">
           
       <template v-if="isMobile">
@@ -48,10 +48,11 @@
 
 
       <template v-if="!isMobile">
-        <div class="hover-pointer-container">
+        <div 
+          class="hover-pointer-container" 
+          @click="moveTo('')">
           <i class="far fa-handshake logo-icon"></i> 
           <v-toolbar-title 
-            @click="moveTo('')" 
             class="display-1 logo"
             fixed>
               Polka
@@ -169,9 +170,6 @@ export default {
 }
 .search-form .search-form-form button[type='submit'] {
   min-width: 64px;
-}
-.search-form .search-form-form .search-form-category {
-  width: 64px;
 }
 @media (min-width: 900px) {
   .search-form,

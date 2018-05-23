@@ -57,7 +57,7 @@
       fixed
       bottom
       right
-      color="amber darken-3">
+      color="indigo lighten-1">
       
       <transition name="fade-transition">
         <v-icon v-if="isEditMode" color="white">

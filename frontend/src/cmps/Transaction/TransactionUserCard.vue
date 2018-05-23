@@ -1,7 +1,8 @@
 <template>
-  <section class="transaction-user-card mb-4">
+  <section class="transaction-user-card">
     <v-card 
       color="white" 
+      height="100%"
       class="elevation-4 pa-3">
 
       <div class="flex align-center mb-3">

@@ -1,14 +1,28 @@
 <template>
     <section class="search-form flex align-center">
       <form class="search-form-form" @submit.prevent="searchProducts()">
-        <select class="search-form-category" v-model="selectedCategory" @change="searchProducts()" @focus="selectedCategory=null">
-          <option v-for="category in categories" 
-                  :key="category.title" :value="category.value">{{category.title}}</option>
+
+        <select 
+          v-if="!hideCategories"
+          class="search-form-category" 
+          v-model="selectedCategory" 
+          @change="searchProducts()">
+
+          <option 
+            v-for="category in categories" 
+            :key="category.title" 
+            :value="category.value">
+            {{category.title.substr(0,1).toUpperCase() 
+            + category.title.substr(1)}}
+          </option>
+          
         </select>
+        
         <input v-model="searchStr"
                 ref="search"
                 type="search" 
-                class="search" 
+                class="search"
+                :class="{'border-radius-left': hideCategories}"
                 placeholder="Lets trade"/>
         <button v-if="!isMobile" type="submit"><v-icon class="search-icon">search</v-icon></button> 
         <v-icon 
@@ -26,8 +40,11 @@ import { PRODUCT_ACTIONS, PRODUCT_MUTATIONS } from '@/store/ProductStore.js';
 export default {
   props: {
     isMobile: {
+      type: Boolean
+    },
+    hideCategories: {
       type: Boolean,
-      required: true
+      default: false
     }
   },
   data() {
@@ -111,14 +128,23 @@ form {
   border-radius: 20px;
 }
 .search-form-category {
-  width: 100px;
-  padding: 0 10px;
-  border: 1px solid lightgray;
+  position: relative;
+  border: thin solid lightgray;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
+  padding: 0.5em 3.5em 0.5em 1em;
 }
 .search-form-category:hover {
   cursor: pointer;
+}
+.search-form-category {
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
 }
 .search {
   height: 100%;
@@ -145,5 +171,9 @@ button[type='submit'] {
 }
 .close-icon:hover {
   cursor: pointer;
+}
+.border-radius-left {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 </style>

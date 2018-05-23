@@ -5,7 +5,7 @@
         <h2 class="page-headline">Selling takes Time.</h2>
         <p class="page-ampersant">&</p>
         <h3 class="page-subtitle">who's got time for that ?</h3>
-        <search-form :isMobile="isMobile"></search-form>
+        <search-form :hideCategories="true"></search-form>
       </div>
     </section>
 

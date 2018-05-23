@@ -25,7 +25,7 @@
 
       <div class="flex">
         <v-spacer></v-spacer>
-        <v-btn type="submit" color="amber lighten-3">upload</v-btn>
+        <v-btn type="submit" color="indigo lighten-3">upload</v-btn>
       </div>
 
     </v-form>

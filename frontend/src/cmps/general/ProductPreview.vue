@@ -29,23 +29,23 @@
               <v-btn 
                 v-if="!loggedInUser" 
                 depressed
-                color="amber lighten-4">
-                more details
+                color="indigo lighten-3">
+                details
               </v-btn>
 
               <v-btn 
                 v-else-if="!isLoggedInUserProduct(product.ownerId)" 
                 @click.stop="moveTo('/bid/'+product._id)" 
                 depressed
-                color="amber lighten-4">
-                bid now
+                color="indigo lighten-3">
+                bid
               </v-btn>
 
               <v-btn 
                 v-else 
                 depressed
-                color="amber lighten-4">
-                edit now
+                color="indigo lighten-3">
+                edit
               </v-btn>        
 
             </v-card-actions>
@@ -113,7 +113,6 @@ export default {
   align-items: center;
   margin-bottom: 10px;
 }
-
 .product-preview img {
   width: 100%;
   height: 200px;
@@ -127,14 +126,17 @@ export default {
   margin-bottom: 10px;
 }
 .title {
-  height: 41px;
+  height: 40px;
   margin-right: 10px;
   overflow: hidden;
 }
 .desc {
-  max-height: 50px;
+  max-height: 49px;
   overflow: hidden;
   margin-bottom: 0;
+}
+span {
+  text-align: right;
 }
 /* overriding vue */
 .card__title {
@@ -142,5 +144,9 @@ export default {
 }
 .card__actions {
   padding: 12px 8px;
+}
+.btn {
+  color: white;
+  font-weight: bold;
 }
 </style>
