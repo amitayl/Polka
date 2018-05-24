@@ -2,6 +2,12 @@
     <section class="transaction-list elevation-4">
         <transaction-preview v-if="transactions" v-for="(transaction, idx) in transactions" 
                              :transaction="transaction" :key="idx"></transaction-preview>
+        <p 
+            v-if="!transactions || transactions.length === 0"
+            class="flex flex-center title pa-4"
+            >
+            no deals yet
+        </p>
     </section>
 </template>
 

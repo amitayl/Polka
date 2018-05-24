@@ -28,8 +28,6 @@ export default {
   },
   methods: {
     acceptBid() {
-      // this.$emit('emitSelected');
-      console.log(this.offer);
       BidService.acceptBid(this.offer)
         .then(transactionId => {
           this.$router.push('/transaction/' + transactionId);

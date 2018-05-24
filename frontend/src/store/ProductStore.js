@@ -89,10 +89,10 @@ export default {
     [PRODUCT_ACTIONS.ADD_PRODUCT](ctx, { product }) {
       return new Promise((resolve, reject) => {
         ProductService.add(product)
-          .then(addedProduct => {
+          .then(addedProductId => {
             ctx.commit(
               USER_MUTATIONS.PUSH_PRODUCT_ID,
-              { productId: addedProduct._id },
+              { productId: addedProductId },
               { root: true }
             );
             resolve();

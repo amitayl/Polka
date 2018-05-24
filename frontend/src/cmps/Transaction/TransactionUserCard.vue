@@ -13,7 +13,9 @@
         <div class="title">{{user.nickName}}</div>
       </div>
 
-      <div class="flex">
+      <a :href="'https://mail.google.com/mail/?view=cm&fs=1&to='+user.email" class="title">{{user.email}}</a>
+
+      <div class="flex mt-3">
         <div 
           class="product mr-3" 
           :style="{'backgroundImage': `url(${user.prodImg})`}">

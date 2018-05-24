@@ -50,8 +50,6 @@ export default {
         this.detailsBids = productOffersObj.bids;
         if (this.detailsBids)
           this.offers = productOffersObj.bids.map(bid => bid.bidderProd);
-          console.log({detailsBids: this.detailsBids, productOffersObj: this.productOffersObj
-          , product: this.product, offers: this.offers})
       }
     );
   },

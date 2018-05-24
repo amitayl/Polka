@@ -7,7 +7,7 @@
         centered
         grow
         color="teal lighten-3"
-        slider-color="indigo lighten-4">
+        slider-color="teal">
 
         <v-tab
           v-for="(str, idx) in 

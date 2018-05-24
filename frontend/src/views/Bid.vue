@@ -109,7 +109,6 @@ export default {
     selectProduct(idx) {
       if (this.cardsAlreadyBidded[idx]) return;
       this.selectedProductIdx = idx;
-      console.log(this.selectedProductIdx);
     },
     bidProduct() {
       const owner = { productId: this.biddedProductId };
@@ -203,7 +202,7 @@ export default {
   right: 0;
   left: 0;
   padding: 20px;
-  background-color: rgba(0,0,0,.2);
+  background-color: rgba(0,0,0,.1);
 }
 
 .btn {

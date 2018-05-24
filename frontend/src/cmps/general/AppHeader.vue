@@ -171,6 +171,9 @@ export default {
 .search-form .search-form-form button[type='submit'] {
   min-width: 64px;
 }
+/* .user-menu .btn__content {
+  height: 20px;
+} */
 @media (min-width: 900px) {
   .search-form,
   .search-form .search-form-form {

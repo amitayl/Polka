@@ -242,10 +242,13 @@ export default {
 }
 .user-menu {
   border-radius: 5px;
-  padding: 10px;
 }
-.user-menu li {
-  padding: 5px;
+.user-menu .btn {
+  height: 40px;
+  width: 100%;
+}
+.user-menu li:first-child {
+  padding: 10px 0;
 }
 @media (min-width: 900px) {
   .user-menu-icon:hover {

@@ -23,10 +23,13 @@
       @click="showSideMenu = false"
       class="relative"
       :class="{'padding-top': isHome}">
-      <div 
-        v-if="isMobile && showSideMenu" 
-        class="dark-overlay">
-      </div>
+
+      <transition name="fade">
+        <div 
+          v-if="isMobile && showSideMenu" 
+          class="dark-overlay">
+        </div>
+      </transition>
       
       <transition name="fade" mode="out-in">
         <router-view :isMobile="isMobile"/>

@@ -146,7 +146,7 @@ span {
   padding: 12px 8px;
 }
 .btn {
-  color: white;
-  font-weight: bold;
+  /* color: white; */
+  /* font-weight: bold; */
 }
 </style>

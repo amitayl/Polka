@@ -12,7 +12,6 @@ export default {
     }
   },
   created() {
-    console.log('userffff',this.user);
     BidService.getBids(this.user._id);
   }
 };

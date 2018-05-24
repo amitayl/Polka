@@ -249,7 +249,7 @@ export default {
   bottom: 0;
   width: 100%;
   padding: 20px;
-  background-color: rgba(0,0,0,.2);
+  background-color: rgba(0,0,0,.1);
 }
 .btn {
   margin: 0;
