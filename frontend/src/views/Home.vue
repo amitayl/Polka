@@ -244,6 +244,6 @@ export default {
 footer {
   margin-top: 30px;
   padding: 10px 0;
-  background-color: #4db6ac;
+  background-color: #b3dbd7;
 }
 </style>

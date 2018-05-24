@@ -19,11 +19,6 @@ export default {
       required: true
     }
   },
-  created() {
-    setTimeout(()=>{
-      console.log(this.offers);
-    },1000)
-  },
   methods: {},
   components: {
     OfferPreview

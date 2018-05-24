@@ -27,10 +27,8 @@ function getProductById(productId) {
     const owner = res.data.owner;
     
     let avgReviewRating = null;
-    console.log('getting product by id', owner.reviews.length);
     if (owner.reviews.length > 0) {
       const sumReviewRating = owner.reviews.reduce((accumulator, review) => {
-        console.log({review});
         return accumulator += review.rating;
       }, 0)
       avgReviewRating = sumReviewRating / owner.reviews.length

@@ -1,13 +1,24 @@
 <template>
-  <section class="notifications-container elevation-4">
-    <ul>
-      <li v-if="notifications.length > 0" v-for="(notification, idx) in notifications" :key="idx">
+  <section 
+    class="notifications-container elevation-4"
+    :class="{
+      'flex': notifications && notifications.length === 0,
+      'flex-center': notifications && notifications.length === 0,
+      }">
+
+    <ul v-if="notifications && notifications.length > 0">
+      <li v-for="(notification, idx) in notifications" :key="idx">
         <component :is="notification.type" 
                     :data="notification.bid"
                     @removeNotificationFromUi="$emit('removeNotificationFromUi', idx)"
                     @deleteNotification="$emit('deleteNotification', {idx, notification})"></component>
       </li>
     </ul>  
+
+    <h2 v-else>
+      No Messages yet <br/>
+      Start Trading!
+    </h2>
   </section>
 </template>
 
@@ -42,11 +53,15 @@ export default {
 
 .notifications-container {
   overflow-y: scroll;
-  background: white;
+  background: whitesmoke;
   border-radius: 5px;
   height: 300px;
   width: 100%;
   max-width: 350px;
+}
+
+h2 {
+  line-height: 40px;
 }
 
 @media (min-width: 900px) {

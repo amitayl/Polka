@@ -6,6 +6,7 @@
         :rules="emailRules"
         :counter="10"
         label="Email"
+        type="email"
         autofocus
         required
       ></v-text-field>
@@ -23,7 +24,11 @@
       
       <div class="flex">
         <v-spacer></v-spacer>
-        <v-btn type="submit">login</v-btn>
+        <v-btn 
+          color="indigo lighten-3"
+          type="submit">
+          login
+        </v-btn>
       </div>
     </v-form>
   </section>

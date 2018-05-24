@@ -3,17 +3,18 @@
 
     <div class="flex">
       <div class="product-container">
-        <p class="subheading">{{data.bidder.nickName}} your</p>
-        <img :src="data.owner.product.imgs[0]" class="bid-product" alt="my product">
-        <p class="caption">{{data.owner.product.title}}</p>
+        <img 
+          :src="data.owner.product.imgs[0]" 
+          class="bid-product mb-1" 
+          alt="my product">
+        <p class="caption">{{data.owner.product.title.substr(0, 13).trim()}}</p>
       </div>
 
-      <v-icon :size="50">swap_horiz</v-icon>
+      <v-icon class="color-blue" :size="50">swap_horiz</v-icon>
 
       <div class="product-container">
-        <p class="subheading">for his</p>
-        <img :src="data.bidder.product.imgs[0]" class="bid-product" alt="bidded product">
-        <p class="caption">{{data.bidder.product.title}}</p>
+        <img :src="data.bidder.product.imgs[0]" class="bid-product mb-1" alt="bidded product">
+        <p class="caption">{{data.bidder.product.title.substr(0, 13).trim()}}</p>
       </div>
     </div>
 
@@ -57,14 +58,8 @@ export default {
 
       BidService.acceptBid(this.data)
         .then(transactionId => {
-          this.$router.push('/transaction/'+transactionId);
-          EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
-            title: 'accept failed',
-            desc: 'please try again later',
-            success: false
-          });
+          this.$router.push('/transaction/' + transactionId);
         })
-        
         .catch(() => {
           EventBusService.$emit(EVENTS.RETURN_REMOVED_NOTIFICATION);
 
@@ -76,9 +71,9 @@ export default {
         });
 
       EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
-          title: 'Sending',
-          desc: 'one moment',
-        });
+        title: 'Sending',
+        desc: 'one moment'
+      });
     },
     declineBid() {
       this.$emit('removeNotificationFromUi');
@@ -99,7 +94,8 @@ export default {
 
 <style>
 .new-bid {
-  background-color: rgb(217, 245, 255);
+  /* box-shadow: inset 8px 0 0 rgb(55, 107, 126); */
+  background: white;
 }
 .btn-container {
   display: flex;
@@ -109,6 +105,9 @@ export default {
 }
 .btn-container .btn {
   margin: 0;
+  padding-left: 5px;
+  color: whitesmoke;
+  font-weight: bold;
 }
 .btn-container .btn:last-of-type {
   margin-left: 10px;
@@ -116,13 +115,13 @@ export default {
 .btn-container .btn__content {
   padding: 8px;
 }
-.btn i {
-  width: 10px;
-}
 .accept-btn {
-  background: lightseagreen;
+  background: rgb(139, 214, 153);
 }
 .decline-btn {
-  background: lightcoral;
+  background: rgb(218, 130, 130);
+}
+.color-blue {
+  color:rgb(55, 107, 126); 
 }
 </style>

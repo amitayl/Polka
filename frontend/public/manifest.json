@@ -1,0 +1,16 @@
+{
+    "name": "polka",
+    "short_name": "polka",
+    "start_url": ".",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "lightgray",
+    "theme_color": "#4db6ac",
+    "icons": [
+        {
+            "src": "./imgs/icons/144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ]
+}

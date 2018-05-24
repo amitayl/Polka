@@ -14,6 +14,12 @@
       {{transactionTime}}
     </h2>
 
+    <h2 class="mb-3">
+      <v-icon :size="40">location_on</v-icon>  
+      {{transaction.owner.loc.name}}
+    </h2>
+
+
     <div class="user-card-container">
       <transaction-user-card  
         :user="transaction.owner">
@@ -161,7 +167,7 @@ export default {
   bottom: 0;
   width: 100%;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .btn {
   margin: 0;

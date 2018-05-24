@@ -18,10 +18,22 @@
         required
       ></v-text-field>
   
-      <upload-img :showCounter="true" :showClose="true" 
-                  @uploadImg="addImg" :imgs="product.imgs"></upload-img>
+      <upload-img 
+        class="mb-3"
+        :showCounter="true" 
+        :showClose="true" 
+        @uploadImg="addImg" 
+        :imgs="product.imgs">
+      </upload-img>
 
-      <categories-picker @selectedCategories="setSelectedCategories($event)"></categories-picker>
+      <h2 class="categories-picker-title subheading mb-2">
+        Pick categories relevant to the product
+      </h2>
+
+      <categories-picker 
+        @selectedCategories="setSelectedCategories($event)"
+        class="mb-2">
+      </categories-picker>
 
       <div class="flex">
         <v-spacer></v-spacer>
@@ -86,11 +98,11 @@ export default {
 
       this.$store
         .dispatch({ type: 'addProduct', product: this.product })
-        .then(() => {
+        .then((insertedProductId) => {
           this.$router.push('/browseProducts');
           EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
-            title: 'ever heard of',
-            desc: 'a boy that traded up from a pin to a house?'
+            title: 'product added',
+            desc: 'happy trading'
           });
         })
         .catch(err => ({ err }));
@@ -98,13 +110,16 @@ export default {
       function validateForm(that) {
         const isTxtInputsValid = that.$refs['add-product-form'].validate();
         if (!isTxtInputsValid) {
+
           EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
             title: 'please fill out',
             desc: 'the text inputs in the form',
             success: false
           });
           return false;
+
         } else if (that.product.imgs.length < 1) {
+          
           EventBusService.$emit(EVENTS.DISPLAY_USER_MSG, {
             title: 'please pick',
             desc: 'atleast one product picture',
@@ -155,7 +170,7 @@ img.preview {
   border: 1px solid #ddd;
   padding: 5px;
 }
-.categories-picker {
-  margin: 20px 0 10px;
+.categories-picker-title {
+  text-align: left;
 }
 </style>

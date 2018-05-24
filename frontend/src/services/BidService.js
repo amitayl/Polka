@@ -10,12 +10,10 @@ function sendBid(bidData) {
 }
 
 function acceptBid(bid) {
-  console.log('accepting');
   return axios.post(`${BASE_URL}/accept`, bid).then(res => res.data);
 }
 
 function declineBid(bid) {
-  console.log('declining');
   return axios.post(`${BASE_URL}/decline`, bid);
 }
 
@@ -27,7 +25,6 @@ function isExists(ownerProductId, bidderProductId) {
     .then(res => res.data);
 }
 function getBids(userId) {
-  console.log ('userId' , userId )
   return axios
     .get(`${BASE_URL}/bids`, {
       params: {userId}

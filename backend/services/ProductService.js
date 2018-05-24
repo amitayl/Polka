@@ -103,7 +103,7 @@ function add(product) {
                 { $push: { productIds: addedProductId } },
                 (err, res) => {
                   if (err) reject(err);
-                  else resolve(res);
+                  else resolve(addedProduct._id);
                 }
               );
           }
@@ -129,6 +129,7 @@ function getById(productId, colsToGet) {
 }
 
 function getByIds(productIds) {
+  console.log(productIds);
   const mongoQuery = { $or: [] };
   mongoQuery.$or = productIds.map(productId => {
     productId = new mongo.ObjectID(productId);

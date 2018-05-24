@@ -2,20 +2,23 @@
   <section class="bid declined-bid">
 
     <div class="product-container">
-        <p class="body-1">{{data.owner.nickName}} refused your</p>
-        <img class="bid-product" :src="data.bidder.product.imgs[0]">
-        <p class="caption">{{data.bidder.product.title}}</p>
+      <img class="bid-product mb-1" :src="data.bidder.product.imgs[0]">
+      <p class="caption">
+        {{data.bidder.product.title.substr(0, 13).trim()}}
+      </p>
     </div>
 
-    <v-icon :size="50">block</v-icon>
+    <div class="color-red">
+      <i class="fas fa-ban fa-3x"></i>
+    </div>
 
     <div class="product-container">
-        <p class="body-1">for his</p>
-        <img class="bid-product" :src="data.owner.product.imgs[0]">
-        <p class="caption">{{data.owner.product.title}}</p>
+      <img class="bid-product mb-1" :src="data.owner.product.imgs[0]">
+      <p class="caption">
+        {{data.owner.product.title.substr(0, 13).trim()}}
+      </p>
     </div>
 
-    <v-icon color="white" :size="20" class="close-btn" @click="$emit('deleteNotification')">close</v-icon>
   </section>
 </template>
 
@@ -35,8 +38,11 @@ export default {
 <style>
 .declined-bid {
   flex-direction: row;
-  padding-top: 35px;
   align-items: center;
-  background-color: rgb(255, 240, 240);
+  box-shadow: inset 8px 0 0 rgb(214, 73, 73);
+  background: white;
+}
+.color-red {
+  color: rgb(214, 73, 73);
 }
 </style>

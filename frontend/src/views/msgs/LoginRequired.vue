@@ -1,5 +1,12 @@
 <template>
-  <section class="login-required display-1">
-      YOU MUST <router-link to="/login">LOGIN</router-link> TO DO THIS
+  <section class="login-required flex flex-center display-3">
+    You must <router-link to="/login" class="ml-3 mr-3"> login</router-link> to enter this section
   </section>
 </template>
+
+<style scoped>
+  section {
+    color: darkslategray;
+    letter-spacing: 10px;
+  }
+</style>

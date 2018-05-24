@@ -3,7 +3,6 @@ const mongo = require('mongodb');
 const { emitGetNotifications } = require('../SocketService.js');
 
 function accept(bid) {
-  console.log({bid});
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
       const bidId = new mongo.ObjectID(bid._id);

@@ -21,7 +21,6 @@ function query() {
 
 function add(userData) {
   return new Promise((resolve, reject) => {
-    console.log({ userData });
     DBService.dbConnect().then(db => {
 
       _validateDetails(userData, db).then(isValidObj => {
@@ -139,13 +138,11 @@ function addReview(review) {
     const userId = new mongo.ObjectID(review.getterId);
     const senderId = new mongo.ObjectID(review.details.senderId);
     DBService.dbConnect().then(db => {
-      console.log('yalla');
       db
         .collection(DBService.COLLECTIONS.USER)
         .findOne({ _id: senderId })
         .then(sender => {
           review.details.senderImg = sender.img;
-          console.log('senderIMG', sender.img);
           db.collection(DBService.COLLECTIONS.USER).updateOne(
             { _id: userId },
             {
@@ -154,11 +151,8 @@ function addReview(review) {
               }
             },
             (err, res) => {
-              console.log('review', review.details);
-              console.log('res', res);
               if (err) {
                 reject(err);
-                console.log('err', err);
               } else resolve();
               db.close();
             }

@@ -48,6 +48,8 @@ function getById(transactionId) {
                     owner._id = user._id;
                     owner.img = user.img;
                     owner.nickName = user.nickName;
+                    owner.loc = user.loc
+                    owner.email = user.email;
                     resolve(owner);
                   });
               });
@@ -72,6 +74,7 @@ function getById(transactionId) {
                     bidder._id = user._id;
                     bidder.img = user.img;
                     bidder.nickName = user.nickName;
+                    bidder.email = user.email;
                     resolve(bidder);
                   });
               });

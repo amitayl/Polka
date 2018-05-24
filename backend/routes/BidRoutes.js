@@ -16,14 +16,11 @@ module.exports = app => {
   });
 
   app.get('/bids', (req, res) => {
-    console.log ('req.query' , req.query)
     const userId = req.query.userId;
     BidService.getBids(userId)
     .then((bids) => {
       res.json(bids)
     })
-  
-    // console.log ('bidIds' , bidIds);
   })
 
   

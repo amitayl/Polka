@@ -5,11 +5,6 @@ import Vuetify from 'vuetify';
 Vue.use(Vuetify);
 
 Vue.component('star-rating', VueStarRating.default);
-// Vue.use(VueCloudinary, {
-//   "cloud_name": "<polka>",
-//   "api_key": "735122477923243",
-//   "cdn_subdomain": true,
-// });
 
 import App from './App.vue';
 import router from '@/router/index.js';
@@ -32,3 +27,22 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
+
+// PWA
+/* if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/serviceWorker.js').then(
+      function(registration) {
+        // Registration was successful
+        console.log(
+          'ServiceWorker registration successful with scope: ',
+          registration.scope
+        );
+      },
+      function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      }
+    );
+  });
+} */

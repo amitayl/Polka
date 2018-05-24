@@ -55,9 +55,10 @@ module.exports = app => {
 
   app.post('/product', (req, res) => {
     const product = req.body;
+    
     ProductService.add(product)
-      .then(product => {
-        res.json(product);
+      .then(addedProductId => {
+        res.json(addedProductId);
       })
       .catch(err => res.status(500).send('Could not add product'));
   });

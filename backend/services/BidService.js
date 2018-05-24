@@ -11,27 +11,14 @@ function getBids (userId)
   let a = '5afbe389543dfa2e888097bf'
   const b = new mongo.ObjectID(a)
 
-
-  console.log ('dada')
   return new Promise((resolve, reject) => {
     DBService.dbConnect()
       .then(db => {
         db.collection(DBService.COLLECTIONS.BID)
-        // .
-        // findOne({{'bidder.productId' : b}})
-        
-        // .then (x=>{
-        //   console.log ('x' ,x);
-        //   resolve();
-        // })
-        // 
         .findOne({'bidder.productId' : b} )
         .then (x=>{
-          console.log ('x' ,x);
           resolve();
         })
-        // .then 
-        
 
         //   { $project: { _id: 0, prodIds: 1 } },
         //   { $unwind: '$prodIds' },

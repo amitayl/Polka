@@ -32,7 +32,10 @@
 
       <div>
         <h2 class="deals-section-headline mt-4 display-1 mb-3">Reviews</h2>
-        <ul class="reviews">
+        <ul 
+          class="reviews" 
+          v-if="user.reviews && user.reviews.length > 0">
+
           <li 
             v-for="review in user.reviews" 
             :key="review.txt"
@@ -45,6 +48,13 @@
             <p>{{review.txt}}</p>
           </li>
         </ul> 
+
+        <p 
+          v-else
+          class="flex flex-center title pa-4 elevation-4"
+          >
+          no reviews yet
+        </p>
       </div>
 
     </div>

@@ -32,7 +32,11 @@
 
       <v-divider></v-divider>
 
-      <upload-img @uploadImg="addImg" :imgs="[userData.img]" :round="true"></upload-img>
+      <upload-img 
+        @uploadImg="addImg" 
+        :imgs="[userData.img]" 
+        :round="true"
+        class="mb-3"></upload-img>
       
       <v-text-field
         v-model="userData.nickName"
@@ -60,7 +64,11 @@
       
       <div class="flex">
         <v-spacer></v-spacer>
-        <v-btn type="submit">sign up</v-btn>
+        <v-btn 
+          color="indigo lighten-3"
+          type="submit">
+          sign up
+        </v-btn>
       </div>
 
     </v-form>
