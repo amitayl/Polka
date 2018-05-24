@@ -23,7 +23,7 @@
                 type="search" 
                 class="search"
                 :class="{'border-radius-left': hideCategories}"
-                placeholder="Lets trade"/>
+                placeholder="Lets trade!"/>
         <button v-if="!isMobile" type="submit"><v-icon class="search-icon">search</v-icon></button> 
         <v-icon 
           v-else 

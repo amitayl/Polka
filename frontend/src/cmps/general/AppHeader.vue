@@ -136,7 +136,7 @@ export default {
 
 .logo,
 .logo-icon {
-  color: #4cb5ab;
+  color: #64b5f6;
 }
 .logo {
   font-family: JosefinSans;

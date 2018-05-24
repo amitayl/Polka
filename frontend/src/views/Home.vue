@@ -3,15 +3,78 @@
     <section class="page-header">
       <div class="search-bar">
         <h2 class="page-headline">Polka Barter</h2>
-        <p class="page-ampersant">STOP BUYING. </p>
+        <p class="page-ampersant">STOP BUYING.</p>
         <h3 class="page-subtitle">START TRADING.</h3>
         <search-form :hideCategories="true"></search-form>
       </div>
     </section>
 
-    <h2 class="home-section-headline display-1">why polka?</h2>
+    <!-- <h2 class="home-section-headline display-1">why polka?</h2> -->
 
-    <ul class="qualities margin-sides">
+      <section>
+        <v-layout
+          column
+          wrap
+          class="my-5"
+          align-center
+        >
+          <v-flex xs12 sm4 class="my-3">
+            <div class="text-xs-center">
+              <h2 class="headline">Why Polka?</h2>
+              <!-- <span class="subheading">
+                Stop buying start trading
+              </span> -->
+            </div>
+          </v-flex>
+          <v-flex xs12>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center>
+                <v-flex xs12 md4>
+                  <v-card class="elevation-0 transparent">
+                    <v-card-text class="text-xs-center">
+                      <v-icon x-large class="blue--text text--lighten-2">attach_money</v-icon>
+                    </v-card-text>
+                    <v-card-title primary-title class="layout justify-center">
+                      <div class="headline text-xs-center">Save Money</div>
+                    </v-card-title>
+                    <v-card-text>
+                      With Polka you can stop buying things you don't need, and just trade the stuff you already have. 
+                    </v-card-text>
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-card class="elevation-0 transparent">
+                    <v-card-text class="text-xs-center">
+                      <v-icon x-large class="blue--text text--lighten-2">local_florist</v-icon>
+                    </v-card-text>
+                    <v-card-title primary-title class="layout justify-center">
+                      <div class="headline">Help The Enviorment</div>
+                    </v-card-title>
+                    <v-card-text>
+                      You are helping to reduce waste and your carbon footprint. There’s NO money, NO waste, and NO carbon emissions.
+                    </v-card-text>
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-card class="elevation-0 transparent">
+                    <v-card-text class="text-xs-center">
+                      <v-icon x-large class="blue--text text--lighten-2">mood</v-icon>
+                    </v-card-text>
+                    <v-card-title primary-title class="layout justify-center">
+                      <div class="headline text-xs-center">Meet Awesome New People</div>
+                    </v-card-title>
+                    <v-card-text>
+                      You would also have fun searching and trying to make a deal, and will likely meet a few awesome people along the way!
+                    </v-card-text>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-flex>
+        </v-layout>
+      </section>
+
+    <!-- <ul class="qualities margin-sides">
       <li 
         v-for="(quality, idx) in qualities" 
         :key="idx"
@@ -20,7 +83,7 @@
         <v-icon class="quality-icon" :size="100">{{quality.icon}}</v-icon>
         <h3 class="quality-headline">{{quality.txt}}</h3>
       </li>
-    </ul>
+    </ul> -->
     
     <h2 class="home-section-headline display-1">Latest trades</h2>
 
@@ -108,7 +171,7 @@ export default {
   margin-right: 5vw;
 }
 .page-header {
-  background-image: url('https://designroast.org/wp-content/uploads/2014/02/pattern-subtlepatterns.png');
+  background-image: url('https://vuetifyjs.com/themes/parallax-starter/assets/hero.jpeg');
   background-size: cover;
   background-position: center;
 }
@@ -123,7 +186,7 @@ export default {
 .page-headline {
   font-size: 60px;
   font-weight: bold;
-  color: #4db6ac;
+  color: #64b5f6;
   text-shadow: -1px 1px 1px darkslategrey, -2px 2px 1px darkslategrey,
     -3px 3px 1px darkslategrey, -4px 4px 1px darkslategrey,
     -5px 5px 1px darkslategrey, -6px 6px 1px darkslategrey,
@@ -131,7 +194,7 @@ export default {
     -9px 9px 1px darkslategrey;
 }
 .page-ampersant {
-  color: #4db6ac;
+  color: #64b5f6;
   font-size: 30px;
   font-weight: bold;
   text-shadow: -1px 1px 1px darkslategrey, -2px 2px 1px darkslategrey,
@@ -140,7 +203,7 @@ export default {
 }
 .page-subtitle {
   padding: 0 20px;
-  color: #4db6ac;
+  color: #64b5f6;
   font-style: italic;
   font-size: 30px;
   text-shadow: -1px 1px 1px darkslategrey, -2px 2px 1px darkslategrey,
@@ -244,6 +307,6 @@ export default {
 footer {
   margin-top: 30px;
   padding: 10px 0;
-  background-color: #4db6ac;
+  background-color: #64b5f6;
 }
 </style>
